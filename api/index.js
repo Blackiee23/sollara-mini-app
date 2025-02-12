@@ -3,7 +3,7 @@ const app = express();
 
 app.use(express.json());
 
-app.post("/webhook", (req, res) => {
+app.post("/api/webhook", (req, res) => {
     const { message } = req.body;
     if (message && message.text === "/start") {
         const chatId = message.chat.id;
@@ -16,7 +16,7 @@ app.post("/webhook", (req, res) => {
                 chat_id: chatId,
                 text: "Welcome to Sollara MiniApp! Click the button below to open the app.",
                 reply_markup: {
-                    inline_keyboard: [[{ text: "Open App", web_app: { url: "https://sollara-mini-app-zb82.vercel.app/" } }]]
+                    inline_keyboard: [[{ text: "Open App", web_app: { url: "https://sollara-mini-app.vercel.app/" } }]]
                 }
             })
         });
@@ -27,4 +27,5 @@ app.post("/webhook", (req, res) => {
     }
 });
 
+// Export the app for Vercel
 module.exports = app;
