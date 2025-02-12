@@ -1,8 +1,85 @@
 <html>
   <head>
     <title>Sollara Mini App</title>
+    <!-- Link to Google Fonts for a better font -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+      /* Basic styling for body */
+      body {
+        font-family: 'Roboto', sans-serif;
+        background-color: #f4f4f4;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        text-align: center;
+      }
+      
+      h1 {
+        color: #333;
+        margin-bottom: 20px;
+      }
+
+      p {
+        color: #666;
+        font-size: 18px;
+        margin: 10px 0;
+      }
+
+      .button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px 32px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 16px;
+        border-radius: 8px;
+        margin-top: 20px;
+        cursor: pointer;
+      }
+
+      .button:hover {
+        background-color: #45a049;
+      }
+
+      .container {
+        background-color: #fff;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        padding: 40px;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 600px;
+        text-align: center;
+      }
+
+      @media (max-width: 600px) {
+        body {
+          font-size: 14px;
+        }
+        .container {
+          width: 90%;
+          padding: 20px;
+        }
+      }
+    </style>
   </head>
   <body>
-    <h1>Welcome to Sollara Mini App</h1>
+    <div class="container">
+      <h1>Welcome to Sollara Mini App!</h1>
+      <p>Your gateway to an amazing experience.</p>
+      <a href="https://sollara-mini-app-zb82.vercel.app/" class="button">Open App</a>
+
+      <p>Get started by following these steps:</p>
+      <ul style="text-align: left; color: #333; list-style: none; padding-left: 20px;">
+        <li>Click the 'Open App' button to begin.</li>
+        <li>Explore the available features inside the app.</li>
+        <li>Stay updated with notifications and app messages!</li>
+      </ul>
+
+      <p>If you have any questions or feedback, feel free to <a href="https://t.me/YourFeedbackBot" target="_blank">give feedback</a>.</p>
+    </div>
   </body>
 </html>
