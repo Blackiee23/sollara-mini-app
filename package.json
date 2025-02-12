@@ -1,0 +1,15 @@
+{
+  "name": "sollara-mini-app",
+  "version": "1.0.0",
+  "description": "Sollara Mini App for Telegram",
+  "main": "index.js",
+  "scripts": {
+    "start": "node api/index.js"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "author": "",
+  "license": "ISC"
+}
