@@ -1,14 +1,13 @@
-const express = require("express");
+const express = require('express');
 const app = express();
 
 app.use(express.json());
 
-app.post("/api/webhook", (req, res) => {
+app.post('/webhook', (req, res) => {
     const { message } = req.body;
     if (message && message.text === "/start") {
         const chatId = message.chat.id;
-        const botToken = "YOUR_BOT_TOKEN";  // Replace with your real bot token
-
+        const botToken = "YOUR_BOT_TOKEN"; // Replace with your actual bot token
         fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -20,12 +19,10 @@ app.post("/api/webhook", (req, res) => {
                 }
             })
         });
-
         res.sendStatus(200);
     } else {
         res.sendStatus(200);
     }
 });
 
-// Export the app for Vercel
-module.exports = app;
+module.exports = app;  // Make sure to export the app for Vercel deployment
