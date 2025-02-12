@@ -1,8 +1,7 @@
 {
   "name": "sollara-mini-app",
   "version": "1.0.0",
-  "description": "A Telegram MiniApp",
-  "main": "index.js",
+  "main": "api/index.js",
   "scripts": {
     "start": "node api/index.js"
   },
