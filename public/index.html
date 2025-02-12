@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sollara Mining Dashboard</title>
-  <!-- Example of using Font Awesome for icons (optional) -->
+  <title>My Mining App</title>
   <link 
     rel="stylesheet" 
     href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
@@ -13,7 +12,6 @@
     referrerpolicy="no-referrer"
   />
   <style>
-    /* Basic Reset */
     * {
       margin: 0;
       padding: 0;
@@ -22,19 +20,17 @@
 
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #121212; /* Dark background */
-      color: #FFFFFF; /* White text for contrast */
+      background: #121212;
+      color: #FFFFFF;
       line-height: 1.5;
     }
 
-    /* Container for overall content */
     .container {
       max-width: 480px;
       margin: 0 auto;
       padding: 20px;
     }
 
-    /* Header Section */
     header {
       display: flex;
       align-items: center;
@@ -64,10 +60,9 @@
     .user-info .balance-value {
       font-size: 1.2rem;
       font-weight: bold;
-      color: #FFD700; /* Gold-ish color for emphasis */
+      color: #FFD700;
     }
 
-    /* Main content cards */
     .card {
       background: #1e1e1e;
       border-radius: 12px;
@@ -84,7 +79,7 @@
       color: #ccc;
     }
     .card .highlight {
-      color: #4CAF50; /* Accent color (green) */
+      color: #4CAF50;
       font-weight: bold;
     }
     .btn {
@@ -105,7 +100,6 @@
       background: #45a049;
     }
 
-    /* Bottom Floating Navigation */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -123,7 +117,6 @@
       z-index: 10;
     }
 
-    /* Icons in bottom nav */
     .bottom-nav a {
       text-decoration: none;
       color: #ccc;
@@ -137,71 +130,48 @@
       color: #fff;
     }
 
-    /* Floating Action Button (FAB) in the center of bottom nav */
     .fab-container {
-      position: absolute;
-      top: -30px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: #4CAF50;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      cursor: pointer;
-      z-index: 20;
-    }
-    .fab-container i {
-      font-size: 1.5rem;
-      color: #fff;
+      display: none;
     }
 
-    /* Expanded FAB Menu */
     .fab-menu {
-      position: absolute;
-      bottom: 70px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      opacity: 0;
-      visibility: hidden;
-      transition: all 0.3s ease;
-    }
-    .fab-menu.active {
-      opacity: 1;
-      visibility: visible;
-    }
-    .fab-menu button {
-      background: #4CAF50;
-      color: #fff;
-      border: none;
-      border-radius: 50%;
-      width: 45px;
-      height: 45px;
-      margin: 5px 0;
-      font-size: 1rem;
-      cursor: pointer;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-      transition: transform 0.3s ease;
-    }
-    .fab-menu button:hover {
-      transform: scale(1.1);
-    }
-    .fab-menu button i {
-      pointer-events: none;
+      display: none;
     }
 
-    /* Adjust spacing for container when bottom nav is present */
     .spacer {
       height: 100px;
     }
 
-    /* Responsive (mobile-first) adjustments */
+    .task-btn {
+      background: #FFD700;
+      color: #fff;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 10px;
+    }
+
+    .task-btn:hover {
+      background: #ffcc00;
+    }
+
+    .store-item, .shop-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #333;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    .store-item img, .shop-item img {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      object-fit: cover;
+    }
+
+    /* Responsive adjustments */
     @media screen and (max-width: 480px) {
       .header-left h1 {
         font-size: 1.2rem;
@@ -217,87 +187,95 @@
 </head>
 <body>
 
-  <!-- Main Container -->
   <div class="container">
     
-    <!-- Header Section -->
     <header>
       <div class="header-left">
-        <h1>Welcome to Sollara Mining</h1>
-        <p>Your mining dashboard</p>
+        <h1>Hello, Miner!</h1>
+        <p>Welcome back to your mining dashboard</p>
       </div>
       <div class="user-info">
         <span class="balance-label">Your Balance</span>
-        <div class="balance-value">1,250,000 TAMAK</div>
+        <div class="balance-value">53,434 LARA</div>
       </div>
     </header>
 
-    <!-- Card: Mining Status -->
     <div class="card">
       <h2>Mining Status</h2>
-      <p>You are currently mining at a rate of <span class="highlight">50 TAMAK/min</span>.</p>
-      <button class="btn btn-primary">Boost Mining Rate</button>
+      <p>You are currently mining at a rate of <span class="highlight">10 SOLL/min</span>.</p>
+      <button class="btn btn-primary">Start Mining</button>
     </div>
 
-    <!-- Card: Claim Rewards -->
     <div class="card">
       <h2>Claim Rewards</h2>
-      <p>You have <span class="highlight">1,500.00 TAMAK</span> ready to be claimed.</p>
+      <p>You have <span class="highlight">593.59 SOLL</span> ready to be claimed.</p>
       <button class="btn btn-primary">Claim Now</button>
     </div>
 
-    <!-- Card: Transaction History -->
     <div class="card">
       <h2>Transaction History</h2>
-      <p>View your latest mining transactions and earnings.</p>
+      <p>View your latest transactions and transfers.</p>
       <button class="btn btn-primary">View History</button>
     </div>
 
-    <!-- Extra space for floating nav at bottom -->
+    <!-- Store and Shop Sections -->
+    <div class="card">
+      <h2>Marketplace</h2>
+      <div class="store-item">
+        <img src="ton-image.png" alt="TON">
+        <div>1 TON - 100 LARA</div>
+      </div>
+      <div class="store-item">
+        <img src="ton-image.png" alt="TON">
+        <div>2.5 TON - 300 LARA</div>
+      </div>
+      <!-- Add more items as needed -->
+      <p>Exclusive Drops Coming Soon!</p>
+    </div>
+
+    <div class="card">
+      <h2>Shop</h2>
+      <div class="shop-item">
+        <img src="tool1-image.png" alt="Mining Tool 1">
+        <div>Mining Tool 1 - 170 LARA</div>
+      </div>
+      <div class="shop-item">
+        <img src="tool2-image.png" alt="Mining Tool 2">
+        <div>Mining Tool 2 - 300 LARA</div>
+      </div>
+      <div class="shop-item">
+        <img src="tool3-image.png" alt="Mining Tool 3">
+        <div>Mining Tool 3 - 600 LARA</div>
+      </div>
+      <p>Exclusive Drops Coming Soon!</p>
+    </div>
+
     <div class="spacer"></div>
 
-  </div><!-- End Container -->
+  </div>
 
-  <!-- Bottom Floating Navigation -->
   <div class="bottom-nav">
-    <!-- Floating Action Button Container -->
-    <div class="fab-container" id="fabToggle">
-      <i class="fas fa-plus"></i>
-    </div>
-    <!-- Expanded FAB Menu (hidden by default) -->
-    <div class="fab-menu" id="fabMenu">
-      <button><i class="fas fa-arrow-down"></i></button>
-      <button><i class="fas fa-arrow-up"></i></button>
-      <button><i class="fas fa-cog"></i></button>
-    </div>
-
-    <!-- Nav Icons -->
-    <a href="#home">
+    <a href="#">
       <i class="fas fa-home"></i>
-      <div style="font-size: 0.75rem;">Home</div>
+      <div>Home</div>
     </a>
-    <a href="#wallet">
+    <a href="#">
       <i class="fas fa-wallet"></i>
-      <div style="font-size: 0.75rem;">Wallet</div>
+      <div>Wallet</div>
     </a>
-    <a href="#stats">
+    <a href="#">
       <i class="fas fa-chart-line"></i>
-      <div style="font-size: 0.75rem;">Stats</div>
+      <div>Stats</div>
     </a>
-    <a href="#profile">
+    <a href="#">
       <i class="fas fa-user"></i>
-      <div style="font-size: 0.75rem;">Profile</div>
+      <div>Profile</div>
     </a>
   </div>
 
-  <!-- Optional JavaScript to toggle FAB menu -->
   <script>
-    const fabToggle = document.getElementById('fabToggle');
-    const fabMenu = document.getElementById('fabMenu');
-
-    fabToggle.addEventListener('click', () => {
-      fabMenu.classList.toggle('active');
-    });
+    // Add any interactive features here if needed
   </script>
+
 </body>
 </html>
