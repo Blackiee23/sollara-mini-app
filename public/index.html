@@ -18,7 +18,7 @@
       background: #121212;
       color: #FFFFFF;
       line-height: 1.5;
-      /* Overall slightly reduced font size */
+      /* Default font size for Mine page */
       font-size: 0.9rem;
     }
     .container {
@@ -26,10 +26,12 @@
       margin: 0 auto;
       padding: 20px;
     }
-    /* Slightly reduce font for each page section */
+    /* Use .small-page to reduce font size for pages other than Mine */
+    .small-page {
+      font-size: 0.8rem;
+    }
     .page {
       display: none;
-      font-size: 0.85rem;
     }
     .page.active {
       display: block;
@@ -120,7 +122,7 @@
     .mining-tool-select label {
       margin-right: 10px;
     }
-    /* List Items for Exchange, Shop, and Account remain similar */
+    /* List Items for Exchange, Shop, and Account */
     .exchange-item, .shop-item, .account-item {
       display: flex;
       align-items: center;
@@ -201,6 +203,9 @@
       cursor: pointer;
       background: #4CAF50;
       color: #fff;
+      /* Fixed min-width for alignment */
+      min-width: 60px;
+      text-align: center;
     }
     .task-btn:disabled {
       background: #777;
@@ -238,7 +243,7 @@
 </head>
 <body>
 
-<!-- Mine Page -->
+<!-- Mine Page (remains with body font size 0.9rem) -->
 <div id="mine-page" class="page active">
   <div class="container">
     <header>
@@ -281,8 +286,8 @@
   </div>
 </div>
 
-<!-- Exchange Page -->
-<div id="exchange-page" class="page">
+<!-- Exchange Page (smaller font) -->
+<div id="exchange-page" class="page small-page">
   <div class="container">
     <div class="card">
       <h2>LARA Exchange</h2>
@@ -320,8 +325,8 @@
   </div>
 </div>
 
-<!-- Shop Page -->
-<div id="shop-page" class="page">
+<!-- Shop Page (smaller font) -->
+<div id="shop-page" class="page small-page">
   <div class="container">
     <!-- Mining Tools -->
     <div class="card">
@@ -382,8 +387,8 @@
   </div>
 </div>
 
-<!-- Tasks Page (Daily Tasks with Follow/Join/Watch Flow) -->
-<div id="tasks-page" class="page">
+<!-- Tasks Page (smaller font) -->
+<div id="tasks-page" class="page small-page">
   <div class="container">
     <div class="card">
       <h2>Daily Tasks</h2>
@@ -445,8 +450,8 @@
   </div>
 </div>
 
-<!-- Account Page -->
-<div id="account-page" class="page">
+<!-- Account Page (smaller font) -->
+<div id="account-page" class="page small-page">
   <div class="container">
     <div class="card">
       <h2>Account</h2>
@@ -564,7 +569,7 @@
     const type = taskElem.getAttribute('data-task-type');
     const btn = taskElem.querySelector('button');
     
-    // If button already says "Claim", trigger claim
+    // If already in "Claim" state, then claim reward
     if (btn.textContent === 'Claim') {
       claimTask(taskId);
       return;
@@ -577,10 +582,11 @@
       }
       btn.textContent = 'Processing...';
       btn.disabled = true;
+      // Show processing for 9 seconds
       setTimeout(() => {
         btn.textContent = 'Claim';
         btn.disabled = false;
-      }, 2000);
+      }, 9000);
     } else if (type === 'watch') {
       btn.disabled = true;
       let countdown = 5;
