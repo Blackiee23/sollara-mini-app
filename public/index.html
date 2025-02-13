@@ -3,14 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Mining App</title>
-  <link 
-    rel="stylesheet" 
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    integrity="sha512-Fo3rlrZj/k7ujTnH2N2qS24S0Z/l9X1MCZ7N+qo0knP0NVwRxyRBX9T8t77nG4S3HNT6v1NfL1vZ+W0C5CeYug==" 
-    crossorigin="anonymous" 
-    referrerpolicy="no-referrer"
-  />
+  <meta name="telegram-web-app-bot-domain" content="your-domain.com">
+  <title>Lara Mining</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * {
       margin: 0;
@@ -19,10 +14,10 @@
     }
 
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Segoe UI', system-ui;
       background: #121212;
       color: #FFFFFF;
-      line-height: 1.5;
+      line-height: 1.6;
     }
 
     .container {
@@ -31,251 +26,245 @@
       padding: 20px;
     }
 
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
+
     header {
       display: flex;
       align-items: center;
       justify-content: space-between;
       margin-bottom: 20px;
+      padding: 10px 0;
     }
-    .header-left {
-      display: flex;
-      flex-direction: column;
-    }
-    .header-left h1 {
-      font-size: 1.4rem;
-      margin-bottom: 8px;
-    }
-    .header-left p {
-      font-size: 0.95rem;
-      color: #aaa;
-    }
+
     .user-info {
       text-align: right;
     }
-    .user-info .balance-label {
-      font-size: 0.85rem;
-      color: #aaa;
-      margin-bottom: 5px;
-    }
-    .user-info .balance-value {
-      font-size: 1.2rem;
-      font-weight: bold;
+    .balance-value {
       color: #FFD700;
+      font-size: 1.3rem;
+      font-weight: 600;
     }
 
     .card {
-      background: #1e1e1e;
-      border-radius: 12px;
-      padding: 16px;
+      background: #1E1E1E;
+      border-radius: 16px;
+      padding: 20px;
       margin-bottom: 16px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.25);
     }
-    .card h2 {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
+
+    .mining-section {
+      text-align: center;
+      padding: 30px 0;
     }
-    .card p {
-      font-size: 0.95rem;
-      color: #ccc;
+    .mining-image {
+      width: 150px;
+      height: 150px;
+      margin: 20px auto;
     }
-    .card .highlight {
-      color: #4CAF50;
-      font-weight: bold;
+
+    .exchange-item, .shop-item {
+      display: flex;
+      align-items: center;
+      padding: 15px;
+      background: #2A2A2A;
+      border-radius: 12px;
+      margin-bottom: 12px;
     }
-    .btn {
-      display: inline-block;
-      padding: 10px 20px;
-      border: none;
+    .item-image {
+      width: 50px;
+      height: 50px;
       border-radius: 8px;
-      cursor: pointer;
+      margin-right: 15px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      padding: 12px 24px;
+      border-radius: 10px;
       font-weight: 600;
-      transition: background 0.3s;
-      margin-top: 10px;
+      transition: transform 0.1s;
     }
     .btn-primary {
       background: #4CAF50;
-      color: #fff;
+      color: white;
     }
-    .btn-primary:hover {
-      background: #45a049;
+    .btn-gold {
+      background: #FFD700;
+      color: #121212;
     }
 
     .bottom-nav {
       position: fixed;
       bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
       width: 100%;
       max-width: 480px;
-      height: 60px;
-      background: #1e1e1e;
-      border-radius: 20px 20px 0 0;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
+      background: #1E1E1E;
       display: flex;
-      align-items: center;
-      justify-content: space-evenly;
-      z-index: 10;
+      justify-content: space-around;
+      padding: 12px 0;
+      border-top: 1px solid #333;
+    }
+    .nav-item {
+      text-align: center;
+      color: #888;
+      transition: color 0.2s;
+    }
+    .nav-item.active {
+      color: #FFD700;
+    }
+    .nav-item i {
+      font-size: 1.4rem;
+      margin-bottom: 4px;
     }
 
-    .bottom-nav a {
-      text-decoration: none;
-      color: #ccc;
-      font-size: 1.2rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-    }
-    .bottom-nav a:hover {
-      color: #fff;
-    }
-
-    .fab-container {
-      display: none;
-    }
-
-    .fab-menu {
-      display: none;
-    }
-
-    .spacer {
-      height: 100px;
-    }
-
-    .task-btn {
-      background: #FFD700;
-      color: #fff;
-      padding: 10px;
-      margin: 5px 0;
-      border-radius: 10px;
-    }
-
-    .task-btn:hover {
-      background: #ffcc00;
-    }
-
-    .store-item, .shop-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+    .progress-bar {
+      height: 6px;
       background: #333;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 10px;
+      border-radius: 3px;
+      margin: 10px 0;
+    }
+    .progress-fill {
+      width: 65%;
+      height: 100%;
+      background: #4CAF50;
+      border-radius: 3px;
     }
 
-    .store-item img, .shop-item img {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      object-fit: cover;
-    }
-
-    /* Responsive adjustments */
-    @media screen and (max-width: 480px) {
-      .header-left h1 {
-        font-size: 1.2rem;
-      }
-      .user-info .balance-value {
-        font-size: 1rem;
-      }
-      .card h2 {
-        font-size: 1rem;
-      }
+    .tool-stock {
+      font-size: 0.9rem;
+      color: #888;
+      margin-top: 8px;
     }
   </style>
 </head>
 <body>
 
+<!-- Main Pages -->
+<div id="mine-page" class="page active">
   <div class="container">
-    
     <header>
-      <div class="header-left">
-        <h1>Hello, Miner!</h1>
-        <p>Welcome back to your mining dashboard</p>
+      <div>
+        <h2>Welcome Miner</h2>
+        <p>Active Mining Session</p>
       </div>
       <div class="user-info">
-        <span class="balance-label">Your Balance</span>
         <div class="balance-value">53,434 LARA</div>
+        <small>SOLL Balance: 593.59</small>
       </div>
     </header>
 
-    <div class="card">
-      <h2>Mining Status</h2>
-      <p>You are currently mining at a rate of <span class="highlight">10 SOLL/min</span>.</p>
-      <button class="btn btn-primary">Start Mining</button>
-    </div>
-
-    <div class="card">
-      <h2>Claim Rewards</h2>
-      <p>You have <span class="highlight">593.59 SOLL</span> ready to be claimed.</p>
-      <button class="btn btn-primary">Claim Now</button>
-    </div>
-
-    <div class="card">
-      <h2>Transaction History</h2>
-      <p>View your latest transactions and transfers.</p>
-      <button class="btn btn-primary">View History</button>
-    </div>
-
-    <!-- Store and Shop Sections -->
-    <div class="card">
-      <h2>Marketplace</h2>
-      <div class="store-item">
-        <img src="ton-image.png" alt="TON">
-        <div>1 TON - 100 LARA</div>
+    <div class="mining-section">
+      <img src="mining-rig.png" alt="Mining Rig" class="mining-image">
+      <div class="card">
+        <h3>Current Rate: 10 SOLL/min</h3>
+        <button class="btn btn-primary" style="width:100%">
+          ⛏️ Start Mining
+        </button>
       </div>
-      <div class="store-item">
-        <img src="ton-image.png" alt="TON">
-        <div>2.5 TON - 300 LARA</div>
+      <div class="card">
+        <h3>Claimable Rewards</h3>
+        <p>593.59 SOLL Available</p>
+        <button class="btn btn-gold">Claim Now</button>
       </div>
-      <!-- Add more items as needed -->
-      <p>Exclusive Drops Coming Soon!</p>
     </div>
-
-    <div class="card">
-      <h2>Shop</h2>
-      <div class="shop-item">
-        <img src="tool1-image.png" alt="Mining Tool 1">
-        <div>Mining Tool 1 - 170 LARA</div>
-      </div>
-      <div class="shop-item">
-        <img src="tool2-image.png" alt="Mining Tool 2">
-        <div>Mining Tool 2 - 300 LARA</div>
-      </div>
-      <div class="shop-item">
-        <img src="tool3-image.png" alt="Mining Tool 3">
-        <div>Mining Tool 3 - 600 LARA</div>
-      </div>
-      <p>Exclusive Drops Coming Soon!</p>
-    </div>
-
-    <div class="spacer"></div>
-
   </div>
+</div>
 
-  <div class="bottom-nav">
-    <a href="#">
-      <i class="fas fa-home"></i>
-      <div>Home</div>
-    </a>
-    <a href="#">
-      <i class="fas fa-wallet"></i>
-      <div>Wallet</div>
-    </a>
-    <a href="#">
-      <i class="fas fa-chart-line"></i>
-      <div>Stats</div>
-    </a>
-    <a href="#">
-      <i class="fas fa-user"></i>
-      <div>Profile</div>
-    </a>
+<div id="exchange-page" class="page">
+  <div class="container">
+    <div class="card">
+      <h2>TON Exchange</h2>
+      <div class="exchange-item">
+        <img src="ton.png" class="item-image" alt="TON">
+        <div>
+          <h4>1 TON = 100 LARA</h4>
+          <div class="progress-bar">
+            <div class="progress-fill"></div>
+          </div>
+          <button class="btn btn-primary">Buy Now</button>
+        </div>
+      </div>
+      <!-- Add more exchange items -->
+    </div>
   </div>
+</div>
 
-  <script>
-    // Add any interactive features here if needed
-  </script>
+<div id="shop-page" class="page">
+  <div class="container">
+    <div class="card">
+      <h2>Mining Tools</h2>
+      <div class="shop-item">
+        <img src="tool-basic.png" class="item-image">
+        <div>
+          <h4>Basic Drill (170 LARA)</h4>
+          <p>20 Days Duration</p>
+          <div class="tool-stock">Remaining: 98,432/100,000</div>
+          <button class="btn btn-primary">Purchase</button>
+        </div>
+      </div>
+      <!-- Add more tools -->
+    </div>
+
+    <div class="card">
+      <h2>Auto-Claim Tools</h2>
+      <div class="shop-item">
+        <img src="auto-claim.png" class="item-image">
+        <div>
+          <h4>24H Auto-Claim (50 LARA)</h4>
+          <button class="btn btn-primary">Purchase</button>
+        </div>
+      </div>
+      <!-- Add more auto-claim options -->
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Navigation -->
+<div class="bottom-nav">
+  <div class="nav-item" onclick="showPage('tasks')">
+    <i class="fas fa-tasks"></i>
+    <div>Tasks</div>
+  </div>
+  <div class="nav-item" onclick="showPage('exchange')">
+    <i class="fas fa-store"></i>
+    <div>Exchange</div>
+  </div>
+  <div class="nav-item active" onclick="showPage('mine')">
+    <i class="fas fa-diamond"></i>
+    <div>Mine</div>
+  </div>
+  <div class="nav-item" onclick="showPage('shop')">
+    <i class="fas fa-shopping-cart"></i>
+    <div>Shop</div>
+  </div>
+  <div class="nav-item" onclick="showPage('account')">
+    <i class="fas fa-user"></i>
+    <div>Account</div>
+  </div>
+</div>
+
+<script>
+function showPage(pageId) {
+  document.querySelectorAll('.page').forEach(page => {
+    page.classList.remove('active');
+  });
+  document.querySelectorAll('.nav-item').forEach(item => {
+    item.classList.remove('active');
+  });
+  document.getElementById(`${pageId}-page`).classList.add('active');
+  event.currentTarget.classList.add('active');
+}
+
+// Initialize main page
+showPage('mine');
+</script>
 
 </body>
 </html>
