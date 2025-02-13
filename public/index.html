@@ -172,7 +172,62 @@
       margin-top: 15px;
       margin-bottom: 10px;
     }
-    /* Daily Tasks Section – New Layout */
+    /* Tasks Page Header */
+    .tasks-header {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+    .tasks-header h2 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+    }
+    .tasks-header i {
+      margin-right: 5px;
+    }
+    .tasks-header .your-balance {
+      font-size: 0.7rem;
+      margin-bottom: 2px;
+    }
+    .tasks-header .your-balance span {
+      font-weight: bold;
+      font-size: 1.1rem;
+      color: #FFD700;
+    }
+    .tasks-header .earn-rewards,
+    .tasks-header .what-is-token {
+      font-size: 0.7rem;
+      margin-bottom: 2px;
+    }
+    .tasks-header .what-is-token a {
+      color: #FFD700;
+      text-decoration: underline;
+    }
+    /* Task Tabs */
+    .task-tabs {
+      display: flex;
+      justify-content: space-around;
+      margin-bottom: 10px;
+    }
+    .tab-button {
+      background: none;
+      border: none;
+      color: #ccc;
+      padding: 5px 10px;
+      font-size: 0.8rem;
+      cursor: pointer;
+    }
+    .tab-button.active {
+      border-bottom: 2px solid #FFD700;
+      color: #FFD700;
+    }
+    /* Task Containers */
+    .task-container {
+      margin-bottom: 10px;
+    }
+    .task-container.hidden {
+      display: none;
+    }
+    /* Task Item */
     .task-item {
       display: flex;
       justify-content: space-between;
@@ -182,6 +237,9 @@
       margin-bottom: 8px;
       border-radius: 8px;
       font-size: 0.75rem;
+    }
+    .task-item.dimmed {
+      opacity: 0.5;
     }
     .task-info {
       display: flex;
@@ -209,7 +267,7 @@
     .task-btn:disabled {
       background: #777;
     }
-    /* Bottom Navigation */
+    /* Bottom Navigation with dividers */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -223,10 +281,10 @@
       box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
       display: flex;
       align-items: center;
-      justify-content: space-evenly;
+      justify-content: center;
       z-index: 10;
     }
-    .nav-item {
+    .bottom-nav .nav-item {
       text-decoration: none;
       color: #ccc;
       font-size: 0.85rem;
@@ -234,22 +292,22 @@
       flex-direction: column;
       align-items: center;
       justify-content: center;
+      padding: 0 10px;
     }
-    .nav-item.active {
+    .bottom-nav .nav-item.active {
       color: #FFD700;
     }
-    /* Nav divider element (thin white line between nav items) */
-    .nav-divider {
+    .bottom-nav .nav-divider {
       width: 1px;
       height: 30px;
       background: rgba(255,255,255,0.8);
-      align-self: center;
+      margin: 0 5px;
     }
   </style>
 </head>
 <body>
 
-<!-- Mine Page (uses body font size 0.9rem) -->
+<!-- Mine Page (default: shown first) -->
 <div id="mine-page" class="page active">
   <div class="container">
     <header>
@@ -298,33 +356,23 @@
     <div class="card">
       <h2>LARA Exchange</h2>
       <div class="exchange-item">
-        <div>
-          <span>1 TON = 100 LARA</span>
-        </div>
+        <div><span>1 TON = 100 LARA</span></div>
         <button class="btn btn-primary">Exchange</button>
       </div>
       <div class="exchange-item">
-        <div>
-          <span>2.5 TON = 300 LARA</span>
-        </div>
+        <div><span>2.5 TON = 300 LARA</span></div>
         <button class="btn btn-primary">Exchange</button>
       </div>
       <div class="exchange-item">
-        <div>
-          <span>5 TON = 700 LARA</span>
-        </div>
+        <div><span>5 TON = 700 LARA</span></div>
         <button class="btn btn-primary">Exchange</button>
       </div>
       <div class="exchange-item">
-        <div>
-          <span>10 TON = 1700 LARA</span>
-        </div>
+        <div><span>10 TON = 1700 LARA</span></div>
         <button class="btn btn-primary">Exchange</button>
       </div>
       <div class="exchange-item">
-        <div>
-          <span>20 TON = 4000 LARA</span>
-        </div>
+        <div><span>20 TON = 4000 LARA</span></div>
         <button class="btn btn-primary">Exchange</button>
       </div>
     </div>
@@ -397,114 +445,119 @@
 <div id="tasks-page" class="page small-page">
   <div class="container">
     <div class="card">
-      <!-- Updated heading -->
-      <h2>Get $Lara Token by Completing Simple Tasks Daily</h2>
-      <div id="active-tasks">
-        <!-- Daily Tasks -->
-        <!-- Task 1: Follow Sollara on Twitter -->
-        <div class="task-item" data-task-id="task1" data-task-type="follow" data-task-link="https://twitter.com/sollara">
+      <!-- Tasks Header -->
+      <div class="tasks-header">
+        <h2><i class="fas fa-tasks"></i> Tasks</h2>
+        <div class="your-balance">Your Balance: <span id="taskLaraBalance">53434</span></div>
+        <div class="earn-rewards">Earn Lara rewards by completing simple tasks</div>
+        <div class="what-is-token"><a href="#" target="_blank">What is Lara token?</a></div>
+      </div>
+      <!-- Task Tabs -->
+      <div class="task-tabs">
+        <button class="tab-button active" data-tab="daily">Daily</button>
+        <button class="tab-button" data-tab="onetime">One-Time</button>
+        <button class="tab-button" data-tab="friends">Friends</button>
+        <button class="tab-button" data-tab="completed">Completed</button>
+      </div>
+      <!-- Task Containers -->
+      <!-- Daily Tasks: Only Daily Check-in &amp; Watch Video Ads -->
+      <div class="task-container" id="daily-tasks">
+        <!-- Task: Daily Check-in -->
+        <div class="task-item" data-task-id="daily1" data-task-type="check">
+          <div class="task-info">
+            <div class="task-text">Daily Check-in</div>
+            <div class="task-reward">Reward: 2 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('daily1')">Check In</button>
+        </div>
+        <!-- Task: Watch Video Ads -->
+        <div class="task-item" data-task-id="daily2" data-task-type="watch">
+          <div class="task-info">
+            <div class="task-text">Watch Video Ads</div>
+            <div class="task-reward">Reward: 2 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('daily2')">Watch</button>
+        </div>
+      </div>
+      <!-- One-Time Tasks: Follow/Join -->
+      <div class="task-container hidden" id="onetime-tasks">
+        <div class="task-item" data-task-id="onetime1" data-task-type="follow" data-task-link="https://twitter.com/sollara">
           <div class="task-info">
             <div class="task-text">Follow Sollara on Twitter</div>
             <div class="task-reward">Reward: 2 LARA</div>
           </div>
-          <button class="task-btn" onclick="handleTask('task1')">Follow</button>
+          <button class="task-btn" onclick="handleTask('onetime1')">Follow</button>
         </div>
-        <!-- Task 2: Join Sollara Community -->
-        <div class="task-item" data-task-id="task2" data-task-type="join" data-task-link="https://t.me/sollara">
+        <div class="task-item" data-task-id="onetime2" data-task-type="join" data-task-link="https://t.me/sollara">
           <div class="task-info">
             <div class="task-text">Join Sollara Community</div>
             <div class="task-reward">Reward: 2 LARA</div>
           </div>
-          <button class="task-btn" onclick="handleTask('task2')">Join</button>
+          <button class="task-btn" onclick="handleTask('onetime2')">Join</button>
         </div>
-        <!-- Task 3: Follow Sollara on Youtube -->
-        <div class="task-item" data-task-id="task3" data-task-type="follow" data-task-link="https://youtube.com/sollara">
+        <div class="task-item" data-task-id="onetime3" data-task-type="follow" data-task-link="https://youtube.com/sollara">
           <div class="task-info">
             <div class="task-text">Follow Sollara on Youtube</div>
             <div class="task-reward">Reward: 2 LARA</div>
           </div>
-          <button class="task-btn" onclick="handleTask('task3')">Follow</button>
+          <button class="task-btn" onclick="handleTask('onetime3')">Follow</button>
         </div>
-        <!-- Task 4: Join Ton Community -->
-        <div class="task-item" data-task-id="task4" data-task-type="join" data-task-link="https://t.me/toncommunity">
+        <div class="task-item" data-task-id="onetime4" data-task-type="join" data-task-link="https://t.me/toncommunity">
           <div class="task-info">
             <div class="task-text">Join Ton Community</div>
             <div class="task-reward">Reward: 2 LARA</div>
           </div>
-          <button class="task-btn" onclick="handleTask('task4')">Join</button>
+          <button class="task-btn" onclick="handleTask('onetime4')">Join</button>
         </div>
-        <!-- Task 5: Follow Ton on Twitter -->
-        <div class="task-item" data-task-id="task5" data-task-type="follow" data-task-link="https://twitter.com/ton">
+        <div class="task-item" data-task-id="onetime5" data-task-type="follow" data-task-link="https://twitter.com/ton">
           <div class="task-info">
             <div class="task-text">Follow Ton on Twitter</div>
             <div class="task-reward">Reward: 2 LARA</div>
           </div>
-          <button class="task-btn" onclick="handleTask('task5')">Follow</button>
-        </div>
-        <!-- Task 6: Watch 5 adverts -->
-        <div class="task-item" data-task-id="task6" data-task-type="watch">
-          <div class="task-info">
-            <div class="task-text">Watch 5 adverts</div>
-            <div class="task-reward">Reward: 2 LARA</div>
-          </div>
-          <button class="task-btn" onclick="handleTask('task6')">Watch</button>
-        </div>
-        <!-- New Task: Daily Check -->
-        <div class="task-item" data-task-id="task7" data-task-type="check">
-          <div class="task-info">
-            <div class="task-text">Daily Check</div>
-            <div class="task-reward">Reward: 2 LARA</div>
-          </div>
-          <button class="task-btn" onclick="handleTask('task7')">Check In</button>
+          <button class="task-btn" onclick="handleTask('onetime5')">Follow</button>
         </div>
       </div>
-      <!-- Friend Quest Section -->
-      <h3>Friend Quest</h3>
-      <div id="friend-tasks">
-        <!-- Friend Task 1: Invite one friend -->
-        <div class="task-item" data-task-id="task8" data-task-type="invite">
+      <!-- Friends Tasks -->
+      <div class="task-container hidden" id="friend-tasks">
+        <div class="task-item" data-task-id="friend1" data-task-type="invite">
           <div class="task-info">
-            <div class="task-text">Invite one friend</div>
+            <div class="task-text">Invite 1 friend</div>
             <div class="task-reward">Reward: 1 LARA</div>
           </div>
-          <button class="task-btn" onclick="handleTask('task8')">Invite</button>
+          <button class="task-btn" onclick="handleTask('friend1')">Invite</button>
         </div>
-        <!-- Friend Task 2: Invite 5 friends -->
-        <div class="task-item" data-task-id="task9" data-task-type="invite">
+        <div class="task-item" data-task-id="friend2" data-task-type="invite">
           <div class="task-info">
             <div class="task-text">Invite 5 friends</div>
             <div class="task-reward">Reward: 6 LARA</div>
           </div>
-          <button class="task-btn" onclick="handleTask('task9')">Invite</button>
+          <button class="task-btn" onclick="handleTask('friend2')">Invite</button>
         </div>
-        <!-- Friend Task 3: Invite 10 friends -->
-        <div class="task-item" data-task-id="task10" data-task-type="invite">
+        <div class="task-item" data-task-id="friend3" data-task-type="invite">
           <div class="task-info">
             <div class="task-text">Invite 10 friends</div>
             <div class="task-reward">Reward: 12 LARA</div>
           </div>
-          <button class="task-btn" onclick="handleTask('task10')">Invite</button>
+          <button class="task-btn" onclick="handleTask('friend3')">Invite</button>
         </div>
-        <!-- Friend Task 4: Invite 50 friends -->
-        <div class="task-item" data-task-id="task11" data-task-type="invite">
+        <div class="task-item" data-task-id="friend4" data-task-type="invite">
           <div class="task-info">
             <div class="task-text">Invite 50 friends</div>
             <div class="task-reward">Reward: 60 LARA</div>
           </div>
-          <button class="task-btn" onclick="handleTask('task11')">Invite</button>
+          <button class="task-btn" onclick="handleTask('friend4')">Invite</button>
         </div>
-        <!-- Friend Task 5: Invite 100 friends -->
-        <div class="task-item" data-task-id="task12" data-task-type="invite">
+        <div class="task-item" data-task-id="friend5" data-task-type="invite">
           <div class="task-info">
             <div class="task-text">Invite 100 friends</div>
             <div class="task-reward">Reward: 150 LARA</div>
           </div>
-          <button class="task-btn" onclick="handleTask('task12')">Invite</button>
+          <button class="task-btn" onclick="handleTask('friend5')">Invite</button>
         </div>
       </div>
-      <h3>Completed Tasks</h3>
-      <div id="completed-tasks">
-        <!-- Completed tasks will be moved here -->
+      <!-- Completed Tasks -->
+      <div class="task-container hidden" id="completed-tasks">
+        <!-- Tasks completed from One-Time and Friends will be moved here -->
       </div>
     </div>
   </div>
@@ -515,29 +568,17 @@
   <div class="container">
     <div class="card">
       <h2>Account</h2>
-      <div class="account-item">
-        <div>Connect Wallet</div>
-      </div>
-      <div class="account-item">
-        <div>KYC Verification</div>
-      </div>
-      <div class="account-item">
-        <div>Check Eligibility for Airdrop</div>
-      </div>
-      <div class="account-item">
-        <div>Check Eligibility for P2P</div>
-      </div>
-      <div class="account-item">
-        <div>P2P</div>
-      </div>
-      <div class="account-item">
-        <div>Invite Code</div>
-      </div>
+      <div class="account-item"><div>Connect Wallet</div></div>
+      <div class="account-item"><div>KYC Verification</div></div>
+      <div class="account-item"><div>Check Eligibility for Airdrop</div></div>
+      <div class="account-item"><div>Check Eligibility for P2P</div></div>
+      <div class="account-item"><div>P2P</div></div>
+      <div class="account-item"><div>Invite Code</div></div>
     </div>
   </div>
 </div>
 
-<!-- Bottom Navigation with dividers inserted between items -->
+<!-- Bottom Navigation with Dividers -->
 <div class="bottom-nav">
   <div class="nav-item" onclick="showPage(event, 'tasks')">
     <i class="fas fa-tasks"></i>
@@ -571,6 +612,8 @@
   let sollBalance = 593.59;
   const laraBalanceEl = document.getElementById('laraBalance');
   const sollBalanceEl = document.getElementById('sollBalance');
+  // Also update the tasks header balance
+  const taskLaraBalanceEl = document.getElementById('taskLaraBalance');
 
   // Mining variables and rates
   let miningActive = false;
@@ -627,8 +670,28 @@
     lastClaimTime = currentTime;
   });
 
-  // Global flag for pending task (only one task processing at a time)
+  // Update tasks header balance initially
+  taskLaraBalanceEl.textContent = laraBalance;
+
+  // Global flag for pending task (only one at a time)
   let pendingTask = null;
+
+  // Tab Switching for Tasks Page
+  const tabButtons = document.querySelectorAll('.tab-button');
+  tabButtons.forEach(button => {
+    button.addEventListener('click', () => {
+      // Remove active class from all tab buttons
+      tabButtons.forEach(btn => btn.classList.remove('active'));
+      button.classList.add('active');
+      // Show corresponding container and hide others
+      const tab = button.getAttribute('data-tab');
+      document.getElementById('daily-tasks').classList.add('hidden');
+      document.getElementById('onetime-tasks').classList.add('hidden');
+      document.getElementById('friend-tasks').classList.add('hidden');
+      document.getElementById('completed-tasks').classList.add('hidden');
+      document.getElementById(tab + '-tasks').classList.remove('hidden');
+    });
+  });
 
   // Daily Task Functions
   function handleTask(taskId) {
@@ -660,7 +723,6 @@
         pendingTask = null;
       }, 14000);
     } else if (type === 'check' || type === 'invite') {
-      // For "check" and "invite" tasks, no link is opened.
       btn.textContent = 'Processing...';
       btn.disabled = true;
       setTimeout(() => {
@@ -687,16 +749,27 @@
   }
 
   function claimTask(taskId) {
-    laraBalance += parseFloat(document.querySelector('[data-task-id="'+taskId+'"] .task-reward').textContent.replace(/[^0-9.]/g, '')) || 2;
+    // Determine reward from the task-reward text (extract number)
+    let rewardText = document.querySelector('[data-task-id="'+taskId+'"] .task-reward').textContent;
+    let reward = parseFloat(rewardText.replace(/[^0-9.]/g, '')) || 2;
+    laraBalance += reward;
     laraBalanceEl.textContent = laraBalance;
+    taskLaraBalanceEl.textContent = laraBalance;
     const taskElem = document.querySelector('[data-task-id="'+taskId+'"]');
     const btn = taskElem.querySelector('button');
     btn.textContent = "Claimed";
     btn.disabled = true;
-    document.getElementById('completed-tasks').appendChild(taskElem);
+    
+    // For Daily tasks, do not remove them, just dim
+    if(taskId.startsWith('daily')) {
+      taskElem.classList.add('dimmed');
+    } else {
+      // For One-Time and Friends, move to Completed section
+      document.getElementById('completed-tasks').appendChild(taskElem);
+    }
   }
 
-  // Page Navigation
+  // Page Navigation for bottom nav
   function showPage(e, pageId) {
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -704,8 +777,8 @@
     e.currentTarget.classList.add('active');
   }
 
-  // Initialize with Mine page active
-  showPage({ currentTarget: document.querySelector('.nav-item:nth-child(1)') }, 'mine');
+  // Initialize with Mine page active and nav indicator on Mine
+  showPage({ currentTarget: document.querySelectorAll('.nav-item')[2] }, 'mine');
 </script>
 
 </body>
