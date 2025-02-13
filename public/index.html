@@ -3,17 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Sollara Mining Dashboard</title>
-  <!-- Font Awesome for icons -->
-  <link 
-    rel="stylesheet" 
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
-    integrity="sha512-Fo3rlrZj/k7ujTnH2N2qS24S0Z/l9X1MCZ7N+qo0knP0NVwRxyRBX9T8t77nG4S3HNT6v1NfL1vZ+W0C5CeYug==" 
-    crossorigin="anonymous" 
-    referrerpolicy="no-referrer"
-  />
+  <meta name="telegram-web-app-bot-domain" content="your-domain.com">
+  <title>Lara Mining</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Reset */
+    /* Reset & Base Styles */
     * {
       margin: 0;
       padding: 0;
@@ -24,74 +18,71 @@
       background: #121212;
       color: #FFFFFF;
       line-height: 1.5;
+      /* Default font size for Mine page */
+      font-size: 0.9rem;
     }
-    /* Main Container */
     .container {
       max-width: 480px;
       margin: 0 auto;
       padding: 20px;
     }
-    /* Header */
+    /* Use .small-page to reduce font size for pages other than Mine */
+    .small-page {
+      font-size: 0.8rem;
+    }
+    .page {
+      display: none;
+    }
+    .page.active {
+      display: block;
+    }
     header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       margin-bottom: 20px;
     }
-    .header-left {
+    header .header-left h1 {
+      font-size: 1.3rem;
+    }
+    header .header-left p {
+      font-size: 0.8rem;
+      color: #aaa;
+    }
+    /* Balance Section */
+    .balance-section {
       display: flex;
-      flex-direction: column;
+      gap: 15px;
+      margin-bottom: 20px;
     }
-    .header-left h1 {
-      font-size: 1.4rem;
-      margin-bottom: 8px;
+    .balance-card {
+      flex: 1;
+      background: #1e1e1e;
+      padding: 10px;
+      border-radius: 12px;
+      text-align: center;
     }
-    .header-left p {
-      font-size: 0.95rem;
+    .balance-label {
       color: #aaa;
+      font-size: 0.75rem;
     }
-    .user-info {
-      text-align: right;
-    }
-    .user-info .balance-label {
-      font-size: 0.85rem;
-      color: #aaa;
-      margin-bottom: 5px;
-    }
-    .user-info .balance-value {
-      font-size: 1.2rem;
+    .balance-value {
+      font-size: 1rem;
       font-weight: bold;
+    }
+    .lara-balance {
       color: #FFD700;
     }
-    /* Card Style for Content Sections */
-    .card {
-      background: #1e1e1e;
-      border-radius: 12px;
-      padding: 16px;
-      margin-bottom: 16px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-    }
-    .card h2 {
-      font-size: 1.2rem;
-      margin-bottom: 10px;
-    }
-    .card p {
-      font-size: 0.95rem;
-      color: #ccc;
-    }
-    .card .highlight {
+    .soll-balance {
       color: #4CAF50;
-      font-weight: bold;
     }
+    /* Original Button Styles */
     .btn {
       display: inline-block;
-      padding: 10px 20px;
+      padding: 12px 24px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
       font-weight: 600;
       transition: background 0.3s;
-      margin-top: 10px;
+      font-size: 0.9rem;
     }
     .btn-primary {
       background: #4CAF50;
@@ -100,14 +91,125 @@
     .btn-primary:hover {
       background: #45a049;
     }
-    /* Navigation Pages (hidden by default except main) */
-    .page {
-      display: none;
+    .btn-gold {
+      background: #FFD700;
+      color: #121212;
     }
-    .page.active {
+    .btn-gold:hover {
+      background: #e6b800;
+    }
+    /* Extra large button for mining controls */
+    .btn-large {
+      font-size: 1.1rem;
+      padding: 16px 28px;
+      margin-top: 10px;
       display: block;
+      width: 100%;
     }
-    /* Bottom Navigation Bar */
+    /* Mining Section */
+    .mining-section {
+      text-align: center;
+      margin-top: 30px;
+    }
+    .mining-image {
+      width: 180px;
+      height: 180px;
+      margin: 20px 0;
+    }
+    .mining-tool-select {
+      margin-bottom: 20px;
+    }
+    .mining-tool-select label {
+      margin-right: 10px;
+    }
+    /* List Items for Exchange, Shop, and Account */
+    .exchange-item, .shop-item, .account-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: #333;
+      margin-bottom: 10px;
+      padding: 10px;
+      border-radius: 10px;
+    }
+    .exchange-item div,
+    .shop-item div,
+    .account-item div {
+      display: flex;
+      flex-direction: column;
+    }
+    .item-image {
+      width: 50px;
+      height: 50px;
+      border-radius: 8px;
+      margin-right: 10px;
+    }
+    /* Tool Tiers */
+    .tool-tier {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      margin-bottom: 5px;
+    }
+    .tier-1 { background: #4CAF50; }
+    .tier-2 { background: #FFA500; }
+    .tier-3 { background: #FF4500; }
+    /* Card Container */
+    .card {
+      background: #1e1e1e;
+      padding: 10px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .card h2 {
+      font-size: 1.1rem;
+      margin-bottom: 10px;
+    }
+    .card h3 {
+      font-size: 1rem;
+      margin-top: 15px;
+      margin-bottom: 10px;
+    }
+    /* Daily Tasks Section – New Layout */
+    .task-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 6px 8px;
+      background: #333;
+      margin-bottom: 8px;
+      border-radius: 8px;
+      font-size: 0.75rem;
+    }
+    .task-info {
+      display: flex;
+      flex-direction: column;
+    }
+    .task-text {
+      font-weight: 500;
+    }
+    .task-reward {
+      font-size: 0.65rem;
+      color: #aaa;
+    }
+    /* Task button styling – slightly larger */
+    .task-btn {
+      font-size: 0.75rem;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      background: #4CAF50;
+      color: #fff;
+      min-width: 70px;
+      text-align: center;
+    }
+    .task-btn:disabled {
+      background: #777;
+    }
+    /* Bottom Navigation */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -121,193 +223,490 @@
       box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
       display: flex;
       align-items: center;
-      justify-content: space-around;
+      justify-content: space-evenly;
       z-index: 10;
     }
-    .bottom-nav a {
+    .nav-item {
       text-decoration: none;
       color: #ccc;
-      font-size: 0.9rem;
-      text-align: center;
-      flex: 1;
+      font-size: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
     }
-    .bottom-nav a.active {
-      color: #fff;
+    .nav-item.active {
+      color: #FFD700;
     }
-    .bottom-nav i {
-      display: block;
-      font-size: 1.2rem;
-      margin-bottom: 2px;
-    }
-    /* Spacer for bottom nav */
-    .spacer {
-      height: 80px;
-    }
-    /* Responsive adjustments */
-    @media screen and (max-width: 480px) {
-      .header-left h1 {
-        font-size: 1.2rem;
-      }
-      .user-info .balance-value {
-        font-size: 1rem;
-      }
-      .card h2 {
-        font-size: 1rem;
-      }
+    /* Nav divider element (thin white line between nav items) */
+    .nav-divider {
+      width: 1px;
+      height: 30px;
+      background: rgba(255,255,255,0.8);
+      align-self: center;
     }
   </style>
 </head>
 <body>
 
+<!-- Mine Page (uses body font size 0.9rem) -->
+<div id="mine-page" class="page active">
   <div class="container">
-    <!-- Header -->
     <header>
       <div class="header-left">
         <h1>Hello, Miner!</h1>
         <p>Welcome back to your mining dashboard</p>
       </div>
-      <div class="user-info">
-        <span class="balance-label">Your Balance</span>
-        <div class="balance-value">53,434 LARA</div>
-      </div>
     </header>
-
-    <!-- Main Pages -->
-    <!-- Mine Page (Default Landing Page) -->
-    <div id="page-mine" class="page active">
+    <!-- Balances -->
+    <div class="balance-section">
+      <div class="balance-card">
+        <div class="balance-label">LARA Balance</div>
+        <div class="balance-value lara-balance" id="laraBalance">53434</div>
+      </div>
+      <div class="balance-card">
+        <div class="balance-label">SOLL Balance</div>
+        <div class="balance-value soll-balance" id="sollBalance">593.59</div>
+      </div>
+    </div>
+    <!-- Mining Section -->
+    <div class="mining-section">
+      <img src="mining-rig.png" alt="Mining Rig" class="mining-image">
+      <!-- Tool Selection -->
+      <div class="mining-tool-select">
+        <label for="mining-tier">Select Mining Tool:</label>
+        <select id="mining-tier">
+          <option value="free">Free (0.00319 SOLL/hr)</option>
+          <option value="tier1">Basic Drill (0.0425 SOLL/hr)</option>
+          <option value="tier2">Advanced Pickaxe (0.0850 SOLL/hr)</option>
+          <option value="tier3">Diamond Excavator (0.2126 SOLL/hr)</option>
+        </select>
+      </div>
       <div class="card">
         <h2>Mining Status</h2>
-        <p>You are currently mining at a rate of <span class="highlight">10 SOLL/min</span>.</p>
-        <button class="btn btn-primary">Start Mining</button>
-      </div>
-      <div class="card">
-        <h2>Claim Rewards</h2>
-        <p>You have <span class="highlight">593.59 SOLL</span> ready to be claimed.</p>
-        <button class="btn btn-primary">Claim Now</button>
-      </div>
-      <div class="card">
-        <h2>Transaction History</h2>
-        <p>View your latest transactions and transfers.</p>
-        <button class="btn btn-primary">View History</button>
+        <p>Current Rate: <span id="currentRate">0.00319 SOLL/hour</span></p>
+        <button class="btn btn-primary btn-large" id="start-mining">⛏️ Start Mining</button>
+        <button class="btn btn-gold btn-large" id="claim-rewards">Claim Now</button>
       </div>
     </div>
-
-    <!-- Marketplace Page -->
-    <div id="page-marketplace" class="page">
-      <div class="card">
-        <h2>Marketplace</h2>
-        <p>Exchange TON for LARA tokens:</p>
-        <div class="card">
-          <p>1 TON - 100 LARA</p>
-          <!-- Image upload box placeholder -->
-          <div style="border: 1px dashed #ccc; padding: 10px; text-align: center;">[Image Upload]</div>
-        </div>
-        <div class="card">
-          <p>2.5 TON - 300 LARA</p>
-          <div style="border: 1px dashed #ccc; padding: 10px; text-align: center;">[Image Upload]</div>
-        </div>
-        <div class="card">
-          <p>5 TON - 700 LARA</p>
-          <div style="border: 1px dashed #ccc; padding: 10px; text-align: center;">[Image Upload]</div>
-        </div>
-        <div class="card">
-          <p>10 TON - 1700 LARA</p>
-          <div style="border: 1px dashed #ccc; padding: 10px; text-align: center;">[Image Upload]</div>
-        </div>
-        <div class="card">
-          <p>20 TON - 4000 LARA</p>
-          <div style="border: 1px dashed #ccc; padding: 10px; text-align: center;">[Image Upload]</div>
-        </div>
-        <p>Exclusive Drops Coming Soon!</p>
-      </div>
-    </div>
-
-    <!-- Shop Page -->
-    <div id="page-shop" class="page">
-      <div class="card">
-        <h2>Shop - Mining & Auto-Claim Tools</h2>
-        <p><strong>Mining Tools</strong> (Lasts 20 days, limited supply):</p>
-        <div class="card">
-          <p>Basic Mining Tool - 170 LARA (100,000 available)</p>
-          <div style="border: 1px dashed #ccc; padding: 10px; text-align: center;">[Image Upload]</div>
-        </div>
-        <div class="card">
-          <p>Advanced Mining Tool - 300 LARA (50,000 available)</p>
-          <div style="border: 1px dashed #ccc; padding: 10px; text-align: center;">[Image Upload]</div>
-        </div>
-        <div class="card">
-          <p>Pro Mining Tool - 600 LARA (20,000 available)</p>
-          <div style="border: 1px dashed #ccc; padding: 10px; text-align: center;">[Image Upload]</div>
-        </div>
-        <p><strong>Auto-Claim Tools</strong>:</p>
-        <div class="card">
-          <p>24 Hours - 50 LARA</p>
-        </div>
-        <div class="card">
-          <p>3 Days - 130 LARA</p>
-        </div>
-        <div class="card">
-          <p>7 Days - 300 LARA</p>
-        </div>
-        <p>Exclusive Drops Coming Soon!</p>
-      </div>
-    </div>
-
-    <!-- Tasks Page -->
-    <div id="page-tasks" class="page">
-      <div class="card">
-        <h2>Daily Tasks</h2>
-        <p>Complete tasks to earn bonus rewards:</p>
-        <button class="btn task-btn">Task 1: Verify Account</button>
-        <button class="btn task-btn">Task 2: Mine for 30 mins</button>
-        <button class="btn task-btn">Task 3: Share on Telegram</button>
-        <p>More tasks coming soon!</p>
-      </div>
-    </div>
-
-    <!-- Account Page -->
-    <div id="page-account" class="page">
-      <div class="card">
-        <h2>Account</h2>
-        <p>Connect your wallet, check your balance, and view transaction history.</p>
-        <button class="btn btn-primary">Connect Wallet</button>
-        <button class="btn btn-primary">View Balance</button>
-        <button class="btn btn-primary">Transaction History</button>
-      </div>
-    </div>
-
-    <div class="spacer"></div>
   </div>
+</div>
 
-  <!-- Bottom Navigation Bar -->
-  <div class="bottom-nav">
-    <a href="#" data-page="page-marketplace"><i class="fas fa-store"></i><div>Marketplace</div></a>
-    <a href="#" data-page="page-shop"><i class="fas fa-shopping-cart"></i><div>Shop</div></a>
-    <a href="#" data-page="page-mine" class="active"><i class="fas fa-mine-shaft"></i><div>Mine</div></a>
-    <a href="#" data-page="page-tasks"><i class="fas fa-tasks"></i><div>Tasks</div></a>
-    <a href="#" data-page="page-account"><i class="fas fa-user"></i><div>Account</div></a>
+<!-- Exchange Page (small-page) -->
+<div id="exchange-page" class="page small-page">
+  <div class="container">
+    <div class="card">
+      <h2>LARA Exchange</h2>
+      <div class="exchange-item">
+        <div>
+          <span>1 TON = 100 LARA</span>
+        </div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
+      <div class="exchange-item">
+        <div>
+          <span>2.5 TON = 300 LARA</span>
+        </div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
+      <div class="exchange-item">
+        <div>
+          <span>5 TON = 700 LARA</span>
+        </div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
+      <div class="exchange-item">
+        <div>
+          <span>10 TON = 1700 LARA</span>
+        </div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
+      <div class="exchange-item">
+        <div>
+          <span>20 TON = 4000 LARA</span>
+        </div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
+    </div>
   </div>
+</div>
 
-  <script>
-    // Simple page switching for navigation
-    const navLinks = document.querySelectorAll('.bottom-nav a');
-    const pages = document.querySelectorAll('.page');
+<!-- Shop Page (small-page) -->
+<div id="shop-page" class="page small-page">
+  <div class="container">
+    <!-- Mining Tools -->
+    <div class="card">
+      <h2>Mining Tools</h2>
+      <div class="shop-item">
+        <div>
+          <span class="tool-tier tier-1">Tier 1</span>
+          <span>Basic Drill</span>
+          <small>Cost: 170 LARA | Rate: 0.0425 SOLL/hr | Duration: 24 days</small>
+          <small>Available: 10</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+      <div class="shop-item">
+        <div>
+          <span class="tool-tier tier-2">Tier 2</span>
+          <span>Advanced Pickaxe</span>
+          <small>Cost: 300 LARA | Rate: 0.0850 SOLL/hr | Duration: 24 days</small>
+          <small>Available: 5</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+      <div class="shop-item">
+        <div>
+          <span class="tool-tier tier-3">Tier 3</span>
+          <span>Diamond Excavator</span>
+          <small>Cost: 600 LARA | Rate: 0.2126 SOLL/hr | Duration: 24 days</small>
+          <small>Available: 2</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+    </div>
+    <!-- Auto-Claim Tools -->
+    <div class="card">
+      <h2>Auto-Claim Tools</h2>
+      <div class="shop-item">
+        <div>
+          <span>24H Auto-Claim</span>
+          <small>Cost: 50 LARA | Duration: 24 hours</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+      <div class="shop-item">
+        <div>
+          <span>3D Auto-Claim</span>
+          <small>Cost: 130 LARA | Duration: 3 days</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+      <div class="shop-item">
+        <div>
+          <span>7D Auto-Claim</span>
+          <small>Cost: 300 LARA | Duration: 7 days</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-    navLinks.forEach(link => {
-      link.addEventListener('click', (e) => {
-        e.preventDefault();
-        // Remove active class from all links
-        navLinks.forEach(l => l.classList.remove('active'));
-        // Add active class to clicked link
-        link.classList.add('active');
-        // Get the target page id from data attribute
-        const target = link.getAttribute('data-page');
-        // Hide all pages
-        pages.forEach(page => page.classList.remove('active'));
-        // Show target page
-        document.getElementById(target).classList.add('active');
-      });
-    });
-  </script>
+<!-- Tasks Page (small-page) -->
+<div id="tasks-page" class="page small-page">
+  <div class="container">
+    <div class="card">
+      <!-- Updated heading -->
+      <h2>Get $Lara Token by Completing Simple Tasks Daily</h2>
+      <div id="active-tasks">
+        <!-- Daily Tasks -->
+        <!-- Task 1: Follow Sollara on Twitter -->
+        <div class="task-item" data-task-id="task1" data-task-type="follow" data-task-link="https://twitter.com/sollara">
+          <div class="task-info">
+            <div class="task-text">Follow Sollara on Twitter</div>
+            <div class="task-reward">Reward: 2 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('task1')">Follow</button>
+        </div>
+        <!-- Task 2: Join Sollara Community -->
+        <div class="task-item" data-task-id="task2" data-task-type="join" data-task-link="https://t.me/sollara">
+          <div class="task-info">
+            <div class="task-text">Join Sollara Community</div>
+            <div class="task-reward">Reward: 2 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('task2')">Join</button>
+        </div>
+        <!-- Task 3: Follow Sollara on Youtube -->
+        <div class="task-item" data-task-id="task3" data-task-type="follow" data-task-link="https://youtube.com/sollara">
+          <div class="task-info">
+            <div class="task-text">Follow Sollara on Youtube</div>
+            <div class="task-reward">Reward: 2 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('task3')">Follow</button>
+        </div>
+        <!-- Task 4: Join Ton Community -->
+        <div class="task-item" data-task-id="task4" data-task-type="join" data-task-link="https://t.me/toncommunity">
+          <div class="task-info">
+            <div class="task-text">Join Ton Community</div>
+            <div class="task-reward">Reward: 2 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('task4')">Join</button>
+        </div>
+        <!-- Task 5: Follow Ton on Twitter -->
+        <div class="task-item" data-task-id="task5" data-task-type="follow" data-task-link="https://twitter.com/ton">
+          <div class="task-info">
+            <div class="task-text">Follow Ton on Twitter</div>
+            <div class="task-reward">Reward: 2 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('task5')">Follow</button>
+        </div>
+        <!-- Task 6: Watch 5 adverts -->
+        <div class="task-item" data-task-id="task6" data-task-type="watch">
+          <div class="task-info">
+            <div class="task-text">Watch 5 adverts</div>
+            <div class="task-reward">Reward: 2 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('task6')">Watch</button>
+        </div>
+        <!-- New Task: Daily Check -->
+        <div class="task-item" data-task-id="task7" data-task-type="check">
+          <div class="task-info">
+            <div class="task-text">Daily Check</div>
+            <div class="task-reward">Reward: 2 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('task7')">Check In</button>
+        </div>
+      </div>
+      <!-- Friend Quest Section -->
+      <h3>Friend Quest</h3>
+      <div id="friend-tasks">
+        <!-- Friend Task 1: Invite one friend -->
+        <div class="task-item" data-task-id="task8" data-task-type="invite">
+          <div class="task-info">
+            <div class="task-text">Invite one friend</div>
+            <div class="task-reward">Reward: 1 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('task8')">Invite</button>
+        </div>
+        <!-- Friend Task 2: Invite 5 friends -->
+        <div class="task-item" data-task-id="task9" data-task-type="invite">
+          <div class="task-info">
+            <div class="task-text">Invite 5 friends</div>
+            <div class="task-reward">Reward: 6 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('task9')">Invite</button>
+        </div>
+        <!-- Friend Task 3: Invite 10 friends -->
+        <div class="task-item" data-task-id="task10" data-task-type="invite">
+          <div class="task-info">
+            <div class="task-text">Invite 10 friends</div>
+            <div class="task-reward">Reward: 12 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('task10')">Invite</button>
+        </div>
+        <!-- Friend Task 4: Invite 50 friends -->
+        <div class="task-item" data-task-id="task11" data-task-type="invite">
+          <div class="task-info">
+            <div class="task-text">Invite 50 friends</div>
+            <div class="task-reward">Reward: 60 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('task11')">Invite</button>
+        </div>
+        <!-- Friend Task 5: Invite 100 friends -->
+        <div class="task-item" data-task-id="task12" data-task-type="invite">
+          <div class="task-info">
+            <div class="task-text">Invite 100 friends</div>
+            <div class="task-reward">Reward: 150 LARA</div>
+          </div>
+          <button class="task-btn" onclick="handleTask('task12')">Invite</button>
+        </div>
+      </div>
+      <h3>Completed Tasks</h3>
+      <div id="completed-tasks">
+        <!-- Completed tasks will be moved here -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Account Page (small-page) -->
+<div id="account-page" class="page small-page">
+  <div class="container">
+    <div class="card">
+      <h2>Account</h2>
+      <div class="account-item">
+        <div>Connect Wallet</div>
+      </div>
+      <div class="account-item">
+        <div>KYC Verification</div>
+      </div>
+      <div class="account-item">
+        <div>Check Eligibility for Airdrop</div>
+      </div>
+      <div class="account-item">
+        <div>Check Eligibility for P2P</div>
+      </div>
+      <div class="account-item">
+        <div>P2P</div>
+      </div>
+      <div class="account-item">
+        <div>Invite Code</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bottom Navigation with dividers inserted between items -->
+<div class="bottom-nav">
+  <div class="nav-item" onclick="showPage(event, 'tasks')">
+    <i class="fas fa-tasks"></i>
+    <div>Tasks</div>
+  </div>
+  <div class="nav-divider"></div>
+  <div class="nav-item" onclick="showPage(event, 'exchange')">
+    <i class="fas fa-exchange-alt"></i>
+    <div>Exchange</div>
+  </div>
+  <div class="nav-divider"></div>
+  <div class="nav-item" onclick="showPage(event, 'mine')">
+    <i class="fas fa-diamond"></i>
+    <div>Mine</div>
+  </div>
+  <div class="nav-divider"></div>
+  <div class="nav-item" onclick="showPage(event, 'shop')">
+    <i class="fas fa-shopping-cart"></i>
+    <div>Shop</div>
+  </div>
+  <div class="nav-divider"></div>
+  <div class="nav-item" onclick="showPage(event, 'account')">
+    <i class="fas fa-user"></i>
+    <div>Account</div>
+  </div>
+</div>
+
+<script>
+  // Global Balances
+  let laraBalance = 53434;
+  let sollBalance = 593.59;
+  const laraBalanceEl = document.getElementById('laraBalance');
+  const sollBalanceEl = document.getElementById('sollBalance');
+
+  // Mining variables and rates
+  let miningActive = false;
+  let miningStartTime = null;
+  let lastClaimTime = null;
+  let accumulatedSOLL = 0;
+  const miningRates = {
+    free: 0.00319,
+    tier1: 0.0425,
+    tier2: 0.0850,
+    tier3: 0.2126
+  };
+  const claimInterval = 6 * 60 * 60 * 1000; // 6 hours
+
+  const miningTierSelect = document.getElementById('mining-tier');
+  const currentRateEl = document.getElementById('currentRate');
+  miningTierSelect.addEventListener('change', () => {
+    const rate = miningRates[miningTierSelect.value];
+    currentRateEl.textContent = rate + ' SOLL/hour';
+  });
+
+  // Start/Stop Mining
+  document.getElementById('start-mining').addEventListener('click', () => {
+    miningActive = !miningActive;
+    if (miningActive) {
+      miningStartTime = Date.now();
+      lastClaimTime = Date.now();
+      document.getElementById('start-mining').textContent = '⛏️ Stop Mining';
+    } else {
+      document.getElementById('start-mining').textContent = '⛏️ Start Mining';
+    }
+  });
+
+  // Claim Mining Rewards (if 6 hours have passed)
+  document.getElementById('claim-rewards').addEventListener('click', () => {
+    if (!miningActive || !miningStartTime) {
+      alert("Start mining first!");
+      return;
+    }
+    const currentTime = Date.now();
+    if (currentTime - lastClaimTime < claimInterval) {
+      const remaining = Math.ceil((claimInterval - (currentTime - lastClaimTime)) / (60 * 1000));
+      alert("Claim available in " + remaining + " minutes.");
+      return;
+    }
+    const elapsedHours = (currentTime - miningStartTime) / 3600000;
+    const currentRate = miningRates[miningTierSelect.value];
+    accumulatedSOLL += elapsedHours * currentRate;
+    sollBalance += accumulatedSOLL;
+    sollBalanceEl.textContent = sollBalance.toFixed(2);
+    alert(`Claimed ${accumulatedSOLL.toFixed(4)} SOLL!`);
+    accumulatedSOLL = 0;
+    miningStartTime = currentTime;
+    lastClaimTime = currentTime;
+  });
+
+  // Global flag for pending task (only one task processing at a time)
+  let pendingTask = null;
+
+  // Daily Task Functions
+  function handleTask(taskId) {
+    if (pendingTask && pendingTask !== taskId) {
+      alert("You have a pending task. Please wait for it to complete.");
+      return;
+    }
+    const taskElem = document.querySelector('[data-task-id="'+taskId+'"]');
+    const type = taskElem.getAttribute('data-task-type');
+    const btn = taskElem.querySelector('button');
+    
+    if (btn.textContent === 'Claim') {
+      claimTask(taskId);
+      return;
+    }
+    
+    pendingTask = taskId;
+    
+    if (type === 'follow' || type === 'join') {
+      const link = taskElem.getAttribute('data-task-link');
+      if (link) {
+        window.open(link, '_blank');
+      }
+      btn.textContent = 'Processing...';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Claim';
+        btn.disabled = false;
+        pendingTask = null;
+      }, 14000);
+    } else if (type === 'check' || type === 'invite') {
+      // For "check" and "invite" tasks, no link is opened.
+      btn.textContent = 'Processing...';
+      btn.disabled = true;
+      setTimeout(() => {
+        btn.textContent = 'Claim';
+        btn.disabled = false;
+        pendingTask = null;
+      }, 14000);
+    } else if (type === 'watch') {
+      btn.disabled = true;
+      let countdown = 5;
+      btn.textContent = 'Watching (' + countdown + ')';
+      const interval = setInterval(() => {
+        countdown--;
+        if (countdown > 0) {
+          btn.textContent = 'Watching (' + countdown + ')';
+        } else {
+          clearInterval(interval);
+          btn.textContent = 'Claim';
+          btn.disabled = false;
+          pendingTask = null;
+        }
+      }, 1000);
+    }
+  }
+
+  function claimTask(taskId) {
+    laraBalance += parseFloat(document.querySelector('[data-task-id="'+taskId+'"] .task-reward').textContent.replace(/[^0-9.]/g, '')) || 2;
+    laraBalanceEl.textContent = laraBalance;
+    const taskElem = document.querySelector('[data-task-id="'+taskId+'"]');
+    const btn = taskElem.querySelector('button');
+    btn.textContent = "Claimed";
+    btn.disabled = true;
+    document.getElementById('completed-tasks').appendChild(taskElem);
+  }
+
+  // Page Navigation
+  function showPage(e, pageId) {
+    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+    document.getElementById(`${pageId}-page`).classList.add('active');
+    e.currentTarget.classList.add('active');
+  }
+
+  // Initialize with Mine page active
+  showPage({ currentTarget: document.querySelector('.nav-item:nth-child(1)') }, 'mine');
+</script>
+
 </body>
 </html>
