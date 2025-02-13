@@ -5,7 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <meta name="telegram-web-app-bot-domain" content="your-domain.com">
   <title>Lara Mining</title>
+
+  <!-- Google Font (Poppins) for the tasks hero heading -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
   <style>
     /* Reset & Base Styles */
     * {
@@ -18,7 +25,7 @@
       background: #121212;
       color: #FFFFFF;
       line-height: 1.5;
-      /* Default font size for Mine page */
+      /* Default font size for the Mine page */
       font-size: 0.9rem;
     }
     .container {
@@ -38,7 +45,7 @@
     }
 
     /* -------------------
-       BALANCE & HEADERS
+       HEADERS & BALANCES
     ---------------------*/
     header {
       margin-bottom: 20px;
@@ -185,49 +192,55 @@
     /* -------------------
        TASKS PAGE DESIGN
     ---------------------*/
-    /* Hero/Heading area for Tasks, matching the style in your sample image */
+    /* A "hero" area at the top of tasks, referencing the sample image layout */
     .tasks-hero {
-      /* Example: a subtle purple gradient background */
-      background: linear-gradient(135deg, #1f023a 0%, #4b308e 100%);
+      /* Subtle black gradient or just black background */
+      background: linear-gradient(135deg, #1a1a1a 0%, #000000 100%);
       padding: 20px;
       border-radius: 12px;
       text-align: center;
-      position: relative;
       margin-bottom: 20px;
+      position: relative;
+      /* Use a different font just in this hero */
+      font-family: 'Poppins', sans-serif;
     }
-    .tasks-hero h2 {
-      font-size: 1.2rem;
-      margin-bottom: 5px;
+    /* "Tasks" big text with icon on the left or right (like the sample) */
+    .tasks-hero .tasks-title {
+      font-size: 1.3rem;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 5px;
-    }
-    .tasks-hero h2 img.task-icon {
-      width: 24px;
-      height: 24px;
-    }
-    .tasks-hero .balance-label-txt {
-      font-size: 0.7rem;
-      margin-bottom: 4px;
-      color: #eee;
-    }
-    .tasks-hero .balance-amount {
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #bfff8f; /* Light greenish color to stand out */
       margin-bottom: 5px;
+    }
+    .tasks-hero .tasks-title img {
+      width: 28px;
+      height: 28px;
+    }
+    /* "Your Balance:" in smaller text, below "Tasks" */
+    .tasks-hero .balance-label2 {
+      font-size: 0.75rem;
+      color: #aaa;
+      margin-bottom: 4px;
+    }
+    /* The numeric coin amount, large, with coin logo to the left */
+    .tasks-hero .big-coin-amount {
+      font-size: 1.4rem;
+      font-weight: bold;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
+      color: #bfff8f; /* Light greenish color to stand out */
+      margin-bottom: 5px;
     }
-    .tasks-hero .balance-amount img.coin-logo {
-      width: 30px;
-      height: 30px;
+    .tasks-hero .big-coin-amount img.coin-logo {
+      width: 32px;
+      height: 32px;
     }
-    .tasks-hero .subtitle {
-      font-size: 0.75rem;
+    /* The tagline "Earn Lara-coin rewards..." in smaller text */
+    .tasks-hero .small-tagline {
+      font-size: 0.7rem;
       color: #ddd;
     }
 
@@ -281,7 +294,6 @@
       font-size: 0.65rem;
       color: #aaa;
     }
-    /* Task button styling – slightly larger */
     .task-btn {
       font-size: 0.75rem;
       padding: 6px 10px;
@@ -476,22 +488,26 @@
 <!-- Tasks Page (small-page) -->
 <div id="tasks-page" class="page small-page">
   <div class="container">
-    <!-- A "hero" design at the top, referencing your sample image style -->
+    <!-- "Hero" area, referencing your sample layout -->
     <div class="tasks-hero">
-      <h2>
-        <img src="https://violet-decisive-haddock-461.mypinata.cloud/ipfs/bafkreiadmit5iftjlymtppjy3uyiifaffrl4mrvdqvtlbbepd77rs5supm"
-             alt="Pencil icon" class="task-icon" />
-        Tasks
-      </h2>
-      <div class="balance-label-txt">Your Balance:</div>
-      <div class="balance-amount">
-        <!-- Use the Lara-coin logo here -->
+      <!-- Title: "Tasks" + icon -->
+      <div class="tasks-title">
+        <span>Tasks</span>
+        <img src="https://violet-decisive-haddock-461.mypinata.cloud/ipfs/bafkreidhxlioak5qjokxsj3vyqgrkyakyimucxvuqpvd7yuu2tyijoyofe"
+             alt="Tasks Icon"/>
+      </div>
+      <!-- "Your Balance:" in small text -->
+      <div class="balance-label2">Your Balance:</div>
+      <!-- Large coin amount with coin logo -->
+      <div class="big-coin-amount">
         <img src="https://violet-decisive-haddock-461.mypinata.cloud/ipfs/bafkreiadmit5iftjlymtppjy3uyiifaffrl4mrvdqvtlbbepd77rs5supm"
              alt="Lara-coin" class="coin-logo" />
         <span id="taskLaraBalance">53434</span>
       </div>
-      <div class="subtitle">Earn Lara-coin rewards by completing simple tasks</div>
+      <!-- Tagline -->
+      <div class="small-tagline">Earn Lara-coin rewards by completing simple tasks</div>
     </div>
+
     <!-- Tab Buttons -->
     <div class="task-tabs">
       <button class="tab-button active" data-tab="daily">Daily</button>
@@ -499,6 +515,7 @@
       <button class="tab-button" data-tab="friend">Friends</button>
       <button class="tab-button" data-tab="completed">Completed</button>
     </div>
+
     <!-- Task Containers -->
     <!-- DAILY -->
     <div class="task-container" id="daily-tasks">
@@ -519,6 +536,7 @@
         <button class="task-btn" onclick="handleTask('daily2')">Watch</button>
       </div>
     </div>
+
     <!-- ONE-TIME -->
     <div class="task-container hidden" id="onetime-tasks">
       <div class="task-item" data-task-id="onetime1" data-task-type="follow" data-task-link="https://twitter.com/sollara">
@@ -557,6 +575,7 @@
         <button class="task-btn" onclick="handleTask('onetime5')">Follow</button>
       </div>
     </div>
+
     <!-- FRIENDS -->
     <div class="task-container hidden" id="friend-tasks">
       <div class="task-item" data-task-id="friend1" data-task-type="invite">
@@ -595,6 +614,7 @@
         <button class="task-btn" onclick="handleTask('friend5')">Invite</button>
       </div>
     </div>
+
     <!-- COMPLETED -->
     <div class="task-container hidden" id="completed-tasks">
       <!-- Tasks completed from One-Time and Friends go here -->
