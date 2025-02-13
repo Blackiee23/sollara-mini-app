@@ -73,7 +73,7 @@
     .soll-balance {
       color: #4CAF50;
     }
-    /* Original Button Styles (unchanged) */
+    /* Original Button Styles */
     .btn {
       display: inline-block;
       padding: 12px 24px;
@@ -194,17 +194,16 @@
       font-size: 0.65rem;
       color: #aaa;
     }
-    /* Task button styling */
+    /* Task button styling – slightly larger */
     .task-btn {
-      font-size: 0.65rem;
-      padding: 4px 8px;
+      font-size: 0.75rem;
+      padding: 6px 10px;
       border: none;
       border-radius: 6px;
       cursor: pointer;
       background: #4CAF50;
       color: #fff;
-      /* Fixed min-width for alignment */
-      min-width: 60px;
+      min-width: 70px;
       text-align: center;
     }
     .task-btn:disabled {
@@ -228,9 +227,10 @@
       z-index: 10;
     }
     .nav-item {
+      position: relative;
       text-decoration: none;
       color: #ccc;
-      font-size: 1rem;
+      font-size: 0.85rem;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -238,6 +238,16 @@
     }
     .nav-item.active {
       color: #FFD700;
+    }
+    /* Thin white vertical line between nav items */
+    .nav-item:not(:last-child)::after {
+      content: "";
+      position: absolute;
+      right: 0;
+      top: 25%;
+      height: 50%;
+      width: 1px;
+      background: rgba(255, 255, 255, 0.8);
     }
   </style>
 </head>
@@ -477,7 +487,7 @@
   </div>
 </div>
 
-<!-- Bottom Navigation -->
+<!-- Bottom Navigation with thin dividers -->
 <div class="bottom-nav">
   <div class="nav-item" onclick="showPage(event, 'tasks')">
     <i class="fas fa-tasks"></i>
@@ -563,17 +573,28 @@
     lastClaimTime = currentTime;
   });
 
+  // Global flag for pending task (only one at a time)
+  let pendingTask = null;
+  
   // Daily Task Functions
   function handleTask(taskId) {
+    // If another task is processing, disallow starting a new one.
+    if (pendingTask && pendingTask !== taskId) {
+      alert("You have a pending task. Please wait for it to complete.");
+      return;
+    }
     const taskElem = document.querySelector('[data-task-id="'+taskId+'"]');
     const type = taskElem.getAttribute('data-task-type');
     const btn = taskElem.querySelector('button');
     
-    // If already in "Claim" state, then claim reward
+    // If already in "Claim" state, then claim reward.
     if (btn.textContent === 'Claim') {
       claimTask(taskId);
       return;
     }
+    
+    // Set pending task for follow/join/watch
+    pendingTask = taskId;
     
     if (type === 'follow' || type === 'join') {
       const link = taskElem.getAttribute('data-task-link');
@@ -582,11 +603,12 @@
       }
       btn.textContent = 'Processing...';
       btn.disabled = true;
-      // Show processing for 9 seconds
+      // Show processing for 14 seconds
       setTimeout(() => {
         btn.textContent = 'Claim';
         btn.disabled = false;
-      }, 9000);
+        pendingTask = null;
+      }, 14000);
     } else if (type === 'watch') {
       btn.disabled = true;
       let countdown = 5;
@@ -599,6 +621,7 @@
           clearInterval(interval);
           btn.textContent = 'Claim';
           btn.disabled = false;
+          pendingTask = null;
         }
       }, 1000);
     }
