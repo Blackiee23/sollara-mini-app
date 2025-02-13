@@ -7,40 +7,40 @@
   <title>Lara Mining</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    /* Original Button Styles and Layout */
+    /* Reset & Base Styles */
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: #121212;
       color: #FFFFFF;
       line-height: 1.5;
     }
-
     .container {
       max-width: 480px;
       margin: 0 auto;
       padding: 20px;
     }
-
     .page {
       display: none;
     }
     .page.active {
       display: block;
     }
-
     header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
       margin-bottom: 20px;
     }
-
+    header .header-left h1 {
+      font-size: 1.5rem;
+    }
+    header .header-left p {
+      font-size: 0.9rem;
+      color: #aaa;
+    }
+    /* Balance Section */
     .balance-section {
       display: flex;
       gap: 15px;
@@ -67,8 +67,7 @@
     .soll-balance {
       color: #4CAF50;
     }
-
-    /* Original Button Styles */
+    /* Button Styles (original kept) */
     .btn {
       display: inline-block;
       padding: 12px 24px;
@@ -92,7 +91,15 @@
     .btn-gold:hover {
       background: #e6b800;
     }
-
+    /* Extra large button for mining controls */
+    .btn-large {
+      font-size: 1.1rem;
+      padding: 16px 28px;
+      margin-top: 10px;
+      display: block;
+      width: 100%;
+    }
+    /* Mining Section */
     .mining-section {
       text-align: center;
       margin-top: 30px;
@@ -102,8 +109,14 @@
       height: 180px;
       margin: 20px 0;
     }
-
-    .exchange-item, .shop-item {
+    .mining-tool-select {
+      margin-bottom: 20px;
+    }
+    .mining-tool-select label {
+      margin-right: 10px;
+    }
+    /* List Items for Exchange, Shop, Tasks, Account */
+    .exchange-item, .shop-item, .task-item, .account-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -112,24 +125,39 @@
       padding: 15px;
       border-radius: 10px;
     }
+    .exchange-item div,
+    .shop-item div,
+    .task-item div,
+    .account-item div {
+      display: flex;
+      flex-direction: column;
+    }
     .item-image {
       width: 50px;
       height: 50px;
       border-radius: 8px;
+      margin-right: 10px;
     }
-
+    /* Tool Tiers */
     .tool-tier {
       display: inline-block;
       padding: 4px 8px;
       border-radius: 6px;
       font-size: 0.8rem;
       font-weight: 500;
-      margin-right: 8px;
+      margin-bottom: 5px;
     }
     .tier-1 { background: #4CAF50; }
     .tier-2 { background: #FFA500; }
     .tier-3 { background: #FF4500; }
-
+    /* Card Container */
+    .card {
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    /* Bottom Navigation */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -158,31 +186,6 @@
     .nav-item.active {
       color: #FFD700;
     }
-
-    .task-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px;
-      background: #333;
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-    .task-status {
-      color: #4CAF50;
-      font-size: 0.9rem;
-    }
-
-    .account-section {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-    .account-item {
-      background: #333;
-      padding: 15px;
-      border-radius: 10px;
-    }
   </style>
 </head>
 <body>
@@ -197,24 +200,36 @@
       </div>
     </header>
 
+    <!-- Balances -->
     <div class="balance-section">
       <div class="balance-card">
         <div class="balance-label">LARA Balance</div>
-        <div class="balance-value lara-balance">53,434</div>
+        <div class="balance-value lara-balance" id="laraBalance">53,434</div>
       </div>
       <div class="balance-card">
         <div class="balance-label">SOLL Balance</div>
-        <div class="balance-value soll-balance">593.59</div>
+        <div class="balance-value soll-balance" id="sollBalance">593.59</div>
       </div>
     </div>
 
+    <!-- Mining Section -->
     <div class="mining-section">
       <img src="mining-rig.png" alt="Mining Rig" class="mining-image">
+      <!-- Tool Selection -->
+      <div class="mining-tool-select">
+        <label for="mining-tier">Select Mining Tool:</label>
+        <select id="mining-tier">
+          <option value="free">Free (0.00319 SOLL/hr)</option>
+          <option value="tier1">Basic Drill (0.0425 SOLL/hr)</option>
+          <option value="tier2">Advanced Pickaxe (0.0850 SOLL/hr)</option>
+          <option value="tier3">Diamond Excavator (0.2126 SOLL/hr)</option>
+        </select>
+      </div>
       <div class="card">
         <h2>Mining Status</h2>
-        <p>Current Rate: <span class="highlight">0.00319 SOLL/hour</span></p>
-        <button class="btn btn-primary" id="start-mining">⛏️ Start Mining</button>
-        <button class="btn btn-gold" id="claim-rewards">Claim Now</button>
+        <p>Current Rate: <span id="currentRate">0.00319 SOLL/hour</span></p>
+        <button class="btn btn-primary btn-large" id="start-mining">⛏️ Start Mining</button>
+        <button class="btn btn-gold btn-large" id="claim-rewards">Claim Now</button>
       </div>
     </div>
   </div>
@@ -227,12 +242,34 @@
       <h2>LARA Exchange</h2>
       <div class="exchange-item">
         <div>
-          <img src="ton.png" class="item-image" alt="TON">
           <span>1 TON = 100 LARA</span>
         </div>
         <button class="btn btn-primary">Exchange</button>
       </div>
-      <!-- Add all exchange rates -->
+      <div class="exchange-item">
+        <div>
+          <span>2.5 TON = 300 LARA</span>
+        </div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
+      <div class="exchange-item">
+        <div>
+          <span>5 TON = 700 LARA</span>
+        </div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
+      <div class="exchange-item">
+        <div>
+          <span>10 TON = 1700 LARA</span>
+        </div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
+      <div class="exchange-item">
+        <div>
+          <span>20 TON = 4000 LARA</span>
+        </div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
     </div>
   </div>
 </div>
@@ -240,25 +277,67 @@
 <!-- Shop Page -->
 <div id="shop-page" class="page">
   <div class="container">
+    <!-- Mining Tools -->
     <div class="card">
       <h2>Mining Tools</h2>
+      <!-- Tier 1 -->
       <div class="shop-item">
         <div>
           <span class="tool-tier tier-1">Tier 1</span>
-          <span>Basic Drill - 170 LARA</span>
+          <span>Basic Drill</span>
+          <small>Cost: 170 LARA | Rate: 0.0425 SOLL/hr | Duration: 24 days</small>
+          <small>Available: 10</small>
         </div>
         <button class="btn btn-primary">Buy</button>
       </div>
-      <!-- Add all mining tools -->
-    </div>
-
-    <div class="card">
-      <h2>Auto-Claim Tools</h2>
+      <!-- Tier 2 -->
       <div class="shop-item">
-        <div>24H Auto-Claim - 50 LARA</div>
+        <div>
+          <span class="tool-tier tier-2">Tier 2</span>
+          <span>Advanced Pickaxe</span>
+          <small>Cost: 300 LARA | Rate: 0.0850 SOLL/hr | Duration: 24 days</small>
+          <small>Available: 5</small>
+        </div>
         <button class="btn btn-primary">Buy</button>
       </div>
-      <!-- Add all auto-claim tools -->
+      <!-- Tier 3 -->
+      <div class="shop-item">
+        <div>
+          <span class="tool-tier tier-3">Tier 3</span>
+          <span>Diamond Excavator</span>
+          <small>Cost: 600 LARA | Rate: 0.2126 SOLL/hr | Duration: 24 days</small>
+          <small>Available: 2</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+    </div>
+    <!-- Auto-Claim Tools -->
+    <div class="card">
+      <h2>Auto-Claim Tools</h2>
+      <!-- 24H Auto-Claim -->
+      <div class="shop-item">
+        <div>
+          <span>24H Auto-Claim</span>
+          <small>Cost: 50 LARA | Duration: 24 hours</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+      <!-- 3D Auto-Claim -->
+      <div class="shop-item">
+        <div>
+          <span>3D Auto-Claim</span>
+          <small>Cost: 130 LARA | Duration: 3 days</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+      <!-- 7D Auto-Claim -->
+      <div class="shop-item">
+        <div>
+          <span>7D Auto-Claim</span>
+          <small>Cost: 300 LARA | Duration: 7 days</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
     </div>
   </div>
 </div>
@@ -272,7 +351,18 @@
         <div>Follow Sollara on Twitter</div>
         <div class="task-status">+50 LARA</div>
       </div>
-      <!-- Add all tasks -->
+      <div class="task-item">
+        <div>Follow Sollara on YouTube</div>
+        <div class="task-status">+50 LARA</div>
+      </div>
+      <div class="task-item">
+        <div>Join Sollara Telegram Community</div>
+        <div class="task-status">+50 LARA</div>
+      </div>
+      <div class="task-item">
+        <div>Follow Sollara on TON</div>
+        <div class="task-status">+50 LARA</div>
+      </div>
     </div>
   </div>
 </div>
@@ -280,92 +370,138 @@
 <!-- Account Page -->
 <div id="account-page" class="page">
   <div class="container">
-    <div class="account-section">
+    <div class="card">
+      <h2>Account</h2>
       <div class="account-item">
-        <h3>Connect Wallet</h3>
+        <div>Connect Wallet</div>
       </div>
       <div class="account-item">
-        <h3>KYC Verification</h3>
+        <div>KYC Verification</div>
       </div>
-      <!-- Add all account features -->
+      <div class="account-item">
+        <div>Check Eligibility for Airdrop</div>
+      </div>
+      <div class="account-item">
+        <div>Check Eligibility for P2P</div>
+      </div>
+      <div class="account-item">
+        <div>P2P</div>
+      </div>
+      <div class="account-item">
+        <div>Invite Code</div>
+      </div>
+      <!-- Additional features as needed -->
     </div>
   </div>
 </div>
 
 <!-- Bottom Navigation -->
 <div class="bottom-nav">
-  <div class="nav-item" onclick="showPage('tasks')">
+  <div class="nav-item" onclick="showPage(event, 'tasks')">
     <i class="fas fa-tasks"></i>
     <div>Tasks</div>
   </div>
-  <div class="nav-item" onclick="showPage('exchange')">
+  <div class="nav-item" onclick="showPage(event, 'exchange')">
     <i class="fas fa-exchange-alt"></i>
     <div>Exchange</div>
   </div>
-  <div class="nav-item active" onclick="showPage('mine')">
+  <div class="nav-item" onclick="showPage(event, 'mine')">
     <i class="fas fa-diamond"></i>
     <div>Mine</div>
   </div>
-  <div class="nav-item" onclick="showPage('shop')">
+  <div class="nav-item" onclick="showPage(event, 'shop')">
     <i class="fas fa-shopping-cart"></i>
     <div>Shop</div>
   </div>
-  <div class="nav-item" onclick="showPage('account')">
+  <div class="nav-item" onclick="showPage(event, 'account')">
     <i class="fas fa-user"></i>
     <div>Account</div>
   </div>
 </div>
 
 <script>
-// Page Navigation
-function showPage(pageId) {
-  document.querySelectorAll('.page').forEach(page => {
-    page.classList.remove('active');
+  // Balances
+  let laraBalance = 53434;
+  let sollBalance = 593.59;
+  const laraBalanceEl = document.getElementById('laraBalance');
+  const sollBalanceEl = document.getElementById('sollBalance');
+
+  // Mining variables
+  let miningActive = false;
+  let miningStartTime = null;
+  let lastClaimTime = null;
+  let accumulatedSOLL = 0;
+
+  // Mining rates for each tier
+  const miningRates = {
+    free: 0.00319,
+    tier1: 0.0425,
+    tier2: 0.0850,
+    tier3: 0.2126
+  };
+
+  const claimInterval = 6 * 60 * 60 * 1000; // 6 hours in ms
+
+  const miningTierSelect = document.getElementById('mining-tier');
+  const currentRateEl = document.getElementById('currentRate');
+
+  // Update current mining rate display on selection change
+  miningTierSelect.addEventListener('change', () => {
+    const rate = miningRates[miningTierSelect.value];
+    currentRateEl.textContent = rate + ' SOLL/hour';
   });
-  document.querySelectorAll('.nav-item').forEach(item => {
-    item.classList.remove('active');
+
+  // Start/Stop Mining
+  document.getElementById('start-mining').addEventListener('click', () => {
+    miningActive = !miningActive;
+    if (miningActive) {
+      miningStartTime = Date.now();
+      lastClaimTime = Date.now();
+      document.getElementById('start-mining').textContent = '⛏️ Stop Mining';
+    } else {
+      document.getElementById('start-mining').textContent = '⛏️ Start Mining';
+    }
   });
-  document.getElementById(`${pageId}-page`).classList.add('active');
-  event.currentTarget.classList.add('active');
-}
 
-// Mining Functionality
-let miningActive = false;
-let miningStartTime = null;
-let accumulatedSOLL = 0;
-
-const miningRates = {
-  free: 0.00319,
-  tier1: 0.0425,
-  tier2: 0.0850,
-  tier3: 0.2126
-};
-
-const claimInterval = 6 * 60 * 60 * 1000; // 6 hours
-
-document.getElementById('start-mining').addEventListener('click', () => {
-  miningActive = !miningActive;
-  if (miningActive) {
-    miningStartTime = Date.now();
-    document.getElementById('start-mining').textContent = '⛏️ Stop Mining';
-  } else {
-    document.getElementById('start-mining').textContent = '⛏️ Start Mining';
-  }
-});
-
-document.getElementById('claim-rewards').addEventListener('click', () => {
-  if (miningActive && miningStartTime) {
+  // Claim Rewards (only if 6 hours have passed)
+  document.getElementById('claim-rewards').addEventListener('click', () => {
+    if (!miningActive || !miningStartTime) {
+      alert("Start mining first!");
+      return;
+    }
     const currentTime = Date.now();
-    const elapsedTime = (currentTime - miningStartTime) / 3600000; // in hours
-    accumulatedSOLL += elapsedTime * miningRates.free;
-    miningStartTime = currentTime;
+    if (currentTime - lastClaimTime < claimInterval) {
+      const remaining = Math.ceil((claimInterval - (currentTime - lastClaimTime)) / (60 * 1000));
+      alert("Claim available in " + remaining + " minutes.");
+      return;
+    }
+    const elapsedHours = (currentTime - miningStartTime) / 3600000;
+    const currentRate = miningRates[miningTierSelect.value];
+    accumulatedSOLL += elapsedHours * currentRate;
+    // Update SOLL balance display
+    sollBalance += accumulatedSOLL;
+    sollBalanceEl.textContent = sollBalance.toFixed(2);
     alert(`Claimed ${accumulatedSOLL.toFixed(4)} SOLL!`);
+    // Reset timers
     accumulatedSOLL = 0;
-  }
-});
+    miningStartTime = currentTime;
+    lastClaimTime = currentTime;
+  });
 
-// Initialize main page
-showPage('mine');
+  // Page Navigation (pass event to mark clicked nav as active)
+  function showPage(e, pageId) {
+    document.querySelectorAll('.page').forEach(page => {
+      page.classList.remove('active');
+    });
+    document.querySelectorAll('.nav-item').forEach(item => {
+      item.classList.remove('active');
+    });
+    document.getElementById(`${pageId}-page`).classList.add('active');
+    e.currentTarget.classList.add('active');
+  }
+
+  // Initialize with Mine page active
+  showPage({currentTarget: document.querySelector('.nav-item:nth-child(3)')}, 'mine');
 </script>
 
 </body>
