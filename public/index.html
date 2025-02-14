@@ -6,7 +6,7 @@
   <meta name="telegram-web-app-bot-domain" content="your-domain.com">
   <title>Lara Mining</title>
 
-  <!-- Example: Poppins for the tasks hero (you can pick any font or remove this if you have your own) -->
+  <!-- Example: Poppins for the tasks card (use any font you like) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
@@ -192,58 +192,63 @@
     /* -------------------
        TASKS PAGE DESIGN
     ---------------------*/
-    /* A "hero" area at the top of tasks, replicating your sample image's layout */
-    .tasks-hero {
-      /* Just solid black to replicate the sample's dark background */
-      background: #000;
-      text-align: center;
-      margin-bottom: 20px;
-      padding: 20px 10px;
+    /* Card that matches your second sample image style */
+    .tasks-hero-card {
+      background: #1e1e1e; /* or #000 if you want it fully black */
       border-radius: 12px;
-      position: relative;
-      /* Use a heavier font for the hero text to match your sample's boldness */
+      text-align: center;
+      padding: 20px;
+      margin-bottom: 20px;
+      /* Use a heavier font to match your sample's bold text */
       font-family: 'Poppins', sans-serif;
-      font-weight: 700;
     }
-    /* "Tasks" in big, bold text with an icon beside it, like your sample. */
-    .tasks-title {
+    /* "Tasks" big bold text with icon next to it */
+    .tasks-hero-card .tasks-title {
+      font-size: 1.6rem; /* Adjust as needed to match your screenshot exactly */
+      font-weight: 700;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      font-size: 1.8rem; /* ~28-30px to match your sample's big text */
-      margin-bottom: 8px;
+      gap: 6px;
+      margin-bottom: 10px;
     }
-    .tasks-title img {
-      width: 32px;
-      height: 32px;
+    .tasks-hero-card .tasks-title img {
+      width: 28px;
+      height: 28px;
     }
-    /* "Your Balance:" in smaller text below the big "Tasks" text */
-    .balance-label2 {
+    /* "Your Balance:" in smaller text */
+    .tasks-hero-card .balance-label2 {
       font-size: 0.85rem;
       color: #ccc;
       margin-bottom: 5px;
     }
-    /* Big bold coin amount, with coin icon to the left, like your sample. */
-    .big-coin-amount {
+    /* Big bold coin amount, with coin icon to the left */
+    .tasks-hero-card .big-coin-amount {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      font-size: 1.6rem; /* ~24-26px to match your sample's big number */
+      font-size: 1.5rem; /* Adjust as needed */
       font-weight: 700;
-      color: #bfff8f; /* Light greenish color to stand out, or pick any color you prefer */
+      color: #bfff8f;
       margin-bottom: 8px;
     }
-    .big-coin-amount img.coin-logo {
-      width: 36px;
-      height: 36px;
+    .tasks-hero-card .big-coin-amount img.coin-logo {
+      width: 32px;
+      height: 32px;
     }
-    /* "Earn Lara-coin rewards by completing simple tasks" in a single line, smaller text. */
-    .small-tagline {
-      font-size: 0.9rem; /* ~14px to match your sample's tagline size */
+    /* "Earn Lara-coin..." in one line, smaller text */
+    .tasks-hero-card .small-tagline {
+      font-size: 0.85rem;
       font-weight: 400;
       color: #ddd;
+      margin-bottom: 10px;
+    }
+    /* "What is Lara token?" link */
+    .tasks-hero-card .learn-more a {
+      font-size: 0.75rem;
+      color: #FFD700;
+      text-decoration: underline;
     }
 
     /* Tabs for tasks */
@@ -490,8 +495,9 @@
 <!-- Tasks Page (small-page) -->
 <div id="tasks-page" class="page small-page">
   <div class="container">
-    <!-- "Hero" area, matching your sample's layout & font sizes more closely -->
-    <div class="tasks-hero">
+
+    <!-- Card that matches your second sample image style -->
+    <div class="tasks-hero-card">
       <!-- Title: "Tasks" + icon (big, bold) -->
       <div class="tasks-title">
         <span>Tasks</span>
@@ -500,14 +506,18 @@
       </div>
       <!-- "Your Balance:" in smaller text -->
       <div class="balance-label2">Your Balance:</div>
-      <!-- Large coin amount with coin logo, bold & big -->
+      <!-- Large coin amount with coin logo -->
       <div class="big-coin-amount">
         <img src="https://violet-decisive-haddock-461.mypinata.cloud/ipfs/bafkreiadmit5iftjlymtppjy3uyiifaffrl4mrvdqvtlbbepd77rs5supm"
              alt="Lara-coin" class="coin-logo" />
         <span id="taskLaraBalance">53434</span>
       </div>
-      <!-- Single-line tagline in smaller text -->
+      <!-- Tagline -->
       <div class="small-tagline">Earn Lara-coin rewards by completing simple tasks</div>
+      <!-- Link: "What is Lara token?" -->
+      <div class="learn-more">
+        <a href="#" target="_blank">What is Lara token?</a>
+      </div>
     </div>
 
     <!-- Tab Buttons -->
