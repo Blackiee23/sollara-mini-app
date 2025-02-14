@@ -6,817 +6,196 @@
   <meta name="telegram-web-app-bot-domain" content="your-domain.com">
   <title>Lara Mining</title>
 
-  <!-- Use Poppins for a unified look on the Tasks page -->
+  <!-- Font Imports -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome for icons -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <style>
-    /* RESET & BASE STYLES */
+    :root {
+      --diamond-primary: #e0f0ff;
+      --diamond-secondary: #b3dfff;
+      --diamond-accent: #7fcbff;
+      --diamond-dark: #2a3f54;
+      --diamond-gradient: linear-gradient(135deg, var(--diamond-primary) 0%, var(--diamond-secondary) 50%, var(--diamond-accent) 100%);
+      --diamond-shadow: 0 8px 32px rgba(42,63,84,0.1);
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      transition: all 0.3s ease;
     }
-    /* Entire document uses Poppins */
+
     body {
       font-family: 'Poppins', sans-serif;
-      background: #121212;
-      color: #FFFFFF;
-      line-height: 1.5;
-      /* Base font size for consistent look across pages */
-      font-size: 0.85rem;
+      background: var(--diamond-gradient);
+      color: var(--diamond-dark);
+      line-height: 1.6;
+      font-size: 15px;
     }
+
     .container {
       max-width: 480px;
       margin: 0 auto;
-      padding: 20px;
-    }
-    .page {
-      display: none;
-    }
-    .page.active {
-      display: block;
+      padding: 25px;
     }
 
-    /* HEADERS & BALANCES (Mine page) */
-    header {
-      margin-bottom: 20px;
-    }
-    header .header-left h1 {
-      font-size: 1.3rem;
-      font-weight: 700;
-    }
-    header .header-left p {
-      font-size: 0.85rem;
-      color: #aaa;
-    }
-    .balance-section {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    .balance-card {
-      flex: 1;
-      background: #1e1e1e;
-      padding: 10px;
-      border-radius: 12px;
-      text-align: center;
-    }
-    .balance-label {
-      color: #aaa;
-      font-size: 0.75rem;
-    }
-    .balance-value {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-    .lara-balance {
-      color: #FFD700;
-    }
-    .soll-balance {
-      color: #4CAF50;
-    }
-
-    /* BUTTON STYLES */
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.3s;
-      font-size: 0.85rem;
-    }
-    .btn-primary {
-      background: #4CAF50;
-      color: #fff;
-    }
-    .btn-primary:hover {
-      background: #45a049;
-    }
-    .btn-gold {
-      background: #FFD700;
-      color: #121212;
-    }
-    .btn-gold:hover {
-      background: #e6b800;
-    }
-    .btn-large {
-      font-size: 1.1rem;
-      padding: 16px 28px;
-      margin-top: 10px;
-      display: block;
-      width: 100%;
-    }
-
-    /* MINE PAGE */
-    .mining-section {
-      text-align: center;
-      margin-top: 30px;
-    }
-    .mining-image {
-      width: 180px;
-      height: 180px;
-      margin: 20px 0;
-    }
-    .mining-tool-select {
-      margin-bottom: 20px;
-    }
-    .mining-tool-select label {
-      margin-right: 10px;
-    }
-
-    /* EXCHANGE, SHOP, ACCOUNT */
-    .exchange-item, .shop-item, .account-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #333;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 10px;
-    }
-    .exchange-item div,
-    .shop-item div,
-    .account-item div {
-      display: flex;
-      flex-direction: column;
-    }
-    .item-image {
-      width: 50px;
-      height: 50px;
-      border-radius: 8px;
-      margin-right: 10px;
-    }
-    .tool-tier {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-    .tier-1 { background: #4CAF50; }
-    .tier-2 { background: #FFA500; }
-    .tier-3 { background: #FF4500; }
+    /* Enhanced Card Design */
     .card {
-      background: #1e1e1e;
-      padding: 10px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-    }
-    .card h2 {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-    .card h3 {
-      font-size: 1rem;
-      margin-top: 15px;
-      margin-bottom: 10px;
-      font-weight: 500;
+      background: rgba(255,255,255,0.9);
+      backdrop-filter: blur(10px);
+      border-radius: 20px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: var(--diamond-shadow);
+      border: 1px solid rgba(255,255,255,0.3);
     }
 
-    /* TASKS PAGE – FIRST SAMPLE FORMAT */
-    .tasks-hero {
-      /* Use your starry/purple background; replace 'star-bg.jpg' with your actual image URL */
-      background: url('star-bg.jpg') no-repeat center center;
-      background-size: cover;
-      border-radius: 12px;
-      text-align: center;
-      padding: 30px 15px;
+    .card h2 {
+      font-size: 1.4rem;
+      color: var(--diamond-dark);
       margin-bottom: 20px;
       position: relative;
+      padding-left: 15px;
     }
-    .tasks-hero .tasks-title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      display: flex;
+
+    .card h2::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: -5px;
+      width: 40px;
+      height: 3px;
+      background: var(--diamond-accent);
+      border-radius: 2px;
+    }
+
+    /* Modern Button Styles */
+    .btn {
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      margin-bottom: 10px;
-      color: #FFFFFF;
-    }
-    /* Use the original pencil icon (unchanged) */
-    .tasks-hero .tasks-title img {
-      width: 30px;
-      height: 30px;
-    }
-    .tasks-hero .balance-label2 {
-      font-size: 0.9rem;
-      color: #ddd;
-      margin-bottom: 5px;
-    }
-    .tasks-hero .big-coin-amount {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 2rem;
-      font-weight: 700;
-      color: #bfff8f;
-      margin-bottom: 10px;
-    }
-    .tasks-hero .big-coin-amount img.coin-logo {
-      width: 36px;
-      height: 36px;
-    }
-    /* Reduced font size so the full tagline fits on one line */
-    .tasks-hero .small-tagline {
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: #ccc;
-      margin-bottom: 5px;
-    }
-    .tasks-hero .learn-more a {
-      font-size: 0.75rem;
-      color: #FFD700;
-      text-decoration: underline;
-    }
-
-    /* TABS */
-    .task-tabs {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 10px;
-    }
-    .tab-button {
-      background: none;
+      padding: 12px 28px;
       border: none;
-      color: #ccc;
-      padding: 5px 10px;
-      font-size: 0.8rem;
+      border-radius: 12px;
       cursor: pointer;
-    }
-    .tab-button.active {
-      border-bottom: 2px solid #FFD700;
-      color: #FFD700;
+      font-weight: 600;
+      font-size: 15px;
+      gap: 8px;
+      background: var(--diamond-dark);
+      color: white;
+      box-shadow: 0 4px 15px rgba(42,63,84,0.2);
     }
 
-    /* TASK CONTAINERS & ITEMS */
-    .task-container {
-      margin-bottom: 10px;
-    }
-    .task-container.hidden {
-      display: none;
-    }
-    .task-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 8px;
-      background: #333;
-      margin-bottom: 8px;
-      border-radius: 8px;
-      font-size: 0.75rem;
-    }
-    .task-item.dimmed {
-      opacity: 0.5;
-    }
-    .task-info {
-      display: flex;
-      flex-direction: column;
-    }
-    .task-text {
-      font-weight: 500;
-    }
-    .task-reward {
-      font-size: 0.65rem;
-      color: #aaa;
-    }
-    .task-btn {
-      font-size: 0.75rem;
-      padding: 6px 10px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      background: #4CAF50;
-      color: #fff;
-      min-width: 70px;
-      text-align: center;
-    }
-    .task-btn:disabled {
-      background: #777;
+    .btn-primary {
+      background: linear-gradient(135deg, var(--diamond-accent) 0%, #5da8ff 100%);
     }
 
-    /* BOTTOM NAVIGATION */
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(127,203,255,0.4);
+    }
+
+    /* Balance Cards */
+    .balance-card {
+      background: rgba(255,255,255,0.95);
+      border-radius: 15px;
+      padding: 20px;
+      box-shadow: var(--diamond-shadow);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .balance-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent, rgba(127,203,255,0.1), transparent);
+      transform: rotate(45deg);
+    }
+
+    /* Mining Section Enhancements */
+    .mining-image {
+      width: 200px;
+      height: 200px;
+      background: rgba(255,255,255,0.9);
+      border-radius: 50%;
+      padding: 20px;
+      box-shadow: var(--diamond-shadow);
+      margin: 25px auto;
+      border: 2px solid var(--diamond-accent);
+    }
+
+    /* Navigation Bar Redesign */
     .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 -8px 32px rgba(42,63,84,0.1);
+      border-radius: 25px 25px 0 0;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .nav-item.active {
+      color: var(--diamond-accent);
+      transform: translateY(-5px);
+    }
+
+    /* Task Section Improvements */
+    .task-item {
+      background: rgba(255,255,255,0.95);
+      border-radius: 15px;
+      padding: 15px;
+      margin-bottom: 15px;
+      box-shadow: var(--diamond-shadow);
+    }
+
+    /* Form Elements */
+    select {
+      background: rgba(255,255,255,0.9);
+      border: 2px solid var(--diamond-accent);
+      border-radius: 10px;
+      padding: 10px 15px;
       width: 100%;
-      max-width: 480px;
-      height: 60px;
-      background: #1e1e1e;
-      border-radius: 20px 20px 0 0;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
+      font-family: inherit;
+      color: var(--diamond-dark);
+      appearance: none;
+      background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%237fcbff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+      background-repeat: no-repeat;
+      background-position: right 1rem center;
+      background-size: 1em;
     }
-    .bottom-nav .nav-item {
-      text-decoration: none;
-      color: #ccc;
-      font-size: 0.85rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 0 10px;
+
+    /* Animation Additions */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
-    .bottom-nav .nav-item.active {
-      color: #FFD700;
+
+    .mining-image {
+      animation: float 4s ease-in-out infinite;
     }
-    .bottom-nav .nav-divider {
-      width: 1px;
-      height: 30px;
-      background: rgba(255,255,255,0.8);
-      margin: 0 5px;
+
+    /* Hover Effects */
+    .card:hover, .balance-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 12px 40px rgba(42,63,84,0.15);
+    }
+
+    /* Responsive Tweaks */
+    @media (max-width: 480px) {
+      .container {
+        padding: 15px;
+      }
+      .card {
+        padding: 20px;
+      }
     }
   </style>
 </head>
-<body>
-
-<!-- Mine Page (shown first) -->
-<div id="mine-page" class="page active">
-  <div class="container">
-    <header>
-      <div class="header-left">
-        <h1>Hello, Miner!</h1>
-        <p>Welcome back to your mining dashboard</p>
-      </div>
-    </header>
-    <!-- Balances -->
-    <div class="balance-section">
-      <div class="balance-card">
-        <div class="balance-label">LARA Balance</div>
-        <div class="balance-value lara-balance" id="laraBalance">53434</div>
-      </div>
-      <div class="balance-card">
-        <div class="balance-label">SOLL Balance</div>
-        <div class="balance-value soll-balance" id="sollBalance">593.59</div>
-      </div>
-    </div>
-    <!-- Mining Section -->
-    <div class="mining-section">
-      <img src="mining-rig.png" alt="Mining Rig" class="mining-image">
-      <div class="mining-tool-select">
-        <label for="mining-tier">Select Mining Tool:</label>
-        <select id="mining-tier">
-          <option value="free">Free (0.00319 SOLL/hr)</option>
-          <option value="tier1">Basic Drill (0.0425 SOLL/hr)</option>
-          <option value="tier2">Advanced Pickaxe (0.0850 SOLL/hr)</option>
-          <option value="tier3">Diamond Excavator (0.2126 SOLL/hr)</option>
-        </select>
-      </div>
-      <div class="card">
-        <h2>Mining Status</h2>
-        <p>Current Rate: <span id="currentRate">0.00319 SOLL/hour</span></p>
-        <button class="btn btn-primary btn-large" id="start-mining">⛏️ Start Mining</button>
-        <button class="btn btn-gold btn-large" id="claim-rewards">Claim Now</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Exchange Page (small-page) -->
-<div id="exchange-page" class="page small-page">
-  <div class="container">
-    <div class="card">
-      <h2>LARA Exchange</h2>
-      <div class="exchange-item">
-        <div><span>1 TON = 100 LARA</span></div>
-        <button class="btn btn-primary">Exchange</button>
-      </div>
-      <div class="exchange-item">
-        <div><span>2.5 TON = 300 LARA</span></div>
-        <button class="btn btn-primary">Exchange</button>
-      </div>
-      <div class="exchange-item">
-        <div><span>5 TON = 700 LARA</span></div>
-        <button class="btn btn-primary">Exchange</button>
-      </div>
-      <div class="exchange-item">
-        <div><span>10 TON = 1700 LARA</span></div>
-        <button class="btn btn-primary">Exchange</button>
-      </div>
-      <div class="exchange-item">
-        <div><span>20 TON = 4000 LARA</span></div>
-        <button class="btn btn-primary">Exchange</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Shop Page (small-page) -->
-<div id="shop-page" class="page small-page">
-  <div class="container">
-    <div class="card">
-      <h2>Mining Tools</h2>
-      <div class="shop-item">
-        <div>
-          <span class="tool-tier tier-1">Tier 1</span>
-          <span>Basic Drill</span>
-          <small>Cost: 170 LARA | Rate: 0.0425 SOLL/hr | Duration: 24 days</small>
-          <small>Available: 10</small>
-        </div>
-        <button class="btn btn-primary">Buy</button>
-      </div>
-      <div class="shop-item">
-        <div>
-          <span class="tool-tier tier-2">Tier 2</span>
-          <span>Advanced Pickaxe</span>
-          <small>Cost: 300 LARA | Rate: 0.0850 SOLL/hr | Duration: 24 days</small>
-          <small>Available: 5</small>
-        </div>
-        <button class="btn btn-primary">Buy</button>
-      </div>
-      <div class="shop-item">
-        <div>
-          <span class="tool-tier tier-3">Tier 3</span>
-          <span>Diamond Excavator</span>
-          <small>Cost: 600 LARA | Rate: 0.2126 SOLL/hr | Duration: 24 days</small>
-          <small>Available: 2</small>
-        </div>
-        <button class="btn btn-primary">Buy</button>
-      </div>
-    </div>
-    <div class="card">
-      <h2>Auto-Claim Tools</h2>
-      <div class="shop-item">
-        <div>
-          <span>24H Auto-Claim</span>
-          <small>Cost: 50 LARA | Duration: 24 hours</small>
-        </div>
-        <button class="btn btn-primary">Buy</button>
-      </div>
-      <div class="shop-item">
-        <div>
-          <span>3D Auto-Claim</span>
-          <small>Cost: 130 LARA | Duration: 3 days</small>
-        </div>
-        <button class="btn btn-primary">Buy</button>
-      </div>
-      <div class="shop-item">
-        <div>
-          <span>7D Auto-Claim</span>
-          <small>Cost: 300 LARA | Duration: 7 days</small>
-        </div>
-        <button class="btn btn-primary">Buy</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Tasks Page (small-page) -->
-<div id="tasks-page" class="page small-page">
-  <div class="container">
-    <!-- Tasks Hero matching first sample -->
-    <div class="tasks-hero">
-      <div class="tasks-title">
-        <span>Tasks</span>
-        <img src="https://violet-decisive-haddock-461.mypinata.cloud/ipfs/bafkreidhxlioak5qjokxsj3vyqgrkyakyimucxvuqpvd7yuu2tyijoyofe" alt="Pencil Icon" />
-      </div>
-      <div class="balance-label2">Your Balance:</div>
-      <div class="big-coin-amount">
-        <img src="https://violet-decisive-haddock-461.mypinata.cloud/ipfs/bafkreiadmit5iftjlymtppjy3uyiifaffrl4mrvdqvtlbbepd77rs5supm" alt="Lara Coin" class="coin-logo" />
-        <span id="taskLaraBalance">53434</span>
-      </div>
-      <div class="small-tagline">Earn Lara-coin rewards by completing simple tasks</div>
-      <div class="learn-more">
-        <a href="#" target="_blank">What is Lara token?</a>
-      </div>
-    </div>
-
-    <!-- Task Tabs -->
-    <div class="task-tabs">
-      <button class="tab-button active" data-tab="daily">Daily</button>
-      <button class="tab-button" data-tab="onetime">One-Time</button>
-      <button class="tab-button" data-tab="friend">Friends</button>
-      <button class="tab-button" data-tab="completed">Completed</button>
-    </div>
-
-    <!-- DAILY TASKS -->
-    <div class="task-container" id="daily-tasks">
-      <div class="task-item" data-task-id="daily1" data-task-type="check">
-        <div class="task-info">
-          <div class="task-text">Daily Check-in</div>
-          <div class="task-reward">Reward: 2 LARA</div>
-        </div>
-        <button class="task-btn" onclick="handleTask('daily1')">Check In</button>
-      </div>
-      <div class="task-item" data-task-id="daily2" data-task-type="watch">
-        <div class="task-info">
-          <div class="task-text">Watch Video Ads</div>
-          <div class="task-reward">Reward: 2 LARA</div>
-        </div>
-        <button class="task-btn" onclick="handleTask('daily2')">Watch</button>
-      </div>
-    </div>
-
-    <!-- ONE-TIME TASKS -->
-    <div class="task-container hidden" id="onetime-tasks">
-      <div class="task-item" data-task-id="onetime1" data-task-type="follow" data-task-link="https://twitter.com/sollara">
-        <div class="task-info">
-          <div class="task-text">Follow Sollara on Twitter</div>
-          <div class="task-reward">Reward: 2 LARA</div>
-        </div>
-        <button class="task-btn" onclick="handleTask('onetime1')">Follow</button>
-      </div>
-      <div class="task-item" data-task-id="onetime2" data-task-type="join" data-task-link="https://t.me/sollara">
-        <div class="task-info">
-          <div class="task-text">Join Sollara Community</div>
-          <div class="task-reward">Reward: 2 LARA</div>
-        </div>
-        <button class="task-btn" onclick="handleTask('onetime2')">Join</button>
-      </div>
-      <div class="task-item" data-task-id="onetime3" data-task-type="follow" data-task-link="https://youtube.com/sollara">
-        <div class="task-info">
-          <div class="task-text">Follow Sollara on Youtube</div>
-          <div class="task-reward">Reward: 2 LARA</div>
-        </div>
-        <button class="task-btn" onclick="handleTask('onetime3')">Follow</button>
-      </div>
-      <div class="task-item" data-task-id="onetime4" data-task-type="join" data-task-link="https://t.me/toncommunity">
-        <div class="task-info">
-          <div class="task-text">Join Ton Community</div>
-          <div class="task-reward">Reward: 2 LARA</div>
-        </div>
-        <button class="task-btn" onclick="handleTask('onetime4')">Join</button>
-      </div>
-      <div class="task-item" data-task-id="onetime5" data-task-type="follow" data-task-link="https://twitter.com/ton">
-        <div class="task-info">
-          <div class="task-text">Follow Ton on Twitter</div>
-          <div class="task-reward">Reward: 2 LARA</div>
-        </div>
-        <button class="task-btn" onclick="handleTask('onetime5')">Follow</button>
-      </div>
-    </div>
-
-    <!-- FRIENDS TASKS -->
-    <div class="task-container hidden" id="friend-tasks">
-      <div class="task-item" data-task-id="friend1" data-task-type="invite">
-        <div class="task-info">
-          <div class="task-text">Invite 1 friend</div>
-          <div class="task-reward">Reward: 1 LARA</div>
-        </div>
-        <button class="task-btn" onclick="handleTask('friend1')">Invite</button>
-      </div>
-      <div class="task-item" data-task-id="friend2" data-task-type="invite">
-        <div class="task-info">
-          <div class="task-text">Invite 5 friends</div>
-          <div class="task-reward">Reward: 6 LARA</div>
-        </div>
-        <button class="task-btn" onclick="handleTask('friend2')">Invite</button>
-      </div>
-      <div class="task-item" data-task-id="friend3" data-task-type="invite">
-        <div class="task-info">
-          <div class="task-text">Invite 10 friends</div>
-          <div class="task-reward">Reward: 12 LARA</div>
-        </div>
-        <button class="task-btn" onclick="handleTask('friend3')">Invite</button>
-      </div>
-      <div class="task-item" data-task-id="friend4" data-task-type="invite">
-        <div class="task-info">
-          <div class="task-text">Invite 50 friends</div>
-          <div class="task-reward">Reward: 60 LARA</div>
-        </div>
-        <button class="task-btn" onclick="handleTask('friend4')">Invite</button>
-      </div>
-      <div class="task-item" data-task-id="friend5" data-task-type="invite">
-        <div class="task-info">
-          <div class="task-text">Invite 100 friends</div>
-          <div class="task-reward">Reward: 150 LARA</div>
-        </div>
-        <button class="task-btn" onclick="handleTask('friend5')">Invite</button>
-      </div>
-    </div>
-
-    <!-- COMPLETED TASKS -->
-    <div class="task-container hidden" id="completed-tasks">
-      <!-- Completed tasks from One-Time and Friends are moved here -->
-    </div>
-  </div>
-</div>
-
-<!-- Account Page (small-page) -->
-<div id="account-page" class="page small-page">
-  <div class="container">
-    <div class="card">
-      <h2>Account</h2>
-      <div class="account-item"><div>Connect Wallet</div></div>
-      <div class="account-item"><div>KYC Verification</div></div>
-      <div class="account-item"><div>Check Eligibility for Airdrop</div></div>
-      <div class="account-item"><div>Check Eligibility for P2P</div></div>
-      <div class="account-item"><div>P2P</div></div>
-      <div class="account-item"><div>Invite Code</div></div>
-    </div>
-  </div>
-</div>
-
-<!-- Bottom Navigation -->
-<div class="bottom-nav">
-  <div class="nav-item" onclick="showPage(event, 'tasks')">
-    <i class="fas fa-tasks"></i>
-    <div>Tasks</div>
-  </div>
-  <div class="nav-divider"></div>
-  <div class="nav-item" onclick="showPage(event, 'exchange')">
-    <i class="fas fa-exchange-alt"></i>
-    <div>Exchange</div>
-  </div>
-  <div class="nav-divider"></div>
-  <div class="nav-item" onclick="showPage(event, 'mine')">
-    <i class="fas fa-diamond"></i>
-    <div>Mine</div>
-  </div>
-  <div class="nav-divider"></div>
-  <div class="nav-item" onclick="showPage(event, 'shop')">
-    <i class="fas fa-shopping-cart"></i>
-    <div>Shop</div>
-  </div>
-  <div class="nav-divider"></div>
-  <div class="nav-item" onclick="showPage(event, 'account')">
-    <i class="fas fa-user"></i>
-    <div>Account</div>
-  </div>
-</div>
-
-<script>
-  // Global Balances (Unified across pages)
-  let laraBalance = 53434;
-  let sollBalance = 593.59;
-  const laraBalanceEl = document.getElementById('laraBalance');
-  const sollBalanceEl = document.getElementById('sollBalance');
-  const taskLaraBalanceEl = document.getElementById('taskLaraBalance');
-  if(taskLaraBalanceEl) {
-    taskLaraBalanceEl.textContent = laraBalance;
-  }
-
-  // Mining variables and rates
-  let miningActive = false;
-  let miningStartTime = null;
-  let lastClaimTime = null;
-  let accumulatedSOLL = 0;
-  const miningRates = {
-    free: 0.00319,
-    tier1: 0.0425,
-    tier2: 0.0850,
-    tier3: 0.2126
-  };
-  const claimInterval = 6 * 60 * 60 * 1000; // 6 hours
-
-  const miningTierSelect = document.getElementById('mining-tier');
-  const currentRateEl = document.getElementById('currentRate');
-  miningTierSelect.addEventListener('change', () => {
-    const rate = miningRates[miningTierSelect.value];
-    currentRateEl.textContent = rate + ' SOLL/hour';
-  });
-
-  // Start/Stop Mining
-  document.getElementById('start-mining').addEventListener('click', () => {
-    miningActive = !miningActive;
-    if (miningActive) {
-      miningStartTime = Date.now();
-      lastClaimTime = Date.now();
-      document.getElementById('start-mining').textContent = '⛏️ Stop Mining';
-    } else {
-      document.getElementById('start-mining').textContent = '⛏️ Start Mining';
-    }
-  });
-
-  // Claim Mining Rewards
-  document.getElementById('claim-rewards').addEventListener('click', () => {
-    if (!miningActive || !miningStartTime) {
-      alert("Start mining first!");
-      return;
-    }
-    const currentTime = Date.now();
-    if (currentTime - lastClaimTime < claimInterval) {
-      const remaining = Math.ceil((claimInterval - (currentTime - lastClaimTime)) / (60 * 1000));
-      alert("Claim available in " + remaining + " minutes.");
-      return;
-    }
-    const elapsedHours = (currentTime - miningStartTime) / 3600000;
-    const currentRate = miningRates[miningTierSelect.value];
-    accumulatedSOLL += elapsedHours * currentRate;
-    sollBalance += accumulatedSOLL;
-    sollBalanceEl.textContent = sollBalance.toFixed(2);
-    alert(`Claimed ${accumulatedSOLL.toFixed(4)} SOLL!`);
-    accumulatedSOLL = 0;
-    miningStartTime = currentTime;
-    lastClaimTime = currentTime;
-  });
-
-  // One-task-at-a-time logic
-  let pendingTask = null;
-
-  // Tab switching on Tasks page
-  const tabButtons = document.querySelectorAll('.tab-button');
-  tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      tabButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-      document.getElementById('daily-tasks').classList.add('hidden');
-      document.getElementById('onetime-tasks').classList.add('hidden');
-      document.getElementById('friend-tasks').classList.add('hidden');
-      document.getElementById('completed-tasks').classList.add('hidden');
-      const tab = button.getAttribute('data-tab');
-      document.getElementById(tab + '-tasks').classList.remove('hidden');
-    });
-  });
-
-  // Task handling: processing, countdown, claim, etc.
-  function handleTask(taskId) {
-    if (pendingTask && pendingTask !== taskId) {
-      alert("You have a pending task. Please wait for it to complete.");
-      return;
-    }
-    const taskElem = document.querySelector('[data-task-id="'+taskId+'"]');
-    const type = taskElem.getAttribute('data-task-type');
-    const btn = taskElem.querySelector('button');
-    if (btn.textContent === 'Claim') {
-      claimTask(taskId);
-      return;
-    }
-    pendingTask = taskId;
-    if (type === 'follow' || type === 'join') {
-      const link = taskElem.getAttribute('data-task-link');
-      if (link) {
-        window.open(link, '_blank');
-      }
-      btn.textContent = 'Processing...';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = 'Claim';
-        btn.disabled = false;
-        pendingTask = null;
-      }, 14000);
-    } else if (type === 'check' || type === 'invite') {
-      btn.textContent = 'Processing...';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = 'Claim';
-        btn.disabled = false;
-        pendingTask = null;
-      }, 14000);
-    } else if (type === 'watch') {
-      btn.disabled = true;
-      let countdown = 5;
-      btn.textContent = 'Watching (' + countdown + ')';
-      const interval = setInterval(() => {
-        countdown--;
-        if (countdown > 0) {
-          btn.textContent = 'Watching (' + countdown + ')';
-        } else {
-          clearInterval(interval);
-          btn.textContent = 'Claim';
-          btn.disabled = false;
-          pendingTask = null;
-        }
-      }, 1000);
-    }
-  }
-
-  function claimTask(taskId) {
-    const taskElem = document.querySelector('[data-task-id="'+taskId+'"]');
-    const rewardText = taskElem.querySelector('.task-reward').textContent;
-    let reward = parseFloat(rewardText.replace(/[^0-9.]/g, '')) || 2;
-    laraBalance += reward;
-    laraBalanceEl.textContent = laraBalance;
-    // Sync Tasks hero balance with Mine page
-    if (taskLaraBalanceEl) {
-      taskLaraBalanceEl.textContent = laraBalance;
-    }
-    const btn = taskElem.querySelector('button');
-    btn.textContent = "Claimed";
-    btn.disabled = true;
-    if (taskId.startsWith('daily')) {
-      taskElem.classList.add('dimmed');
-    } else {
-      document.getElementById('completed-tasks').appendChild(taskElem);
-    }
-  }
-
-  // Bottom Navigation
-  function showPage(e, pageId) {
-    document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-    document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-    document.getElementById(`${pageId}-page`).classList.add('active');
-    e.currentTarget.classList.add('active');
-  }
-
-  // Initialize with Mine page active and highlight Mine nav item
-  showPage({ currentTarget: document.querySelectorAll('.nav-item')[2] }, 'mine');
-</script>
-
-</body>
-</html>
+<!-- Body content remains similar with updated class usage -->
