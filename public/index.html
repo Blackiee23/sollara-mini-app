@@ -6,7 +6,7 @@
   <meta name="telegram-web-app-bot-domain" content="your-domain.com">
   <title>Lara Mining</title>
 
-  <!-- Use Poppins for a unified look -->
+  <!-- Use Poppins for a unified look on the Tasks page -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
@@ -21,13 +21,13 @@
       padding: 0;
       box-sizing: border-box;
     }
-    /* Unified font: Poppins used throughout */
+    /* Entire document uses Poppins */
     body {
       font-family: 'Poppins', sans-serif;
       background: #121212;
       color: #FFFFFF;
       line-height: 1.5;
-      /* We'll use 0.85rem as a base for all pages */
+      /* Base font size for consistent look across pages */
       font-size: 0.85rem;
     }
     .container {
@@ -35,7 +35,6 @@
       margin: 0 auto;
       padding: 20px;
     }
-    /* For pages that need a slightly larger font (like Mine) you can override below if needed */
     .page {
       display: none;
     }
@@ -43,7 +42,7 @@
       display: block;
     }
 
-    /* HEADERS & BALANCES (Mine page, etc.) */
+    /* HEADERS & BALANCES (Mine page) */
     header {
       margin-bottom: 20px;
     }
@@ -185,7 +184,7 @@
 
     /* TASKS PAGE – FIRST SAMPLE FORMAT */
     .tasks-hero {
-      /* Use a starry/purple background – replace 'star-bg.jpg' with your image URL if needed */
+      /* Use your starry/purple background; replace 'star-bg.jpg' with your actual image URL */
       background: url('star-bg.jpg') no-repeat center center;
       background-size: cover;
       border-radius: 12px;
@@ -204,7 +203,7 @@
       margin-bottom: 10px;
       color: #FFFFFF;
     }
-    /* Use the original tasks logo (pencil icon) as before */
+    /* Use the original pencil icon (unchanged) */
     .tasks-hero .tasks-title img {
       width: 30px;
       height: 30px;
@@ -228,15 +227,12 @@
       width: 36px;
       height: 36px;
     }
+    /* Reduced font size so the full tagline fits on one line */
     .tasks-hero .small-tagline {
-      font-size: 0.85rem;
+      font-size: 0.75rem;
       font-weight: 500;
       color: #ccc;
       margin-bottom: 5px;
-      /* Ensure it stays in one line */
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
     .tasks-hero .learn-more a {
       font-size: 0.75rem;
@@ -263,7 +259,7 @@
       color: #FFD700;
     }
 
-    /* TASK CONTAINERS */
+    /* TASK CONTAINERS & ITEMS */
     .task-container {
       margin-bottom: 10px;
     }
@@ -483,11 +479,10 @@
 <!-- Tasks Page (small-page) -->
 <div id="tasks-page" class="page small-page">
   <div class="container">
-    <!-- Tasks Hero: Using the first sample structure -->
+    <!-- Tasks Hero matching first sample -->
     <div class="tasks-hero">
       <div class="tasks-title">
         <span>Tasks</span>
-        <!-- Use the original tasks (pencil) icon as before -->
         <img src="https://violet-decisive-haddock-461.mypinata.cloud/ipfs/bafkreidhxlioak5qjokxsj3vyqgrkyakyimucxvuqpvd7yuu2tyijoyofe" alt="Pencil Icon" />
       </div>
       <div class="balance-label2">Your Balance:</div>
@@ -509,7 +504,6 @@
       <button class="tab-button" data-tab="completed">Completed</button>
     </div>
 
-    <!-- Task Containers -->
     <!-- DAILY TASKS -->
     <div class="task-container" id="daily-tasks">
       <div class="task-item" data-task-id="daily1" data-task-type="check">
@@ -608,7 +602,7 @@
 
     <!-- COMPLETED TASKS -->
     <div class="task-container hidden" id="completed-tasks">
-      <!-- Completed tasks from One-Time and Friends will be moved here -->
+      <!-- Completed tasks from One-Time and Friends are moved here -->
     </div>
   </div>
 </div>
@@ -663,8 +657,6 @@
   const laraBalanceEl = document.getElementById('laraBalance');
   const sollBalanceEl = document.getElementById('sollBalance');
   const taskLaraBalanceEl = document.getElementById('taskLaraBalance');
-
-  // Update tasks hero balance to match Mine page balance
   if(taskLaraBalanceEl) {
     taskLaraBalanceEl.textContent = laraBalance;
   }
@@ -724,10 +716,10 @@
     lastClaimTime = currentTime;
   });
 
-  // One-task-at-a-time flag
+  // One-task-at-a-time logic
   let pendingTask = null;
 
-  // Tab switching for Tasks page
+  // Tab switching on Tasks page
   const tabButtons = document.querySelectorAll('.tab-button');
   tabButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -742,7 +734,7 @@
     });
   });
 
-  // Task handling (processing, countdown, etc.)
+  // Task handling: processing, countdown, claim, etc.
   function handleTask(taskId) {
     if (pendingTask && pendingTask !== taskId) {
       alert("You have a pending task. Please wait for it to complete.");
@@ -751,7 +743,6 @@
     const taskElem = document.querySelector('[data-task-id="'+taskId+'"]');
     const type = taskElem.getAttribute('data-task-type');
     const btn = taskElem.querySelector('button');
-    
     if (btn.textContent === 'Claim') {
       claimTask(taskId);
       return;
@@ -801,8 +792,8 @@
     let reward = parseFloat(rewardText.replace(/[^0-9.]/g, '')) || 2;
     laraBalance += reward;
     laraBalanceEl.textContent = laraBalance;
-    // Sync Tasks hero balance with Mine page balance
-    if(taskLaraBalanceEl) {
+    // Sync Tasks hero balance with Mine page
+    if (taskLaraBalanceEl) {
       taskLaraBalanceEl.textContent = laraBalance;
     }
     const btn = taskElem.querySelector('button');
@@ -815,7 +806,7 @@
     }
   }
 
-  // Page Navigation (Bottom Nav)
+  // Bottom Navigation
   function showPage(e, pageId) {
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -823,7 +814,7 @@
     e.currentTarget.classList.add('active');
   }
 
-  // Initialize with Mine page active and highlight on Mine nav item
+  // Initialize with Mine page active and highlight Mine nav item
   showPage({ currentTarget: document.querySelectorAll('.nav-item')[2] }, 'mine');
 </script>
 
