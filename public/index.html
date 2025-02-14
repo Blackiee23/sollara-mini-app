@@ -6,10 +6,10 @@
   <meta name="telegram-web-app-bot-domain" content="your-domain.com">
   <title>Lara Mining</title>
 
-  <!-- Use Poppins for the entire Tasks page to match your first sample's style -->
+  <!-- Use Poppins for a unified look -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
 
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
@@ -21,23 +21,21 @@
       padding: 0;
       box-sizing: border-box;
     }
+    /* Unified font: Poppins used throughout */
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Poppins', sans-serif;
       background: #121212;
       color: #FFFFFF;
       line-height: 1.5;
-      /* Default font size for the Mine page */
-      font-size: 0.9rem;
+      /* We'll use 0.85rem as a base for all pages */
+      font-size: 0.85rem;
     }
     .container {
       max-width: 480px;
       margin: 0 auto;
       padding: 20px;
     }
-    /* .small-page for pages other than Mine */
-    .small-page {
-      font-size: 0.8rem;
-    }
+    /* For pages that need a slightly larger font (like Mine) you can override below if needed */
     .page {
       display: none;
     }
@@ -51,9 +49,10 @@
     }
     header .header-left h1 {
       font-size: 1.3rem;
+      font-weight: 700;
     }
     header .header-left p {
-      font-size: 0.8rem;
+      font-size: 0.85rem;
       color: #aaa;
     }
     .balance-section {
@@ -74,7 +73,7 @@
     }
     .balance-value {
       font-size: 1rem;
-      font-weight: bold;
+      font-weight: 700;
     }
     .lara-balance {
       color: #FFD700;
@@ -92,7 +91,7 @@
       cursor: pointer;
       font-weight: 600;
       transition: background 0.3s;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
     }
     .btn-primary {
       background: #4CAF50;
@@ -160,7 +159,7 @@
       padding: 4px 8px;
       border-radius: 6px;
       font-size: 0.75rem;
-      font-weight: 500;
+      font-weight: 600;
       margin-bottom: 5px;
     }
     .tier-1 { background: #4CAF50; }
@@ -175,23 +174,18 @@
     .card h2 {
       font-size: 1.1rem;
       margin-bottom: 10px;
+      font-weight: 600;
     }
     .card h3 {
       font-size: 1rem;
       margin-top: 15px;
       margin-bottom: 10px;
+      font-weight: 500;
     }
 
-    /* TASKS PAGE - FIRST SAMPLE FORMAT */
-    /* We'll apply Poppins to the entire tasks page content so everything uses the same font & size. */
-    #tasks-page.small-page .container {
-      font-family: 'Poppins', sans-serif;
-      /* The user wants the same font size as the tagline, let's unify at ~0.85rem. */
-      font-size: 0.85rem;
-    }
-
+    /* TASKS PAGE – FIRST SAMPLE FORMAT */
     .tasks-hero {
-      /* Starry/purple background from your first sample image. Replace star-bg.jpg with your real background. */
+      /* Use a starry/purple background – replace 'star-bg.jpg' with your image URL if needed */
       background: url('star-bg.jpg') no-repeat center center;
       background-size: cover;
       border-radius: 12px;
@@ -200,9 +194,8 @@
       margin-bottom: 20px;
       position: relative;
     }
-    /* "Tasks" big text + pencil icon */
     .tasks-hero .tasks-title {
-      font-size: 1.8rem; /* Adjust to match your sample's big text */
+      font-size: 1.8rem;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -211,17 +204,16 @@
       margin-bottom: 10px;
       color: #FFFFFF;
     }
+    /* Use the original tasks logo (pencil icon) as before */
     .tasks-hero .tasks-title img {
       width: 30px;
       height: 30px;
     }
-    /* "Your Balance:" in smaller text */
     .tasks-hero .balance-label2 {
       font-size: 0.9rem;
       color: #ddd;
       margin-bottom: 5px;
     }
-    /* Large numeric coin balance that matches the laraBalance from the Mine page */
     .tasks-hero .big-coin-amount {
       display: flex;
       align-items: center;
@@ -229,20 +221,23 @@
       gap: 8px;
       font-size: 2rem;
       font-weight: 700;
-      color: #bfff8f; 
+      color: #bfff8f;
       margin-bottom: 10px;
     }
     .tasks-hero .big-coin-amount img.coin-logo {
       width: 36px;
       height: 36px;
     }
-    /* Single-line tagline: "Earn Lara-coin rewards by completing simple tasks" */
     .tasks-hero .small-tagline {
+      font-size: 0.85rem;
       font-weight: 500;
       color: #ccc;
       margin-bottom: 5px;
+      /* Ensure it stays in one line */
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
-    /* "What is Lara token?" clickable link below tagline */
     .tasks-hero .learn-more a {
       font-size: 0.75rem;
       color: #FFD700;
@@ -268,7 +263,7 @@
       color: #FFD700;
     }
 
-    /* TASK LISTS */
+    /* TASK CONTAINERS */
     .task-container {
       margin-bottom: 10px;
     }
@@ -283,7 +278,6 @@
       background: #333;
       margin-bottom: 8px;
       border-radius: 8px;
-      /* Let tasks remain smaller than the big text above */
       font-size: 0.75rem;
     }
     .task-item.dimmed {
@@ -315,7 +309,7 @@
       background: #777;
     }
 
-    /* BOTTOM NAV */
+    /* BOTTOM NAVIGATION */
     .bottom-nav {
       position: fixed;
       bottom: 0;
@@ -406,7 +400,22 @@
         <div><span>1 TON = 100 LARA</span></div>
         <button class="btn btn-primary">Exchange</button>
       </div>
-      <!-- ... other exchange items ... -->
+      <div class="exchange-item">
+        <div><span>2.5 TON = 300 LARA</span></div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
+      <div class="exchange-item">
+        <div><span>5 TON = 700 LARA</span></div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
+      <div class="exchange-item">
+        <div><span>10 TON = 1700 LARA</span></div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
+      <div class="exchange-item">
+        <div><span>20 TON = 4000 LARA</span></div>
+        <button class="btn btn-primary">Exchange</button>
+      </div>
     </div>
   </div>
 </div>
@@ -414,10 +423,59 @@
 <!-- Shop Page (small-page) -->
 <div id="shop-page" class="page small-page">
   <div class="container">
-    <!-- Example shop items, same structure -->
     <div class="card">
       <h2>Mining Tools</h2>
-      <!-- ... -->
+      <div class="shop-item">
+        <div>
+          <span class="tool-tier tier-1">Tier 1</span>
+          <span>Basic Drill</span>
+          <small>Cost: 170 LARA | Rate: 0.0425 SOLL/hr | Duration: 24 days</small>
+          <small>Available: 10</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+      <div class="shop-item">
+        <div>
+          <span class="tool-tier tier-2">Tier 2</span>
+          <span>Advanced Pickaxe</span>
+          <small>Cost: 300 LARA | Rate: 0.0850 SOLL/hr | Duration: 24 days</small>
+          <small>Available: 5</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+      <div class="shop-item">
+        <div>
+          <span class="tool-tier tier-3">Tier 3</span>
+          <span>Diamond Excavator</span>
+          <small>Cost: 600 LARA | Rate: 0.2126 SOLL/hr | Duration: 24 days</small>
+          <small>Available: 2</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Auto-Claim Tools</h2>
+      <div class="shop-item">
+        <div>
+          <span>24H Auto-Claim</span>
+          <small>Cost: 50 LARA | Duration: 24 hours</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+      <div class="shop-item">
+        <div>
+          <span>3D Auto-Claim</span>
+          <small>Cost: 130 LARA | Duration: 3 days</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
+      <div class="shop-item">
+        <div>
+          <span>7D Auto-Claim</span>
+          <small>Cost: 300 LARA | Duration: 7 days</small>
+        </div>
+        <button class="btn btn-primary">Buy</button>
+      </div>
     </div>
   </div>
 </div>
@@ -425,26 +483,19 @@
 <!-- Tasks Page (small-page) -->
 <div id="tasks-page" class="page small-page">
   <div class="container">
-    <!-- FIRST SAMPLE FORMAT: starry background, big "Tasks" + pencil icon, 
-         "Your Balance:", big coin amount, tagline, "What is Lara token?" link -->
+    <!-- Tasks Hero: Using the first sample structure -->
     <div class="tasks-hero">
-      <!-- Large “Tasks” + pencil icon -->
       <div class="tasks-title">
         <span>Tasks</span>
-        <img src="https://violet-decisive-haddock-461.mypinata.cloud/ipfs/bafkreiadmit5iftjlymtppjy3uyiifaffrl4mrvdqvtlbbepd77rs5supm"
-             alt="Pencil Icon" />
+        <!-- Use the original tasks (pencil) icon as before -->
+        <img src="https://violet-decisive-haddock-461.mypinata.cloud/ipfs/bafkreidhxlioak5qjokxsj3vyqgrkyakyimucxvuqpvd7yuu2tyijoyofe" alt="Pencil Icon" />
       </div>
-      <!-- "Your Balance:" smaller text -->
       <div class="balance-label2">Your Balance:</div>
-      <!-- Big coin amount that matches the Mine page's Lara balance -->
       <div class="big-coin-amount">
-        <img src="https://violet-decisive-haddock-461.mypinata.cloud/ipfs/bafkreiadmit5iftjlymtppjy3uyiifaffrl4mrvdqvtlbbepd77rs5supm"
-             alt="Lara Coin" class="coin-logo" />
+        <img src="https://violet-decisive-haddock-461.mypinata.cloud/ipfs/bafkreiadmit5iftjlymtppjy3uyiifaffrl4mrvdqvtlbbepd77rs5supm" alt="Lara Coin" class="coin-logo" />
         <span id="taskLaraBalance">53434</span>
       </div>
-      <!-- Single-line tagline: "Earn Lara-coin rewards by completing simple tasks" -->
       <div class="small-tagline">Earn Lara-coin rewards by completing simple tasks</div>
-      <!-- Clickable link: "What is Lara token?" -->
       <div class="learn-more">
         <a href="#" target="_blank">What is Lara token?</a>
       </div>
@@ -459,8 +510,8 @@
     </div>
 
     <!-- Task Containers -->
+    <!-- DAILY TASKS -->
     <div class="task-container" id="daily-tasks">
-      <!-- Example daily tasks -->
       <div class="task-item" data-task-id="daily1" data-task-type="check">
         <div class="task-info">
           <div class="task-text">Daily Check-in</div>
@@ -476,14 +527,88 @@
         <button class="task-btn" onclick="handleTask('daily2')">Watch</button>
       </div>
     </div>
+
+    <!-- ONE-TIME TASKS -->
     <div class="task-container hidden" id="onetime-tasks">
-      <!-- Example one-time tasks -->
+      <div class="task-item" data-task-id="onetime1" data-task-type="follow" data-task-link="https://twitter.com/sollara">
+        <div class="task-info">
+          <div class="task-text">Follow Sollara on Twitter</div>
+          <div class="task-reward">Reward: 2 LARA</div>
+        </div>
+        <button class="task-btn" onclick="handleTask('onetime1')">Follow</button>
+      </div>
+      <div class="task-item" data-task-id="onetime2" data-task-type="join" data-task-link="https://t.me/sollara">
+        <div class="task-info">
+          <div class="task-text">Join Sollara Community</div>
+          <div class="task-reward">Reward: 2 LARA</div>
+        </div>
+        <button class="task-btn" onclick="handleTask('onetime2')">Join</button>
+      </div>
+      <div class="task-item" data-task-id="onetime3" data-task-type="follow" data-task-link="https://youtube.com/sollara">
+        <div class="task-info">
+          <div class="task-text">Follow Sollara on Youtube</div>
+          <div class="task-reward">Reward: 2 LARA</div>
+        </div>
+        <button class="task-btn" onclick="handleTask('onetime3')">Follow</button>
+      </div>
+      <div class="task-item" data-task-id="onetime4" data-task-type="join" data-task-link="https://t.me/toncommunity">
+        <div class="task-info">
+          <div class="task-text">Join Ton Community</div>
+          <div class="task-reward">Reward: 2 LARA</div>
+        </div>
+        <button class="task-btn" onclick="handleTask('onetime4')">Join</button>
+      </div>
+      <div class="task-item" data-task-id="onetime5" data-task-type="follow" data-task-link="https://twitter.com/ton">
+        <div class="task-info">
+          <div class="task-text">Follow Ton on Twitter</div>
+          <div class="task-reward">Reward: 2 LARA</div>
+        </div>
+        <button class="task-btn" onclick="handleTask('onetime5')">Follow</button>
+      </div>
     </div>
+
+    <!-- FRIENDS TASKS -->
     <div class="task-container hidden" id="friend-tasks">
-      <!-- Example friend tasks -->
+      <div class="task-item" data-task-id="friend1" data-task-type="invite">
+        <div class="task-info">
+          <div class="task-text">Invite 1 friend</div>
+          <div class="task-reward">Reward: 1 LARA</div>
+        </div>
+        <button class="task-btn" onclick="handleTask('friend1')">Invite</button>
+      </div>
+      <div class="task-item" data-task-id="friend2" data-task-type="invite">
+        <div class="task-info">
+          <div class="task-text">Invite 5 friends</div>
+          <div class="task-reward">Reward: 6 LARA</div>
+        </div>
+        <button class="task-btn" onclick="handleTask('friend2')">Invite</button>
+      </div>
+      <div class="task-item" data-task-id="friend3" data-task-type="invite">
+        <div class="task-info">
+          <div class="task-text">Invite 10 friends</div>
+          <div class="task-reward">Reward: 12 LARA</div>
+        </div>
+        <button class="task-btn" onclick="handleTask('friend3')">Invite</button>
+      </div>
+      <div class="task-item" data-task-id="friend4" data-task-type="invite">
+        <div class="task-info">
+          <div class="task-text">Invite 50 friends</div>
+          <div class="task-reward">Reward: 60 LARA</div>
+        </div>
+        <button class="task-btn" onclick="handleTask('friend4')">Invite</button>
+      </div>
+      <div class="task-item" data-task-id="friend5" data-task-type="invite">
+        <div class="task-info">
+          <div class="task-text">Invite 100 friends</div>
+          <div class="task-reward">Reward: 150 LARA</div>
+        </div>
+        <button class="task-btn" onclick="handleTask('friend5')">Invite</button>
+      </div>
     </div>
+
+    <!-- COMPLETED TASKS -->
     <div class="task-container hidden" id="completed-tasks">
-      <!-- Completed tasks go here -->
+      <!-- Completed tasks from One-Time and Friends will be moved here -->
     </div>
   </div>
 </div>
@@ -493,7 +618,12 @@
   <div class="container">
     <div class="card">
       <h2>Account</h2>
-      <!-- ... account items ... -->
+      <div class="account-item"><div>Connect Wallet</div></div>
+      <div class="account-item"><div>KYC Verification</div></div>
+      <div class="account-item"><div>Check Eligibility for Airdrop</div></div>
+      <div class="account-item"><div>Check Eligibility for P2P</div></div>
+      <div class="account-item"><div>P2P</div></div>
+      <div class="account-item"><div>Invite Code</div></div>
     </div>
   </div>
 </div>
@@ -527,19 +657,19 @@
 </div>
 
 <script>
-  /* 
-   * EXACT SAME LOGIC as your existing code: 
-   * - One-task-at-a-time
-   * - Daily tasks dimming
-   * - Tab switching
-   * - etc.
-  */
-  let laraBalance = 53434; 
+  // Global Balances (Unified across pages)
+  let laraBalance = 53434;
   let sollBalance = 593.59;
   const laraBalanceEl = document.getElementById('laraBalance');
   const sollBalanceEl = document.getElementById('sollBalance');
   const taskLaraBalanceEl = document.getElementById('taskLaraBalance');
 
+  // Update tasks hero balance to match Mine page balance
+  if(taskLaraBalanceEl) {
+    taskLaraBalanceEl.textContent = laraBalance;
+  }
+
+  // Mining variables and rates
   let miningActive = false;
   let miningStartTime = null;
   let lastClaimTime = null;
@@ -594,13 +724,10 @@
     lastClaimTime = currentTime;
   });
 
-  // Sync tasks hero balance with the same Lara balance
-  taskLaraBalanceEl.textContent = laraBalance; 
-
-  // One-task-at-a-time logic
+  // One-task-at-a-time flag
   let pendingTask = null;
 
-  // Tab switching
+  // Tab switching for Tasks page
   const tabButtons = document.querySelectorAll('.tab-button');
   tabButtons.forEach(button => {
     button.addEventListener('click', () => {
@@ -615,7 +742,7 @@
     });
   });
 
-  // Task handling
+  // Task handling (processing, countdown, etc.)
   function handleTask(taskId) {
     if (pendingTask && pendingTask !== taskId) {
       alert("You have a pending task. Please wait for it to complete.");
@@ -624,13 +751,12 @@
     const taskElem = document.querySelector('[data-task-id="'+taskId+'"]');
     const type = taskElem.getAttribute('data-task-type');
     const btn = taskElem.querySelector('button');
-
+    
     if (btn.textContent === 'Claim') {
       claimTask(taskId);
       return;
     }
     pendingTask = taskId;
-
     if (type === 'follow' || type === 'join') {
       const link = taskElem.getAttribute('data-task-link');
       if (link) {
@@ -675,13 +801,13 @@
     let reward = parseFloat(rewardText.replace(/[^0-9.]/g, '')) || 2;
     laraBalance += reward;
     laraBalanceEl.textContent = laraBalance;
-    taskLaraBalanceEl.textContent = laraBalance; // keep them in sync
-
+    // Sync Tasks hero balance with Mine page balance
+    if(taskLaraBalanceEl) {
+      taskLaraBalanceEl.textContent = laraBalance;
+    }
     const btn = taskElem.querySelector('button');
     btn.textContent = "Claimed";
     btn.disabled = true;
-
-    // For daily tasks, just dim them. For others, move to completed.
     if (taskId.startsWith('daily')) {
       taskElem.classList.add('dimmed');
     } else {
@@ -689,7 +815,7 @@
     }
   }
 
-  // Page navigation
+  // Page Navigation (Bottom Nav)
   function showPage(e, pageId) {
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -697,7 +823,7 @@
     e.currentTarget.classList.add('active');
   }
 
-  // Start with Mine page active, highlight on Mine
+  // Initialize with Mine page active and highlight on Mine nav item
   showPage({ currentTarget: document.querySelectorAll('.nav-item')[2] }, 'mine');
 </script>
 
