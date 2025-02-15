@@ -6,11 +6,11 @@
   <meta name="telegram-web-app-bot-domain" content="your-domain.com">
   <title>Lara Mining</title>
 
-  <!-- Poppins font for a unified look -->
+  <!-- Poppins font -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
-
+  
   <!-- Font Awesome for icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -19,7 +19,7 @@
 </head>
 <body>
 
-  <!-- Mine Page (Default Active Page) -->
+  <!-- Mine Page (default active) -->
   <div id="mine-page" class="page active">
     <div class="container">
       <header>
@@ -153,7 +153,7 @@
         <button class="tab-button" data-tab="friend">Friends</button>
         <button class="tab-button" data-tab="completed">Completed</button>
       </div>
-      <!-- DAILY TASKS -->
+      <!-- Daily Tasks -->
       <div class="task-container" id="daily-tasks">
         <div class="task-item" data-task-id="daily1" data-task-type="check">
           <div class="task-info">
@@ -170,7 +170,7 @@
           <button class="task-btn" onclick="handleTask('daily2')">Watch</button>
         </div>
       </div>
-      <!-- ONE-TIME TASKS -->
+      <!-- One-Time Tasks -->
       <div class="task-container hidden" id="onetime-tasks">
         <div class="task-item" data-task-id="onetime1" data-task-type="follow" data-task-link="https://twitter.com/sollara">
           <div class="task-info">
@@ -208,7 +208,7 @@
           <button class="task-btn" onclick="handleTask('onetime5')">Follow</button>
         </div>
       </div>
-      <!-- FRIENDS TASKS -->
+      <!-- Friends Tasks -->
       <div class="task-container hidden" id="friend-tasks">
         <div class="task-item" data-task-id="friend1" data-task-type="invite">
           <div class="task-info">
@@ -246,9 +246,9 @@
           <button class="task-btn" onclick="handleTask('friend5')">Invite</button>
         </div>
       </div>
-      <!-- COMPLETED TASKS -->
+      <!-- Completed Tasks -->
       <div class="task-container hidden" id="completed-tasks">
-        <!-- Completed tasks from One-Time and Friends are moved here -->
+        <!-- Completed tasks from One-Time and Friends will be moved here -->
       </div>
     </div>
   </div>
@@ -258,7 +258,7 @@
 <div id="account-page" class="page">
   <div class="container">
     <h2>Account</h2>
-    <div class="account-item">Connect Wallet</div>
+    <div class="account-item"><button class="btn btn-primary" onclick="connectWallet()">Connect Wallet</button></div>
     <div class="account-item">KYC Verification</div>
     <div class="account-item">Check Eligibility for Airdrop</div>
     <div class="account-item">Check Eligibility for P2P</div>
@@ -296,13 +296,13 @@
 </div>
 
 <script>
-  // Load saved balances from local storage
+  // Load saved balances from localStorage
   let laraBalance = localStorage.getItem('laraBalance') ? parseFloat(localStorage.getItem('laraBalance')) : 53434;
   let sollBalance = localStorage.getItem('sollBalance') ? parseFloat(localStorage.getItem('sollBalance')) : 593.59;
   const laraBalanceEl = document.getElementById('laraBalance');
   const sollBalanceEl = document.getElementById('sollBalance');
 
-  // Function to update balances and save to local storage
+  // Function to update and persist balances
   function updateBalances() {
     laraBalanceEl.textContent = laraBalance;
     sollBalanceEl.textContent = sollBalance.toFixed(2);
@@ -311,7 +311,7 @@
   }
   updateBalances();
 
-  // Mining logic variables
+  // Mining Logic
   let miningActive = false;
   let miningStartTime = null;
   let accumulatedSOLL = 0;
@@ -358,6 +358,11 @@
     document.getElementById(`${pageId}-page`).classList.add('active');
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
     event.currentTarget.classList.add('active');
+  }
+
+  // Wallet connect placeholder
+  function connectWallet() {
+    alert("Wallet connected! (This is a placeholder.)");
   }
 </script>
 
