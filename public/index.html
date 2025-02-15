@@ -15,332 +15,112 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
   <style>
-    /* RESET & BASE STYLES */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    /* Entire document uses Poppins */
-    body {
-      font-family: 'Poppins', sans-serif;
-      background: #121212;
-      color: #FFFFFF;
-      line-height: 1.5;
-      /* Base font size for consistent look across pages */
-      font-size: 0.85rem;
-    }
-    .container {
-      max-width: 480px;
-      margin: 0 auto;
-      padding: 20px;
-    }
-    .page {
-      display: none;
-    }
-    .page.active {
-      display: block;
-    }
+   /* RESET & BASE STYLES */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
-    /* HEADERS & BALANCES (Mine page) */
-    header {
-      margin-bottom: 20px;
-    }
-    header .header-left h1 {
-      font-size: 1.3rem;
-      font-weight: 700;
-    }
-    header .header-left p {
-      font-size: 0.85rem;
-      color: #aaa;
-    }
-    .balance-section {
-      display: flex;
-      gap: 15px;
-      margin-bottom: 20px;
-    }
-    .balance-card {
-      flex: 1;
-      background: #1e1e1e;
-      padding: 10px;
-      border-radius: 12px;
-      text-align: center;
-    }
-    .balance-label {
-      color: #aaa;
-      font-size: 0.75rem;
-    }
-    .balance-value {
-      font-size: 1rem;
-      font-weight: 700;
-    }
-    .lara-balance {
-      color: #FFD700;
-    }
-    .soll-balance {
-      color: #4CAF50;
-    }
+body {
+  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #1a1a1a, #4d4d4d, #b3b3b3, #ffffff);
+  background-size: 400% 400%;
+  animation: diamondGlow 10s infinite alternate;
+  color: #FFFFFF;
+  line-height: 1.5;
+  font-size: 0.85rem;
+}
 
-    /* BUTTON STYLES */
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: 600;
-      transition: background 0.3s;
-      font-size: 0.85rem;
-    }
-    .btn-primary {
-      background: #4CAF50;
-      color: #fff;
-    }
-    .btn-primary:hover {
-      background: #45a049;
-    }
-    .btn-gold {
-      background: #FFD700;
-      color: #121212;
-    }
-    .btn-gold:hover {
-      background: #e6b800;
-    }
-    .btn-large {
-      font-size: 1.1rem;
-      padding: 16px 28px;
-      margin-top: 10px;
-      display: block;
-      width: 100%;
-    }
+/* Diamond glow animation */
+@keyframes diamondGlow {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 100% 100%; }
+}
 
-    /* MINE PAGE */
-    .mining-section {
-      text-align: center;
-      margin-top: 30px;
-    }
-    .mining-image {
-      width: 180px;
-      height: 180px;
-      margin: 20px 0;
-    }
-    .mining-tool-select {
-      margin-bottom: 20px;
-    }
-    .mining-tool-select label {
-      margin-right: 10px;
-    }
+/* Centered container */
+.container {
+  max-width: 480px;
+  margin: 20px auto;
+  padding: 20px;
+  background: rgba(30, 30, 30, 0.9); /* Semi-transparent black */
+  border-radius: 12px;
+  box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
+}
 
-    /* EXCHANGE, SHOP, ACCOUNT */
-    .exchange-item, .shop-item, .account-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: #333;
-      margin-bottom: 10px;
-      padding: 10px;
-      border-radius: 10px;
-    }
-    .exchange-item div,
-    .shop-item div,
-    .account-item div {
-      display: flex;
-      flex-direction: column;
-    }
-    .item-image {
-      width: 50px;
-      height: 50px;
-      border-radius: 8px;
-      margin-right: 10px;
-    }
-    .tool-tier {
-      display: inline-block;
-      padding: 4px 8px;
-      border-radius: 6px;
-      font-size: 0.75rem;
-      font-weight: 600;
-      margin-bottom: 5px;
-    }
-    .tier-1 { background: #4CAF50; }
-    .tier-2 { background: #FFA500; }
-    .tier-3 { background: #FF4500; }
-    .card {
-      background: #1e1e1e;
-      padding: 10px;
-      border-radius: 12px;
-      margin-bottom: 20px;
-    }
-    .card h2 {
-      font-size: 1.1rem;
-      margin-bottom: 10px;
-      font-weight: 600;
-    }
-    .card h3 {
-      font-size: 1rem;
-      margin-top: 15px;
-      margin-bottom: 10px;
-      font-weight: 500;
-    }
+/* Headings & Titles */
+h1, h2, h3 {
+  font-weight: 700;
+  color: #FFD700; /* Gold text */
+}
 
-    /* TASKS PAGE – FIRST SAMPLE FORMAT */
-    .tasks-hero {
-      /* Use your starry/purple background; replace 'star-bg.jpg' with your actual image URL */
-      background: url('star-bg.jpg') no-repeat center center;
-      background-size: cover;
-      border-radius: 12px;
-      text-align: center;
-      padding: 30px 15px;
-      margin-bottom: 20px;
-      position: relative;
-    }
-    .tasks-hero .tasks-title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      margin-bottom: 10px;
-      color: #FFFFFF;
-    }
-    /* Use the original pencil icon (unchanged) */
-    .tasks-hero .tasks-title img {
-      width: 30px;
-      height: 30px;
-    }
-    .tasks-hero .balance-label2 {
-      font-size: 0.9rem;
-      color: #ddd;
-      margin-bottom: 5px;
-    }
-    .tasks-hero .big-coin-amount {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      font-size: 2rem;
-      font-weight: 700;
-      color: #bfff8f;
-      margin-bottom: 10px;
-    }
-    .tasks-hero .big-coin-amount img.coin-logo {
-      width: 36px;
-      height: 36px;
-    }
-    /* Reduced font size so the full tagline fits on one line */
-    .tasks-hero .small-tagline {
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: #ccc;
-      margin-bottom: 5px;
-    }
-    .tasks-hero .learn-more a {
-      font-size: 0.75rem;
-      color: #FFD700;
-      text-decoration: underline;
-    }
+/* Balance Section */
+.balance-card {
+  background: rgba(255, 255, 255, 0.1);
+  padding: 12px;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0px 0px 8px rgba(255, 255, 255, 0.3);
+}
 
-    /* TABS */
-    .task-tabs {
-      display: flex;
-      justify-content: space-around;
-      margin-bottom: 10px;
-    }
-    .tab-button {
-      background: none;
-      border: none;
-      color: #ccc;
-      padding: 5px 10px;
-      font-size: 0.8rem;
-      cursor: pointer;
-    }
-    .tab-button.active {
-      border-bottom: 2px solid #FFD700;
-      color: #FFD700;
-    }
+/* Buttons */
+.btn {
+  padding: 12px 24px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s;
+  font-size: 0.85rem;
+}
 
-    /* TASK CONTAINERS & ITEMS */
-    .task-container {
-      margin-bottom: 10px;
-    }
-    .task-container.hidden {
-      display: none;
-    }
-    .task-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 6px 8px;
-      background: #333;
-      margin-bottom: 8px;
-      border-radius: 8px;
-      font-size: 0.75rem;
-    }
-    .task-item.dimmed {
-      opacity: 0.5;
-    }
-    .task-info {
-      display: flex;
-      flex-direction: column;
-    }
-    .task-text {
-      font-weight: 500;
-    }
-    .task-reward {
-      font-size: 0.65rem;
-      color: #aaa;
-    }
-    .task-btn {
-      font-size: 0.75rem;
-      padding: 6px 10px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      background: #4CAF50;
-      color: #fff;
-      min-width: 70px;
-      text-align: center;
-    }
-    .task-btn:disabled {
-      background: #777;
-    }
+.btn-primary {
+  background: #4CAF50;
+  color: white;
+}
 
-    /* BOTTOM NAVIGATION */
-    .bottom-nav {
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      max-width: 480px;
-      height: 60px;
-      background: #1e1e1e;
-      border-radius: 20px 20px 0 0;
-      box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 10;
-    }
-    .bottom-nav .nav-item {
-      text-decoration: none;
-      color: #ccc;
-      font-size: 0.85rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 0 10px;
-    }
-    .bottom-nav .nav-item.active {
-      color: #FFD700;
-    }
-    .bottom-nav .nav-divider {
-      width: 1px;
-      height: 30px;
-      background: rgba(255,255,255,0.8);
-      margin: 0 5px;
-    }
+.btn-primary:hover {
+  background: #45a049;
+}
+
+.btn-gold {
+  background: #FFD700;
+  color: #121212;
+}
+
+.btn-gold:hover {
+  background: #e6b800;
+}
+
+/* Bottom Navigation */
+.bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 480px;
+  height: 60px;
+  background: rgba(30, 30, 30, 0.9);
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.bottom-nav .nav-item {
+  text-decoration: none;
+  color: #ccc;
+  font-size: 0.85rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+}
+
+.bottom-nav .nav-item.active {
+  color: #FFD700;
+}
   </style>
 </head>
 <body>
@@ -651,162 +431,66 @@
 </div>
 
 <script>
-  // Global Balances (Unified across pages)
-  let laraBalance = 53434;
-  let sollBalance = 593.59;
+  // Load saved balances from local storage (so they persist after refresh)
+  let laraBalance = localStorage.getItem('laraBalance') ? parseFloat(localStorage.getItem('laraBalance')) : 53434;
+  let sollBalance = localStorage.getItem('sollBalance') ? parseFloat(localStorage.getItem('sollBalance')) : 593.59;
+
   const laraBalanceEl = document.getElementById('laraBalance');
   const sollBalanceEl = document.getElementById('sollBalance');
-  const taskLaraBalanceEl = document.getElementById('taskLaraBalance');
-  if(taskLaraBalanceEl) {
-    taskLaraBalanceEl.textContent = laraBalance;
-  }
 
-  // Mining variables and rates
+  // Update the UI with saved balances
+  function updateBalances() {
+    laraBalanceEl.textContent = laraBalance;
+    sollBalanceEl.textContent = sollBalance.toFixed(2);
+    localStorage.setItem('laraBalance', laraBalance);
+    localStorage.setItem('sollBalance', sollBalance);
+  }
+  updateBalances(); // Call immediately on load
+
+  // Mining Logic
   let miningActive = false;
   let miningStartTime = null;
-  let lastClaimTime = null;
   let accumulatedSOLL = 0;
+  
   const miningRates = {
     free: 0.00319,
     tier1: 0.0425,
     tier2: 0.0850,
     tier3: 0.2126
   };
-  const claimInterval = 6 * 60 * 60 * 1000; // 6 hours
 
-  const miningTierSelect = document.getElementById('mining-tier');
-  const currentRateEl = document.getElementById('currentRate');
-  miningTierSelect.addEventListener('change', () => {
-    const rate = miningRates[miningTierSelect.value];
-    currentRateEl.textContent = rate + ' SOLL/hour';
-  });
-
-  // Start/Stop Mining
   document.getElementById('start-mining').addEventListener('click', () => {
     miningActive = !miningActive;
     if (miningActive) {
       miningStartTime = Date.now();
-      lastClaimTime = Date.now();
       document.getElementById('start-mining').textContent = '⛏️ Stop Mining';
     } else {
       document.getElementById('start-mining').textContent = '⛏️ Start Mining';
     }
   });
 
-  // Claim Mining Rewards
-  document.getElementById('claim-rewards').addEventListener('click', () => {
-    if (!miningActive || !miningStartTime) {
-      alert("Start mining first!");
-      return;
-    }
-    const currentTime = Date.now();
-    if (currentTime - lastClaimTime < claimInterval) {
-      const remaining = Math.ceil((claimInterval - (currentTime - lastClaimTime)) / (60 * 1000));
-      alert("Claim available in " + remaining + " minutes.");
-      return;
-    }
-    const elapsedHours = (currentTime - miningStartTime) / 3600000;
-    const currentRate = miningRates[miningTierSelect.value];
-    accumulatedSOLL += elapsedHours * currentRate;
-    sollBalance += accumulatedSOLL;
-    sollBalanceEl.textContent = sollBalance.toFixed(2);
-    alert(`Claimed ${accumulatedSOLL.toFixed(4)} SOLL!`);
-    accumulatedSOLL = 0;
-    miningStartTime = currentTime;
-    lastClaimTime = currentTime;
-  });
-
-  // One-task-at-a-time logic
-  let pendingTask = null;
-
-  // Tab switching on Tasks page
-  const tabButtons = document.querySelectorAll('.tab-button');
-  tabButtons.forEach(button => {
-    button.addEventListener('click', () => {
-      tabButtons.forEach(btn => btn.classList.remove('active'));
-      button.classList.add('active');
-      document.getElementById('daily-tasks').classList.add('hidden');
-      document.getElementById('onetime-tasks').classList.add('hidden');
-      document.getElementById('friend-tasks').classList.add('hidden');
-      document.getElementById('completed-tasks').classList.add('hidden');
-      const tab = button.getAttribute('data-tab');
-      document.getElementById(tab + '-tasks').classList.remove('hidden');
-    });
-  });
-
-  // Task handling: processing, countdown, claim, etc.
-  function handleTask(taskId) {
-    if (pendingTask && pendingTask !== taskId) {
-      alert("You have a pending task. Please wait for it to complete.");
-      return;
-    }
-    const taskElem = document.querySelector('[data-task-id="'+taskId+'"]');
-    const type = taskElem.getAttribute('data-task-type');
-    const btn = taskElem.querySelector('button');
-    if (btn.textContent === 'Claim') {
-      claimTask(taskId);
-      return;
-    }
-    pendingTask = taskId;
-    if (type === 'follow' || type === 'join') {
-      const link = taskElem.getAttribute('data-task-link');
-      if (link) {
-        window.open(link, '_blank');
-      }
-      btn.textContent = 'Processing...';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = 'Claim';
-        btn.disabled = false;
-        pendingTask = null;
-      }, 14000);
-    } else if (type === 'check' || type === 'invite') {
-      btn.textContent = 'Processing...';
-      btn.disabled = true;
-      setTimeout(() => {
-        btn.textContent = 'Claim';
-        btn.disabled = false;
-        pendingTask = null;
-      }, 14000);
-    } else if (type === 'watch') {
-      btn.disabled = true;
-      let countdown = 5;
-      btn.textContent = 'Watching (' + countdown + ')';
-      const interval = setInterval(() => {
-        countdown--;
-        if (countdown > 0) {
-          btn.textContent = 'Watching (' + countdown + ')';
-        } else {
-          clearInterval(interval);
-          btn.textContent = 'Claim';
-          btn.disabled = false;
-          pendingTask = null;
-        }
-      }, 1000);
-    }
+ // Claim Mining Rewards
+document.getElementById('claim-rewards').addEventListener('click', () => {
+  if (!miningActive || !miningStartTime) {
+    alert("Start mining first!");
+    return;
   }
-
-  function claimTask(taskId) {
-    const taskElem = document.querySelector('[data-task-id="'+taskId+'"]');
-    const rewardText = taskElem.querySelector('.task-reward').textContent;
-    let reward = parseFloat(rewardText.replace(/[^0-9.]/g, '')) || 2;
-    laraBalance += reward;
-    laraBalanceEl.textContent = laraBalance;
-    // Sync Tasks hero balance with Mine page
-    if (taskLaraBalanceEl) {
-      taskLaraBalanceEl.textContent = laraBalance;
-    }
-    const btn = taskElem.querySelector('button');
-    btn.textContent = "Claimed";
-    btn.disabled = true;
-    if (taskId.startsWith('daily')) {
-      taskElem.classList.add('dimmed');
-    } else {
-      document.getElementById('completed-tasks').appendChild(taskElem);
-    }
+  const miningTier = document.getElementById('mining-tier'); // Ensure the element exists
+  if (!miningTier) {
+    alert("Error: Mining tier selection not found!");
+    return;
   }
+  const elapsedHours = (Date.now() - miningStartTime) / 3600000;
+  const currentRate = miningRates[miningTier.value] || 0;
+  accumulatedSOLL += elapsedHours * currentRate;
+  sollBalance += accumulatedSOLL;
+  updateBalances();
+  alert(`Claimed ${accumulatedSOLL.toFixed(4)} SOLL!`);
+  accumulatedSOLL = 0;
+  miningStartTime = Date.now();
+});
 
-  // Bottom Navigation
+  // Bottom Navigation Click Event
   function showPage(e, pageId) {
     document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
     document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -814,7 +498,7 @@
     e.currentTarget.classList.add('active');
   }
 
-  // Initialize with Mine page active and highlight Mine nav item
+  // Set default page to "Mine"
   showPage({ currentTarget: document.querySelectorAll('.nav-item')[2] }, 'mine');
 </script>
 
