@@ -11,121 +11,89 @@
     <div class="container">
         <!-- Mining Page -->
         <div id="mine-page" class="page active">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">⛏️ Active Mining</div>
-                    <div class="balance">
-                        <span>SOLL: <span id="soll-balance">0.00</span></span>
-                    </div>
+            <div class="mining-header">
+                <h2>⛏️ Active Mining</h2>
+                <div class="balances">
+                    <p>SOLL: <span id="soll-balance">0.00</span></p>
+                    <p>LARA: <span id="lara-balance">0.00</span></p>
                 </div>
-                
-                <div class="progress-bar">
-                    <div class="progress" id="mining-progress"></div>
-                </div>
-                
-                <button class="btn" id="mining-toggle">Start Mining</button>
             </div>
-        </div>
 
-        <!-- Stake Page -->
-        <div id="stake-page" class="page">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">💰 Staking Pools</div>
+            <div class="mining-tiers">
+                <div class="tier-card">
+                    <h3>Basic Mining</h3>
+                    <p>Rate: 0.00319 SOLL/hr</p>
+                    <button class="btn" id="start-mining">Start Mining</button>
                 </div>
                 
-                <div class="staking-pool">
-                    <p>SOLL Staking (5% APR)</p>
-                    <button class="btn">Stake Now</button>
-                </div>
-                
-                <div class="staking-pool">
-                    <p>Liquidity Pool (7% APR)</p>
-                    <button class="btn">Add Liquidity</button>
+                <div class="boost-section">
+                    <h3>⚡ Mining Boost</h3>
+                    <p>Burn 15 LARA for +10% efficiency</p>
+                    <button class="btn" id="boost-button">Activate Boost</button>
                 </div>
             </div>
         </div>
 
-        <!-- Tasks & Marketplace Page -->
-        <div id="tasks-page" class="page">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">📋 Daily Tasks</div>
+        <!-- Marketplace Page -->
+        <div id="marketplace-page" class="page">
+            <div class="marketplace-grid">
+                <div class="market-item">
+                    <i class="fas fa-tools fa-2x"></i>
+                    <h4>Basic Drill</h4>
+                    <p>170 LARA</p>
+                    <small>0.0425 SOLL/hr</small>
                 </div>
                 
-                <div class="task-item">
-                    <p>Daily Check-in (2 LARA)</p>
-                    <button class="btn">Claim</button>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">🛒 Marketplace</div>
-                </div>
-                
-                <div class="marketplace-grid">
-                    <div class="market-item">
-                        <i class="fas fa-tools fa-2x"></i>
-                        <p>Mining Tools</p>
-                        <small>From 50 LARA</small>
-                    </div>
-                    
-                    <div class="market-item">
-                        <i class="fas fa-robot fa-2x"></i>
-                        <p>Auto-Claim Bots</p>
-                        <small>From 100 LARA</small>
-                    </div>
+                <div class="market-item">
+                    <i class="fas fa-gem fa-2x"></i>
+                    <h4>Diamond Excavator</h4>
+                    <p>600 LARA</p>
+                    <small>0.2126 SOLL/hr</small>
                 </div>
             </div>
         </div>
 
-        <!-- Game Page -->
-        <div id="game-page" class="page">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">🎮 Oreva Ludo</div>
-                </div>
-                
-                <div class="game-tier">
-                    <p>Entry Fee: 1 SOLL</p>
-                    <button class="btn">Play Now</button>
-                </div>
+        <!-- Account Page -->
+        <div id="account-page" class="page">
+            <div class="account-section">
+                <h3>🔐 Wallet Connection</h3>
+                <button class="btn" id="connect-wallet">Connect Wallet</button>
+            </div>
+            
+            <div class="account-section">
+                <h3>📋 Account Details</h3>
+                <p>Referral Code: SOL123</p>
+                <p>KYC Status: Not Verified</p>
             </div>
         </div>
 
         <!-- More Page -->
         <div id="more-page" class="page">
-            <div class="card">
-                <div class="card-header">
-                    <div class="card-title">⚙️ More Features</div>
-                </div>
-                
-                <div class="feature-item">
-                    <p>Governance Voting</p>
-                    <button class="btn btn-secondary" disabled>Coming Soon</button>
-                </div>
+            <div class="account-section">
+                <h3>🎮 Oreva Ludo</h3>
+                <button class="btn">Play Game</button>
+            </div>
+            
+            <div class="account-section">
+                <h3>⚖️ Governance</h3>
+                <button class="btn" disabled>Coming Soon</button>
             </div>
         </div>
     </div>
 
-    <!-- Navigation -->
+    <!-- Navigation Bar -->
     <div class="nav-bar">
         <button class="nav-btn active" onclick="showPage('mine')">
             <i class="fas fa-diamond"></i>
             Mine
         </button>
-        <button class="nav-btn" onclick="showPage('stake')">
-            <i class="fas fa-coins"></i>
-            Stake
+        <button class="nav-btn" onclick="showPage('marketplace')">
+            <i class="fas fa-shopping-cart"></i>
+            Marketplace
         </button>
-        <button class="nav-btn" onclick="showPage('tasks')">
-            <i class="fas fa-tasks"></i>
-            Tasks
-        </button>
-        <button class="nav-btn" onclick="showPage('game')">
-            <i class="fas fa-gamepad"></i>
-            Game
+        <button class="nav-btn" onclick="showPage('account')">
+            <i class="fas fa-user"></i>
+            Account
         </button>
         <button class="nav-btn" onclick="showPage('more')">
             <i class="fas fa-ellipsis-h"></i>
@@ -137,32 +105,42 @@
         // Mining System
         let state = {
             miningActive: false,
-            miningStart: 0,
-            sollBalance: 0,
-            miningRate: 0.00319
+            startTime: 0,
+            soll: 0,
+            lara: 1000,
+            boostActive: false
         };
 
         function updateMining() {
             if(state.miningActive) {
-                const elapsed = Date.now() - state.miningStart;
-                const earned = (elapsed / 3600000) * state.miningRate;
-                document.getElementById('soll-balance').textContent = 
-                    (state.sollBalance + earned).toFixed(4);
-                document.getElementById('mining-progress').style.width = 
-                    `${(earned % 1) * 100}%`;
+                const elapsed = Date.now() - state.startTime;
+                const rate = state.boostActive ? 0.00319 * 1.1 : 0.00319;
+                state.soll += (elapsed / 3600000) * rate;
+                state.startTime = Date.now();
+                updateDisplay();
             }
         }
 
-        document.getElementById('mining-toggle').addEventListener('click', () => {
+        function updateDisplay() {
+            document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
+            document.getElementById('lara-balance').textContent = state.lara.toFixed(2);
+        }
+
+        // Event Listeners
+        document.getElementById('start-mining').addEventListener('click', function() {
             state.miningActive = !state.miningActive;
-            if(state.miningActive) {
-                state.miningStart = Date.now();
-                this.textContent = 'Stop Mining';
-            } else {
-                state.sollBalance += calculateEarnings();
-                this.textContent = 'Start Mining';
-            }
+            state.startTime = Date.now();
+            this.textContent = state.miningActive ? 'Stop Mining' : 'Start Mining';
             localStorage.setItem('miningState', JSON.stringify(state));
+        });
+
+        document.getElementById('boost-button').addEventListener('click', function() {
+            if(state.lara >= 15) {
+                state.lara -= 15;
+                state.boostActive = true;
+                setTimeout(() => state.boostActive = false, 86400000); // 24h
+                updateDisplay();
+            }
         });
 
         // Page Navigation
@@ -178,6 +156,7 @@
             const saved = localStorage.getItem('miningState');
             if(saved) state = JSON.parse(saved);
             setInterval(updateMining, 1000);
+            updateDisplay();
         });
     </script>
 </body>
