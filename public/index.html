@@ -6,13 +6,12 @@
   <title>SOLL Mining</title>
   <style>
     :root {
-      --primary-bg: #0f172a;
-      --secondary-bg: #1e293b;
-      --accent-blue: #38bdf8;
-      --accent-purple: #818cf8;
-      --text-primary: #f8fafc;
-      --text-secondary: #94a3b8;
-      --season2-bg: rgba(255, 255, 255, 0.05);
+      --primary-bg: #0B0F19;
+      --secondary-bg: #161B26;
+      --accent-blue: #3D8BFF;
+      --accent-green: #00C6A2;
+      --text-primary: #FFFFFF;
+      --text-secondary: #8B9EB7;
     }
 
     body {
@@ -21,6 +20,23 @@
       font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0 0 80px;
+      min-height: 100vh;
+    }
+
+    /* Visible Pages */
+    .page {
+      display: none;
+      padding: 20px;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .page.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     /* Professional Navigation Bar */
@@ -31,31 +47,28 @@
       display: flex;
       justify-content: space-around;
       background: var(--secondary-bg);
-      padding: 12px 0;
+      padding: 15px 0;
       border-top: 1px solid rgba(255,255,255,0.1);
       box-shadow: 0 -4px 12px rgba(0,0,0,0.2);
-      z-index: 1000;
     }
 
     .nav-btn {
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 8px 12px;
+      padding: 8px;
       border-radius: 8px;
-      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transition: all 0.3s ease;
       color: var(--text-secondary);
       text-decoration: none;
       border: none;
-      background: transparent;
+      background: none;
       cursor: pointer;
     }
 
     .nav-btn.active {
-      background: var(--accent-blue);
-      color: white;
-      transform: translateY(-6px);
-      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+      color: var(--accent-blue);
+      background: rgba(61, 139, 255, 0.1);
     }
 
     .nav-btn i {
@@ -63,245 +76,124 @@
       margin-bottom: 4px;
     }
 
-    /* Modern Container Styling */
-    .container {
+    /* Core Content Styling */
+    .balance-card {
       background: var(--secondary-bg);
-      border-radius: 16px;
-      padding: 24px;
-      margin: 16px;
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 15px 0;
       border: 1px solid rgba(255,255,255,0.1);
     }
 
-    /* Page Transition Animation */
-    .page {
-      display: none;
-      animation: slideIn 0.3s ease-out;
+    .mining-controls {
+      background: var(--secondary-bg);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
     }
 
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Season 2 Features */
-    .season2-tag {
-      position: relative;
-      overflow: hidden;
-    }
-
-    .season2-tag::after {
-      content: "Season 2";
-      position: absolute;
-      top: 8px;
-      right: -24px;
-      background: var(--accent-purple);
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 15px;
+      border-radius: 8px;
+      border: none;
+      background: var(--accent-blue);
       color: white;
-      padding: 2px 24px;
-      transform: rotate(45deg);
-      font-size: 0.75rem;
-      font-weight: bold;
+      font-weight: 600;
+      margin: 10px 0;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      opacity: 0.9;
+      transform: translateY(-1px);
     }
   </style>
 </head>
 <body>
 
-  <!-- ======== MINE PAGE ======== -->
+  <!-- ===== SEASON 1 CORE PAGES ===== -->
+
+  <!-- Home/Mine Page (Default Visible) -->
   <div id="mine-page" class="page active">
-    <div class="container">
-      <div class="balance-grid">
-        <div class="balance-card">
-          <small>LARA Balance</small>
-          <h2>53,434</h2>
+    <div class="balance-card">
+      <h2>Welcome Miner!</h2>
+      <p>Your Balances:</p>
+      <div class="balances">
+        <div class="balance">
+          <span>SOLL:</span>
+          <strong id="soll-balance">0.00</strong>
         </div>
-        <div class="balance-card">
-          <small>SOLL Balance</small>
-          <h2>593.59</h2>
-        </div>
-      </div>
-
-      <!-- Mining Controls -->
-      <div class="mining-controls">
-        <button class="btn btn-primary" id="start-mining">
-          ⛏️ Start Mining
-        </button>
-        <div class="mining-stats">
-          <p>Current Rate: 0.00319 SOLL/hr</p>
-          <p>Estimated Daily: 0.076 SOLL</p>
-        </div>
-      </div>
-
-      <!-- Season 2: Boost Mining -->
-      <div class="season2-tag">
-        <div class="upgrade-card">
-          <h3>⚡ Mining Boost (Season 2)</h3>
-          <p>Burn SOLL for increased efficiency</p>
-          <button class="btn btn-disabled" disabled>
-            Coming Q3 2024
-          </button>
+        <div class="balance">
+          <span>LARA:</span>
+          <strong id="lara-balance">0.00</strong>
         </div>
       </div>
     </div>
+
+    <div class="mining-controls">
+      <h3>⛏ Active Mining</h3>
+      <p>Current Rate: <span id="mining-rate">0.00319 SOLL/hr</span></p>
+      <button class="btn" id="mining-toggle">Start Mining</button>
+    </div>
   </div>
 
-  <!-- ======== STAKE PAGE ======== -->
+  <!-- Stake Page -->
   <div id="stake-page" class="page">
-    <div class="container">
-      <h2>💰 Staking Pools</h2>
-      
-      <!-- SOLL Staking -->
-      <div class="staking-card">
-        <div class="staking-header">
-          <h3>SOLL Staking</h3>
-          <span class="apr-badge">5% APR</span>
-        </div>
-        <button class="btn btn-primary">
-          Stake SOLL
-        </button>
+    <div class="balance-card">
+      <h3>💰 Staking Pools</h3>
+      <div class="staking-option">
+        <p>SOLL Staking (5% APR)</p>
+        <button class="btn">Stake Now</button>
       </div>
-
-      <!-- Liquidity Mining -->
-      <div class="staking-card">
-        <div class="staking-header">
-          <h3>Liquidity Pool (SOLL/LARA)</h3>
-          <span class="apr-badge">7% APR</span>
-        </div>
-        <button class="btn btn-primary">
-          Add Liquidity
-        </button>
-      </div>
-
-      <!-- Season 2: Synthetic Assets -->
-      <div class="season2-tag">
-        <div class="staking-card">
-          <div class="staking-header">
-            <h3>Synthetic Assets</h3>
-            <span class="apr-badge">Coming Soon</span>
-          </div>
-          <p>Mirror real-world assets</p>
-          <button class="btn btn-disabled" disabled>
-            Launching Q3 2026
-          </button>
-        </div>
+      <div class="staking-option">
+        <p>Liquidity Pool (7% APR)</p>
+        <button class="btn">Add Liquidity</button>
       </div>
     </div>
   </div>
 
-  <!-- ======== TASKS PAGE ======== -->
+  <!-- Tasks & Marketplace Page -->
   <div id="tasks-page" class="page">
-    <div class="container">
-      <h2>📋 Daily Missions</h2>
-      
-      <!-- Task List -->
-      <div class="task-list">
-        <div class="task-item">
-          <div class="task-info">
-            <h3>Daily Check-in</h3>
-            <p>Reward: 2 LARA</p>
-          </div>
-          <button class="btn btn-secondary">
-            Claim
-          </button>
-        </div>
-
-        <div class="task-item">
-          <div class="task-info">
-            <h3>Refer Friends</h3>
-            <p>1 LARA per referral</p>
-          </div>
-          <button class="btn btn-secondary">
-            Share Link
-          </button>
-        </div>
+    <div class="balance-card">
+      <h3>📋 Daily Tasks</h3>
+      <div class="task-item">
+        <p>Daily Check-in (2 LARA)</p>
+        <button class="btn">Claim</button>
       </div>
-
-      <!-- Marketplace Access -->
-      <div class="marketplace-access">
-        <h3>🛒 Marketplace</h3>
-        <div class="marketplace-grid">
-          <button class="marketplace-item">
-            <i class="fas fa-toolbox"></i>
-            Mining Tools
-          </button>
-          <button class="marketplace-item">
-            <i class="fas fa-robot"></i>
-            Auto-Claim Bots
-          </button>
-          <button class="marketplace-item">
-            <i class="fas fa-certificate"></i>
-            NFT Badges
-          </button>
-        </div>
+    </div>
+    
+    <div class="balance-card">
+      <h3>🛒 Marketplace</h3>
+      <div class="market-item">
+        <p>Mining Tools</p>
+        <button class="btn">Browse</button>
       </div>
     </div>
   </div>
 
-  <!-- ======== GAME PAGE ======== -->
-  <div id="game-page" class="page">
-    <div class="container">
-      <h2>🎮 Oreva Ludo</h2>
-      
-      <div class="game-lobby">
-        <div class="game-tier">
-          <h3>Entry Fee: 1 SOLL</h3>
-          <p>Prize Pool: 90%</p>
-          <button class="btn btn-primary">
-            Join Game
-          </button>
-        </div>
-
-        <div class="game-stats">
-          <h3>Your Achievements</h3>
-          <div class="achievements">
-            <div class="achievement">
-              <i class="fas fa-trophy"></i>
-              <span>5-win Streak</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ======== MORE PAGE ======== -->
+  <!-- More Page (Season 2 & Additional Features) -->
   <div id="more-page" class="page">
-    <div class="container">
-      <h2>⚙️ More Features</h2>
-      
-      <div class="more-grid">
-        <button class="more-item">
-          <i class="fas fa-users"></i>
-          Social Hub
-        </button>
-        <button class="more-item">
-          <i class="fas fa-vote-yea"></i>
-          Governance
-        </button>
-        <button class="more-item">
-          <i class="fas fa-wallet"></i>
-          Wallet Connect
-        </button>
-        <button class="more-item">
-          <i class="fas fa-chart-line"></i>
-          Analytics
-        </button>
+    <div class="balance-card">
+      <h3>⚙️ Additional Features</h3>
+      <div class="feature-item">
+        <p>Governance Voting (Season 2)</p>
+        <button class="btn" disabled>Coming Soon</button>
       </div>
-
-      <!-- Season 2: Cross-chain -->
-      <div class="season2-tag">
-        <div class="coming-soon-card">
-          <h3>🌉 Cross-chain Integration</h3>
-          <p>Coming Q4 2025</p>
-        </div>
+      <div class="feature-item">
+        <p>Synthetic Assets (Season 2)</p>
+        <button class="btn" disabled>Q3 2026</button>
       </div>
     </div>
   </div>
 
-  <!-- Professional Navigation Bar -->
+  <!-- Navigation Bar (Season 1 Focus) -->
   <div class="nav-bar">
     <button class="nav-btn active" onclick="showPage('mine')">
-      <i class="fas fa-diamond"></i>
-      Mine
+      <i class="fas fa-home"></i>
+      Home
     </button>
     <button class="nav-btn" onclick="showPage('stake')">
       <i class="fas fa-coins"></i>
@@ -311,10 +203,6 @@
       <i class="fas fa-tasks"></i>
       Tasks
     </button>
-    <button class="nav-btn" onclick="showPage('game')">
-      <i class="fas fa-gamepad"></i>
-      Game
-    </button>
     <button class="nav-btn" onclick="showPage('more')">
       <i class="fas fa-ellipsis-h"></i>
       More
@@ -322,7 +210,7 @@
   </div>
 
 <script>
-  // Professional Page Navigation
+  // Initialize default page
   function showPage(pageId) {
     // Hide all pages
     document.querySelectorAll('.page').forEach(page => {
@@ -330,8 +218,7 @@
     });
     
     // Show selected page
-    const activePage = document.getElementById(`${pageId}-page`);
-    activePage.classList.add('active');
+    document.getElementById(`${pageId}-page`).classList.add('active');
     
     // Update nav buttons
     document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -340,15 +227,17 @@
     event.currentTarget.classList.add('active');
   }
 
-  // Mining Logic
+  // Initialize mining functionality
   let miningActive = false;
-  document.getElementById('start-mining').addEventListener('click', function() {
+  const miningToggle = document.getElementById('mining-toggle');
+  
+  miningToggle.addEventListener('click', () => {
     miningActive = !miningActive;
-    this.textContent = miningActive ? '⛏️ Stop Mining' : '⛏️ Start Mining';
-    this.classList.toggle('mining-active', miningActive);
+    miningToggle.textContent = miningActive ? 'Stop Mining' : 'Start Mining';
+    miningToggle.style.background = miningActive ? var(--accent-green) : var(--accent-blue);
   });
 
-  // Initialize default page
+  // Set default page
   showPage('mine');
 </script>
 
