@@ -1,4 +1,4 @@
-/* ===== Base Styles ===== */
+/* ===== Core Styles ===== */
 body {
     background: #0F172A;
     color: #fff;
@@ -45,54 +45,35 @@ body {
     transform: translateY(-5px);
 }
 
-.nav-btn i {
-    font-size: 1.4rem;
-    margin-bottom: 4px;
-}
-
-/* ===== Cards ===== */
-.card {
+/* ===== Mining Page Components ===== */
+.mining-header {
+    text-align: center;
+    padding: 20px 0;
     background: #1E293B;
     border-radius: 12px;
-    padding: 20px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-.card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 15px;
+.mining-tiers {
+    display: grid;
+    gap: 15px;
 }
 
-.card-title {
-    font-size: 1.2rem;
-    font-weight: 600;
+.tier-card {
+    background: #1E293B;
+    padding: 20px;
+    border-radius: 12px;
+    border: 1px solid #334155;
 }
 
-/* ===== Mining Interface ===== */
-.mining-status {
-    text-align: center;
-    margin: 20px 0;
+.boost-section {
+    background: #1E293B;
+    padding: 20px;
+    border-radius: 12px;
+    margin-top: 20px;
 }
 
-.progress-bar {
-    height: 8px;
-    background: #334155;
-    border-radius: 4px;
-    margin: 15px 0;
-    overflow: hidden;
-}
-
-.progress {
-    height: 100%;
-    background: linear-gradient(90deg, #38BDF8, #3B82F6);
-    width: 0;
-    transition: width 0.5s ease;
-}
-
-/* ===== Marketplace ===== */
+/* ===== Marketplace Styles ===== */
 .marketplace-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
@@ -101,61 +82,17 @@ body {
 }
 
 .market-item {
-    background: #334155;
+    background: #1E293B;
     padding: 15px;
-    border-radius: 8px;
+    border-radius: 12px;
     text-align: center;
-    transition: transform 0.3s ease;
+    border: 1px solid #334155;
 }
 
-.market-item:hover {
-    transform: translateY(-3px);
-}
-
-.market-item img {
-    width: 50px;
-    height: 50px;
-    margin-bottom: 10px;
-}
-
-/* ===== Buttons ===== */
-.btn {
-    display: block;
-    width: 100%;
-    padding: 12px;
-    border: none;
-    border-radius: 8px;
-    background: #38BDF8;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.btn:hover {
-    background: #3B82F6;
-}
-
-.btn-secondary {
-    background: #475569;
-    color: #94A3B8;
-}
-
-.btn-secondary:hover {
-    background: #64748B;
-}
-
-/* ===== Page Transitions ===== */
-.page {
-    display: none;
-    animation: fadeIn 0.3s ease;
-}
-
-.page.active {
-    display: block;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+/* ===== Account Page ===== */
+.account-section {
+    background: #1E293B;
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
 }
