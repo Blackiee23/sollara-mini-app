@@ -1,30 +1,169 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- ... (keep head section same) ... -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SOLL Mining</title>
   <style>
     :root {
-      /* ... (keep existing styles) ... */
-      --accent-gold: #FFD700;
+      --primary-bg: #0f172a;
+      --secondary-bg: #1e293b;
+      --accent-blue: #38bdf8;
+      --accent-purple: #818cf8;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
     }
 
-    /* ... (keep other CSS rules) ... */
+    body {
+      background: var(--primary-bg);
+      color: var(--text-primary);
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0 0 70px;
+    }
+
+    .container {
+      background: var(--secondary-bg);
+      border-radius: 16px;
+      padding: 20px;
+      margin: 15px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Navigation */
+    .nav-bar {
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      background: var(--secondary-bg);
+      padding: 12px 0;
+      border-top: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .nav-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 8px;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+      border: none;
+      background: none;
+      cursor: pointer;
+    }
+
+    .nav-btn.active {
+      color: var(--accent-blue);
+      transform: translateY(-5px);
+    }
+
+    .nav-btn i {
+      font-size: 1.2rem;
+      margin-bottom: 4px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-block;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+      text-align: center;
+      transition: all 0.3s ease;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      margin: 8px 0;
+    }
+
+    .btn-primary {
+      background: var(--accent-blue);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: #0ea5e9;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 6px rgba(14, 165, 233, 0.2);
+    }
+
+    .btn-secondary {
+      background: var(--secondary-bg);
+      color: var(--accent-purple);
+      border: 1px solid var(--accent-purple);
+    }
+
+    .btn-secondary:hover {
+      background: rgba(129, 140, 248, 0.1);
+    }
+
+    /* Balance Cards */
+    .balance-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .balance-card {
+      background: var(--primary-bg);
+      padding: 16px;
+      border-radius: 12px;
+      text-align: center;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .balance-card small {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .balance-card h2 {
+      margin: 8px 0;
+      font-size: 1.5rem;
+    }
+
+    /* Mining Section */
+    .mining-tiers {
+      display: grid;
+      gap: 15px;
+    }
+
+    .tier-card {
+      background: var(--primary-bg);
+      padding: 20px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .tier-card h3 {
+      margin: 0 0 12px;
+      color: var(--accent-purple);
+    }
+
+    .tier-card p {
+      color: var(--text-secondary);
+      margin: 8px 0;
+    }
   </style>
 </head>
 <body>
 
-  <!-- Main Pages -->
+  <!-- Mine Page -->
   <div id="mine-page" class="page active">
     <div class="container">
       <div class="balance-grid">
         <div class="balance-card">
           <small>LARA Balance</small>
-          <h2 id="laraBalance">0</h2>
+          <h2 id="laraBalance">53,434</h2>
         </div>
         <div class="balance-card">
           <small>SOLL Balance</small>
-          <h2 id="sollBalance">0</h2>
+          <h2 id="sollBalance">593.59</h2>
         </div>
       </div>
 
@@ -32,85 +171,73 @@
         <div class="tier-card">
           <h3>⛏️ Free Mining</h3>
           <p>0.00319 SOLL/hour</p>
-          <button class="btn" id="start-mining">Start Mining</button>
+          <button class="btn btn-primary" id="start-mining">Start Mining</button>
         </div>
         
         <div class="tier-card">
           <h3>⚡ Boost Mining</h3>
-          <p>Burn SOLL for +10% efficiency</p>
-          <button class="btn" onclick="burnForBoost()">Burn 15 SOLL</button>
+          <p>Burn 15 SOLL for +10% efficiency</p>
+          <button class="btn btn-secondary" onclick="burnForBoost()">Activate Boost</button>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Stake Page -->
-  <div id="stake-page" class="page">
-    <div class="container">
-      <div class="staking-pools">
-        <div class="pool-card">
-          <h3>💰 SOLL Staking</h3>
-          <p>5% APR (Paid in LARA)</p>
-          <button class="btn" onclick="stakeTokens('soll')">Stake SOLL</button>
-        </div>
-
-        <div class="pool-card">
-          <h3>💧 Liquidity Pool</h3>
-          <p>7% APR (SOLL/LARA)</p>
-          <button class="btn" onclick="stakeTokens('liquidity')">Add Liquidity</button>
-        </div>
-
-        <div class="coming-soon">
-          <div class="pool-card">
-            <h3>📈 Synthetic Assets</h3>
-            <p>Stake SOLL to mirror stocks</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Bottom Navigation -->
+  <!-- Navigation Bar -->
   <div class="nav-bar">
-    <button onclick="showPage('mine')">⛏️ Mine</button>
-    <button onclick="showPage('stake')">💰 Stake</button>
-    <button onclick="showPage('tasks')">📋 Tasks</button>
-    <button onclick="showPage('game')">🎮 Game</button>
-    <button onclick="showPage('more')">⚙️ More</button>
+    <button class="nav-btn active" onclick="showPage('mine')">
+      <i class="fas fa-diamond"></i>
+      Mine
+    </button>
+    <button class="nav-btn" onclick="showPage('stake')">
+      <i class="fas fa-coins"></i>
+      Stake
+    </button>
+    <button class="nav-btn" onclick="showPage('tasks')">
+      <i class="fas fa-tasks"></i>
+      Tasks
+    </button>
+    <button class="nav-btn" onclick="showPage('game')">
+      <i class="fas fa-gamepad"></i>
+      Game
+    </button>
+    <button class="nav-btn" onclick="showPage('more')">
+      <i class="fas fa-ellipsis-h"></i>
+      More
+    </button>
   </div>
 
 <script>
-  // Updated state management for SOLL/LARA
-  let state = {
-    lara: 53434,
-    soll: 593.59,
-    miningActive: false,
-    miningStart: 0,
-    staked: { soll: 0, liquidity: 0 }
-  };
+  // Interactive Elements
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  // Mining Logic
+  let miningActive = false;
+  const startMiningBtn = document.getElementById('start-mining');
+  
+  startMiningBtn.addEventListener('click', function() {
+    miningActive = !miningActive;
+    this.textContent = miningActive ? '⛏️ Stop Mining' : '⛏️ Start Mining';
+    this.classList.toggle('btn-secondary', miningActive);
+  });
 
   function burnForBoost() {
-    if(state.soll >= 15) {
-      state.soll -= 15;
-      // Implement 10% boost logic
-      updateDisplay();
+    if(confirm("Burn 15 SOLL for 24-hour boost?")) {
+      // Add burn logic here
     }
   }
 
-  function stakeTokens(poolType) {
-    // Implement SOLL staking logic
-    updateDisplay();
-  }
-
-  // Mining logic remains with SOLL rewards
-  function updateMining() {
-    if(state.miningActive) {
-      const elapsed = Date.now() - state.miningStart;
-      state.soll += elapsed * getMiningRate() / 3600000;
-      state.miningStart = Date.now();
-      updateDisplay();
-    }
+  // Page Navigation
+  function showPage(pageId) {
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    document.getElementById(`${pageId}-page`).classList.add('active');
   }
 </script>
+
 </body>
 </html>
