@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLL Mining Pro</title>
+    <title>SOLL Mining Ecosystem</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
             --nav-bg: #1E293B;
             --primary-bg: #0F172A;
             --accent-blue: #38BDF8;
+            --accent-green: #10B981;
             --text-primary: #F8FAFC;
             --text-secondary: #94A3B8;
             --warning: #F59E0B;
@@ -17,19 +18,55 @@
 
         body {
             margin: 0;
-            padding: 0 0 70px;
+            padding: 0 0 80px;
             background: var(--primary-bg);
             color: var(--text-primary);
             font-family: 'Poppins', sans-serif;
         }
 
-        .page {
-            display: none;
-            padding: 20px;
+        /* ===== Professional Navigation ===== */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background: var(--nav-bg);
+            padding: 12px 0;
+            border-top: 1px solid #334155;
+            z-index: 1000;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
         }
 
-        .page.active {
-            display: block;
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            width: 70px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-item.active {
+            color: var(--accent-blue);
+            transform: translateY(-5px);
+        }
+
+        .nav-item.coming-soon::after {
+            content: "🔒";
+            position: absolute;
+            top: -5px;
+            right: 2px;
+            font-size: 0.6rem;
+        }
+
+        /* ===== Mining Interface ===== */
+        .mining-dashboard {
+            padding: 20px;
         }
 
         .mining-card {
@@ -38,19 +75,11 @@
             padding: 24px;
             margin-bottom: 20px;
             position: relative;
-            overflow: hidden;
-        }
-
-        .mining-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
         }
 
         .mining-progress {
-            width: 120px;
-            height: 120px;
+            width: 200px;
+            height: 200px;
             margin: 20px auto;
             position: relative;
         }
@@ -69,61 +98,42 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 1.5rem;
+            font-size: 2rem;
             font-weight: 600;
         }
 
-        .mining-stats {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 15px;
-            margin-top: 24px;
-        }
-
-        .stat-item {
-            background: #334155;
-            padding: 15px;
+        /* ===== Wallet Integration ===== */
+        .wallet-section {
+            background: #1E293B;
+            padding: 20px;
             border-radius: 12px;
-            text-align: center;
+            margin: 20px 0;
         }
 
-        .btn {
-            background: var(--accent-blue);
-            color: white;
-            border: none;
-            padding: 14px;
+        /* ===== Game Interface ===== */
+        .game-board {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .game-cell {
+            aspect-ratio: 1;
+            background: #334155;
             border-radius: 8px;
-            width: 100%;
-            font-weight: 600;
-            cursor: pointer;
-            transition: opacity 0.3s ease;
-        }
-
-        .btn:disabled {
-            background: #475569;
-            cursor: not-allowed;
-        }
-
-        .coming-soon {
-            position: relative;
-            padding-right: 80px;
-        }
-
-        .coming-soon::after {
-            content: "🔒 Coming Soon";
-            position: absolute;
-            right: 10px;
-            color: var(--warning);
-            font-size: 0.7rem;
             display: flex;
             align-items: center;
-            gap: 4px;
+            justify-content: center;
+            font-size: 2rem;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <!-- Mining Page -->
-    <div id="mine-page" class="page active">
+    <!-- Main Content -->
+    <div class="mining-dashboard">
+        <!-- Mining Page Content -->
         <div class="mining-card">
             <div class="mining-header">
                 <h2>⛏️ Active Mining</h2>
@@ -140,51 +150,71 @@
                 <div class="countdown" id="countdown">10s</div>
             </div>
 
-            <div class="mining-stats">
-                <div class="stat-item">
-                    <small>Mining Rate</small>
-                    <h3>0.00319 SOLL/s</h3>
-                </div>
-                <div class="stat-item">
-                    <small>Next Claim</small>
-                    <h3 id="next-claim">10s</h3>
-                </div>
-            </div>
+            <button class="btn" id="start-mining">Start Mining</button>
+            <button class="btn" id="claim-button" disabled>Claim Rewards</button>
+        </div>
 
-            <div class="action-buttons">
-                <button class="btn" id="start-mining">Start Mining</button>
-                <button class="btn" id="claim-button" disabled>Claim Rewards</button>
-            </div>
+        <!-- Wallet Integration -->
+        <div class="wallet-section">
+            <h3>🔗 TON Wallet</h3>
+            <p id="wallet-status">Not connected</p>
+            <button class="btn" id="connect-wallet">Connect Wallet</button>
         </div>
     </div>
 
-    <!-- Navigation and other pages remain similar with coming soon tags -->
+    <!-- Navigation -->
+    <div class="nav-bar">
+        <div class="nav-item active" onclick="showPage('mine')">
+            ⛏️<br>Mine
+        </div>
+        <div class="nav-item" onclick="showPage('market')">
+            🛒<br>Market
+        </div>
+        <div class="nav-item" onclick="showPage('game')">
+            🎮<br>Ludo
+        </div>
+        <div class="nav-item coming-soon" onclick="showPage('gov')">
+            🏛️<br>Govern
+        </div>
+        <div class="nav-item" onclick="showPage('account')">
+            👤<br>Account
+        </div>
+    </div>
 
     <script>
+        // ===== Core State =====
         let state = {
             miningActive: false,
             startTime: 0,
-            remainingTime: 10, // 10 seconds for testing
+            remainingTime: 10,
             soll: 0,
-            lara: 1000
+            lara: 1000,
+            walletConnected: false,
+            miningRate: 0.00319,
+            gameWins: 0
         };
 
-        // Mining System
+        // ===== Wallet Integration =====
+        document.getElementById('connect-wallet').addEventListener('click', () => {
+            state.walletConnected = true;
+            document.getElementById('wallet-status').textContent = "Connected: TON_XXXXXX";
+            localStorage.setItem('walletState', 'connected');
+        });
+
+        // ===== Mining System =====
         function updateMining() {
             if(state.miningActive) {
                 const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
                 state.remainingTime = Math.max(10 - elapsed, 0);
                 
-                // Update progress circle
+                // Update progress
                 const progress = (10 - state.remainingTime) * 10;
                 document.querySelector('.progress-circle').style.strokeDasharray = 
                     `${progress} ${100 - progress}`;
 
-                // Update displays
+                // Update display
                 document.getElementById('countdown').textContent = `${state.remainingTime}s`;
-                document.getElementById('next-claim').textContent = `${state.remainingTime}s`;
 
-                // Enable claim when time's up
                 if(state.remainingTime <= 0) {
                     document.getElementById('claim-button').disabled = false;
                     state.miningActive = false;
@@ -192,69 +222,56 @@
             }
         }
 
-        // Persistent State
-        function saveState() {
-            localStorage.setItem('miningState', JSON.stringify({
-                ...state,
-                startTime: Date.now() - ((10 - state.remainingTime) * 1000)
-            }));
+        // ===== Game Mechanics =====
+        function initializeGame() {
+            document.querySelectorAll('.game-cell').forEach(cell => {
+                cell.addEventListener('click', handleMove);
+            });
         }
 
-        // Initialize
+        // ===== Persistent State =====
+        function saveState() {
+            localStorage.setItem('appState', JSON.stringify(state));
+        }
+
+        // ===== Initialization =====
         window.addEventListener('load', () => {
-            const saved = localStorage.getItem('miningState');
-            if (saved) {
-                const savedState = JSON.parse(saved);
-                const timePassed = Math.floor((Date.now() - savedState.startTime) / 1000);
-                
-                state = {
-                    ...savedState,
-                    remainingTime: Math.max(10 - timePassed, 0),
-                    miningActive: savedState.remainingTime > 0
-                };
-
-                if(state.miningActive) {
-                    document.getElementById('start-mining').textContent = 'Stop Mining';
-                    startMiningInterval();
-                }
-                
-                updateMining();
-            }
-        });
-
-        // Mining Controls
-        document.getElementById('start-mining').addEventListener('click', function() {
-            state.miningActive = !state.miningActive;
+            const savedState = localStorage.getItem('appState');
+            if(savedState) state = JSON.parse(savedState);
             
             if(state.miningActive) {
-                state.startTime = Date.now();
-                state.remainingTime = 10;
-                this.textContent = 'Stop Mining';
-                startMiningInterval();
-            } else {
-                this.textContent = 'Start Mining';
-                clearInterval(miningInterval);
+                const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+                state.remainingTime = Math.max(10 - elapsed, 0);
+                updateMining();
             }
             
-            saveState();
+            if(localStorage.getItem('walletState')) {
+                document.getElementById('wallet-status').textContent = "Connected: TON_XXXXXX";
+            }
         });
 
-        let miningInterval;
-        function startMiningInterval() {
-            clearInterval(miningInterval);
-            miningInterval = setInterval(() => {
-                updateMining();
-                saveState();
-            }, 1000);
-        }
+        // ===== Event Listeners =====
+        document.getElementById('start-mining').addEventListener('click', function() {
+            state.miningActive = !state.miningActive;
+            state.startTime = Date.now();
+            this.textContent = state.miningActive ? 'Stop Mining' : 'Start Mining';
+            saveState();
+        });
 
         document.getElementById('claim-button').addEventListener('click', function() {
-            state.soll += 0.00319 * 10; // 10 seconds worth of mining
+            state.soll += state.miningRate * 10;
             document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
             this.disabled = true;
-            state.remainingTime = 10;
             saveState();
         });
+
+        // Update every second
+        setInterval(() => {
+            if(state.miningActive) {
+                updateMining();
+                saveState();
+            }
+        }, 1000);
     </script>
 </body>
 </html>
