@@ -6,17 +6,31 @@
     <title>SOLL Mining Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* === Core Navigation Styles === */
+        /* === Core Styles === */
+        body {
+            margin: 0;
+            padding: 0;
+            background: #0F172A;
+            color: white;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        /* === Navigation Bar === */
         .nav-bar {
             position: fixed;
             bottom: 0;
             width: 100%;
             display: flex;
-            justify-content: space-around;
+            justify-content: space-between;
             background: #1E293B;
-            padding: 8px 0;
+            padding: 10px 20px;
             border-top: 1px solid #334155;
             z-index: 1000;
+        }
+
+        .nav-group {
+            display: flex;
+            gap: 25px;
         }
 
         .nav-item {
@@ -25,33 +39,32 @@
             align-items: center;
             color: #94A3B8;
             font-size: 0.75rem;
-            padding: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
-            position: relative;
         }
 
         .nav-item.active {
             color: #38BDF8;
-            transform: translateY(-3px);
+            transform: translateY(-5px);
         }
 
-        .nav-icon {
-            font-size: 1.2rem;
-            margin-bottom: 2px;
+        .nav-item.mine {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         /* === More Dropdown === */
         .more-dropdown {
             position: fixed;
             bottom: 60px;
-            right: 10px;
+            right: 20px;
             background: #1E293B;
             border-radius: 12px;
-            padding: 10px;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
-            display: none;
+            padding: 15px;
             width: 180px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            display: none;
             z-index: 999;
         }
 
@@ -69,8 +82,25 @@
             transition: background 0.3s ease;
         }
 
-        .dropdown-item:hover {
-            background: #334155;
+        /* === Mining Page === */
+        .mining-container {
+            padding: 20px;
+            background: #0F172A;
+            min-height: 100vh;
+        }
+
+        .balance-card {
+            background: #1E293B;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .mining-controls {
+            background: #1E293B;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
         }
 
         @keyframes slideUp {
@@ -80,104 +110,90 @@
     </style>
 </head>
 <body>
+    <!-- Main Content -->
+    <div class="mining-container">
+        <!-- Mining Page Content -->
+        <div class="balance-card">
+            <h2>⛏️ Active Mining</h2>
+            <div class="balances">
+                <p>SOLL Balance: <span id="soll-balance">0.00</span></p>
+                <p>LARA Balance: <span id="lara-balance">0.00</span></p>
+            </div>
+        </div>
+
+        <div class="mining-controls">
+            <button class="btn" id="mining-toggle">Start Mining</button>
+            <div class="progress-bar">
+                <div class="progress" id="mining-progress"></div>
+            </div>
+            <p>Current Rate: <span id="mining-rate">0.00319</span> SOLL/hr</p>
+        </div>
+    </div>
+
     <!-- Navigation Bar -->
     <div class="nav-bar">
-        <div class="nav-item active" onclick="showPage('tasks')">
-            <span class="nav-icon">📋</span>
-            Tasks
+        <div class="nav-group">
+            <div class="nav-item active" onclick="showPage('tasks')">
+                <span>📋</span>
+                Tasks
+            </div>
+            <div class="nav-item" onclick="showPage('marketplace')">
+                <span>🛒</span>
+                Marketplace
+            </div>
         </div>
-        
-        <div class="nav-item" onclick="showPage('marketplace')">
-            <span class="nav-icon">🛒</span>
-            Marketplace
-        </div>
-        
-        <div class="nav-item" onclick="showPage('mine')">
-            <span class="nav-icon">⛏️</span>
+
+        <div class="nav-item mine active" onclick="showPage('mine')">
+            <span>⛏️</span>
             Mine
         </div>
-        
-        <div class="nav-item" onclick="showPage('account')">
-            <span class="nav-icon">👤</span>
-            Account
-        </div>
-        
-        <div class="nav-item" onclick="toggleDropdown()">
-            <span class="nav-icon">⋮</span>
-            More
-            <div class="more-dropdown" id="moreDropdown">
-                <div class="dropdown-item" onclick="showPage('game')">
-                    <span>🎮</span>
-                    Game
-                </div>
-                <div class="dropdown-item" onclick="showPage('stake')">
-                    <span>💰</span>
-                    Stake
-                </div>
-                <div class="dropdown-item" onclick="showPage('social')">
-                    <span>🌐</span>
-                    Social Hub
-                </div>
-                <div class="dropdown-item" onclick="showPage('governance')">
-                    <span>🏛️</span>
-                    Governance
-                </div>
-                <div class="dropdown-item" onclick="showPage('synthetic')">
-                    <span>📈</span>
-                    Synthetic Assets
-                </div>
-                <div class="dropdown-item" onclick="showPage('help')">
-                    <span>❓</span>
-                    Help/Support
+
+        <div class="nav-group">
+            <div class="nav-item" onclick="showPage('account')">
+                <span>👤</span>
+                Account
+            </div>
+            <div class="nav-item" onclick="toggleDropdown()">
+                <span>⋮</span>
+                More
+                <div class="more-dropdown" id="moreDropdown">
+                    <div class="dropdown-item" onclick="showPage('game')">🎮 Game</div>
+                    <div class="dropdown-item" onclick="showPage('stake')">💰 Stake</div>
+                    <div class="dropdown-item" onclick="showPage('social')">🌐 Social Hub</div>
+                    <div class="dropdown-item" onclick="showPage('governance')">🏛️ Governance</div>
+                    <div class="dropdown-item" onclick="showPage('synthetic')">📈 Synthetic Assets</div>
+                    <div class="dropdown-item" onclick="showPage('help')">❓ Help/Support</div>
                 </div>
             </div>
         </div>
     </div>
 
-<script>
-    // Navigation Logic
-    let currentPage = 'tasks';
-    
-    function showPage(pageId) {
-        // Hide all pages
-        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
-        
-        // Show selected page
-        document.getElementById(`${pageId}-page`).style.display = 'block';
-        
-        // Update nav items
-        document.querySelectorAll('.nav-item').forEach(item => {
-            item.classList.remove('active');
-            if(item.onclick && item.onclick.toString().includes(pageId)) {
-                item.classList.add('active');
+    <script>
+        // Navigation Logic
+        function showPage(pageId) {
+            console.log(`Showing page: ${pageId}`);
+            // Add actual page switching logic here
+        }
+
+        function toggleDropdown() {
+            const dropdown = document.getElementById('moreDropdown');
+            dropdown.classList.toggle('active');
+        }
+
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.nav-item') && !e.target.closest('.more-dropdown')) {
+                document.getElementById('moreDropdown').classList.remove('active');
             }
         });
-        
-        currentPage = pageId;
-    }
 
-    // Dropdown Logic
-    function toggleDropdown() {
-        const dropdown = document.getElementById('moreDropdown');
-        dropdown.classList.toggle('active');
-        
-        // Close dropdown when clicking outside
-        if(dropdown.classList.contains('active')) {
-            setTimeout(() => {
-                window.addEventListener('click', closeDropdown);
-            }, 10);
-        }
-    }
-
-    function closeDropdown(e) {
-        if(!e.target.closest('.more-dropdown') && !e.target.closest('.nav-item:last-child')) {
-            document.getElementById('moreDropdown').classList.remove('active');
-            window.removeEventListener('click', closeDropdown);
-        }
-    }
-
-    // Initial page
-    showPage('tasks');
-</script>
+        // Mining Logic
+        let miningActive = false;
+        document.getElementById('mining-toggle').addEventListener('click', function() {
+            miningActive = !miningActive;
+            this.textContent = miningActive ? 'Stop Mining' : 'Start Mining';
+            // Add actual mining logic here
+        });
+    </script>
 </body>
 </html>
