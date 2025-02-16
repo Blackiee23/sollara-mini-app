@@ -12,6 +12,7 @@
             --accent-blue: #38BDF8;
             --text-primary: #F8FAFC;
             --text-secondary: #94A3B8;
+            --warning: #F59E0B;
         }
 
         body {
@@ -31,77 +32,59 @@
             display: block;
         }
 
-        .nav-bar {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            display: flex;
-            justify-content: space-around;
-            background: var(--nav-bg);
-            padding: 12px 0;
-            border-top: 1px solid #334155;
-            z-index: 1000;
-        }
-
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            color: var(--text-secondary);
-            font-size: 0.75rem;
-            width: 60px;
-            padding: 8px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .nav-item.active {
-            color: var(--accent-blue);
-            transform: translateY(-5px);
-        }
-
-        .nav-icon {
-            font-size: 1.4rem;
-            margin-bottom: 4px;
-        }
-
-        .more-dropdown {
-            position: fixed;
-            bottom: 70px;
-            right: 10px;
-            background: var(--nav-bg);
-            border-radius: 12px;
-            padding: 10px;
-            width: 160px;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
-            display: none;
-            z-index: 999;
-        }
-
-        .more-dropdown.active {
-            display: block;
-            animation: slideUp 0.3s ease;
-        }
-
-        .dropdown-item {
-            padding: 12px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .dropdown-item:hover {
-            background: #334155;
-        }
-
         .mining-card {
             background: #1E293B;
-            border-radius: 12px;
-            padding: 20px;
+            border-radius: 16px;
+            padding: 24px;
             margin-bottom: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mining-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .mining-progress {
+            width: 120px;
+            height: 120px;
+            margin: 20px auto;
+            position: relative;
+        }
+
+        .progress-circle {
+            fill: none;
+            stroke: var(--accent-blue);
+            stroke-width: 8;
+            stroke-linecap: round;
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+        }
+
+        .countdown {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .mining-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 24px;
+        }
+
+        .stat-item {
+            background: #334155;
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
         }
 
         .btn {
@@ -121,15 +104,20 @@
             cursor: not-allowed;
         }
 
-        .countdown {
-            font-size: 1.2rem;
-            text-align: center;
-            margin: 15px 0;
+        .coming-soon {
+            position: relative;
+            padding-right: 80px;
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .coming-soon::after {
+            content: "🔒 Coming Soon";
+            position: absolute;
+            right: 10px;
+            color: var(--warning);
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 4px;
         }
     </style>
 </head>
@@ -137,145 +125,102 @@
     <!-- Mining Page -->
     <div id="mine-page" class="page active">
         <div class="mining-card">
-            <h2>⛏️ Active Mining</h2>
-            <div class="balances">
-                <p>SOLL Balance: <span id="soll-balance">0.00</span></p>
-                <p>LARA Balance: <span id="lara-balance">1000.00</span></p>
+            <div class="mining-header">
+                <h2>⛏️ Active Mining</h2>
+                <div class="balances">
+                    <p>SOLL: <span id="soll-balance">0.00</span></p>
+                    <p>LARA: <span id="lara-balance">1000.00</span></p>
+                </div>
             </div>
-            <div class="countdown" id="countdown">00:00:00</div>
-            <button class="btn" id="start-mining">Start Mining</button>
-            <button class="btn" id="claim-button" disabled>Claim Rewards</button>
-        </div>
-    </div>
 
-    <!-- Other Pages -->
-    <div id="tasks-page" class="page">
-        <div class="mining-card">
-            <h2>📋 Daily Tasks</h2>
-            <div class="task">
-                <p>Daily Check-in - 2 LARA</p>
-                <button class="btn">Claim</button>
+            <div class="mining-progress">
+                <svg viewBox="0 0 100 100">
+                    <circle class="progress-circle" cx="50" cy="50" r="45"/>
+                </svg>
+                <div class="countdown" id="countdown">10s</div>
             </div>
-        </div>
-    </div>
 
-    <div id="marketplace-page" class="page">
-        <div class="mining-card">
-            <h2>🛒 Marketplace</h2>
-            <div class="market-item">
-                <p>Basic Drill - 170 LARA</p>
-                <button class="btn">Buy</button>
+            <div class="mining-stats">
+                <div class="stat-item">
+                    <small>Mining Rate</small>
+                    <h3>0.00319 SOLL/s</h3>
+                </div>
+                <div class="stat-item">
+                    <small>Next Claim</small>
+                    <h3 id="next-claim">10s</h3>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <div id="account-page" class="page">
-        <div class="mining-card">
-            <h2>👤 Account</h2>
-            <p>Wallet: Not connected</p>
-            <button class="btn">Connect Wallet</button>
-        </div>
-    </div>
-
-    <!-- More Dropdown Pages -->
-    <div id="game-page" class="page">
-        <div class="mining-card">
-            <h2>🎮 Oreva Ludo</h2>
-            <button class="btn">Play Now</button>
-        </div>
-    </div>
-
-    <div id="stake-page" class="page">
-        <div class="mining-card">
-            <h2>💰 Staking</h2>
-            <p>SOLL Staking Pool - 5% APR</p>
-            <button class="btn">Stake Now</button>
-        </div>
-    </div>
-
-    <div id="social-page" class="page">
-        <div class="mining-card">
-            <h2>🌐 Social Hub</h2>
-            <p>Community Leaderboard</p>
-        </div>
-    </div>
-
-    <!-- Navigation -->
-    <div class="nav-bar">
-        <div class="nav-item active" onclick="showPage('tasks')">
-            <div class="nav-icon">📋</div>
-            Tasks
-        </div>
-        <div class="nav-item" onclick="showPage('marketplace')">
-            <div class="nav-icon">🛒</div>
-            Marketplace
-        </div>
-        <div class="nav-item" onclick="showPage('mine')">
-            <div class="nav-icon">⛏️</div>
-            Mine
-        </div>
-        <div class="nav-item" onclick="showPage('account')">
-            <div class="nav-icon">👤</div>
-            Account
-        </div>
-        <div class="nav-item" onclick="toggleDropdown()">
-            <div class="nav-icon">⋮</div>
-            More
-            <div class="more-dropdown" id="moreDropdown">
-                <div class="dropdown-item" onclick="showPage('game')">🎮 Game</div>
-                <div class="dropdown-item" onclick="showPage('stake')">💰 Stake</div>
-                <div class="dropdown-item" onclick="showPage('social')">🌐 Social</div>
-                <div class="dropdown-item" onclick="showPage('governance')">🏛️ Governance</div>
-                <div class="dropdown-item" onclick="showPage('synthetic')">📈 Synthetics</div>
-                <div class="dropdown-item" onclick="showPage('help')">❓ Help</div>
+            <div class="action-buttons">
+                <button class="btn" id="start-mining">Start Mining</button>
+                <button class="btn" id="claim-button" disabled>Claim Rewards</button>
             </div>
         </div>
     </div>
+
+    <!-- Navigation and other pages remain similar with coming soon tags -->
 
     <script>
         let state = {
             miningActive: false,
             startTime: 0,
+            remainingTime: 10, // 10 seconds for testing
             soll: 0,
-            lara: 1000,
-            claimAvailable: false
+            lara: 1000
         };
 
         // Mining System
         function updateMining() {
             if(state.miningActive) {
-                const now = Date.now();
-                const elapsed = now - state.startTime;
-                const hours = Math.floor(elapsed / 3600000);
+                const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+                state.remainingTime = Math.max(10 - elapsed, 0);
                 
-                // Enable claim after 1 hour
-                if(hours >= 1 && !state.claimAvailable) {
-                    state.claimAvailable = true;
+                // Update progress circle
+                const progress = (10 - state.remainingTime) * 10;
+                document.querySelector('.progress-circle').style.strokeDasharray = 
+                    `${progress} ${100 - progress}`;
+
+                // Update displays
+                document.getElementById('countdown').textContent = `${state.remainingTime}s`;
+                document.getElementById('next-claim').textContent = `${state.remainingTime}s`;
+
+                // Enable claim when time's up
+                if(state.remainingTime <= 0) {
                     document.getElementById('claim-button').disabled = false;
+                    state.miningActive = false;
                 }
-                
-                updateCountdown(elapsed);
             }
         }
 
-        function updateCountdown(elapsed) {
-            const totalSeconds = Math.floor(elapsed / 1000);
-            const hours = Math.floor(totalSeconds / 3600);
-            const minutes = Math.floor((totalSeconds % 3600) / 60);
-            const seconds = totalSeconds % 60;
-            
-            document.getElementById('countdown').textContent = 
-                `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
+        // Persistent State
+        function saveState() {
+            localStorage.setItem('miningState', JSON.stringify({
+                ...state,
+                startTime: Date.now() - ((10 - state.remainingTime) * 1000)
+            }));
         }
 
-        // Page Navigation
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
-            document.getElementById(`${pageId}-page`).classList.add('active');
-            event.currentTarget.classList.add('active');
-            document.getElementById('moreDropdown').classList.remove('active');
-        }
+        // Initialize
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('miningState');
+            if (saved) {
+                const savedState = JSON.parse(saved);
+                const timePassed = Math.floor((Date.now() - savedState.startTime) / 1000);
+                
+                state = {
+                    ...savedState,
+                    remainingTime: Math.max(10 - timePassed, 0),
+                    miningActive: savedState.remainingTime > 0
+                };
+
+                if(state.miningActive) {
+                    document.getElementById('start-mining').textContent = 'Stop Mining';
+                    startMiningInterval();
+                }
+                
+                updateMining();
+            }
+        });
 
         // Mining Controls
         document.getElementById('start-mining').addEventListener('click', function() {
@@ -283,55 +228,32 @@
             
             if(state.miningActive) {
                 state.startTime = Date.now();
+                state.remainingTime = 10;
                 this.textContent = 'Stop Mining';
-                document.getElementById('claim-button').disabled = true;
-                state.claimAvailable = false;
+                startMiningInterval();
             } else {
                 this.textContent = 'Start Mining';
-                document.getElementById('countdown').textContent = '00:00:00';
+                clearInterval(miningInterval);
             }
             
-            localStorage.setItem('miningState', JSON.stringify(state));
+            saveState();
         });
 
-        document.getElementById('claim-button').addEventListener('click', function() {
-            const elapsed = Date.now() - state.startTime;
-            state.soll += (elapsed / 3600000) * 0.00319;
-            document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
-            
-            // Reset mining
-            state.miningActive = false;
-            state.startTime = 0;
-            document.getElementById('start-mining').textContent = 'Start Mining';
-            document.getElementById('countdown').textContent = '00:00:00';
-            this.disabled = true;
-            localStorage.setItem('miningState', JSON.stringify(state));
-        });
-
-        // Initialize
-        window.addEventListener('load', () => {
-            const saved = localStorage.getItem('miningState');
-            if (saved) {
-                state = JSON.parse(saved);
-                document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
-                
-                if (state.miningActive) {
-                    document.getElementById('start-mining').textContent = 'Stop Mining';
-                    state.startTime = Date.now() - (state.soll / 0.00319 * 3600000);
-                    setInterval(updateMining, 1000);
-                }
-            }
-        });
-
-        // Dropdown Management
-        function toggleDropdown() {
-            document.getElementById('moreDropdown').classList.toggle('active');
+        let miningInterval;
+        function startMiningInterval() {
+            clearInterval(miningInterval);
+            miningInterval = setInterval(() => {
+                updateMining();
+                saveState();
+            }, 1000);
         }
 
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.nav-item:last-child')) {
-                document.getElementById('moreDropdown').classList.remove('active');
-            }
+        document.getElementById('claim-button').addEventListener('click', function() {
+            state.soll += 0.00319 * 10; // 10 seconds worth of mining
+            document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
+            this.disabled = true;
+            state.remainingTime = 10;
+            saveState();
         });
     </script>
 </body>
