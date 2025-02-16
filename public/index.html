@@ -5,159 +5,179 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SOLL Mining Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+    <style>
+        /* === Core Navigation Styles === */
+        .nav-bar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+            background: #1E293B;
+            padding: 8px 0;
+            border-top: 1px solid #334155;
+            z-index: 1000;
+        }
+
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            color: #94A3B8;
+            font-size: 0.75rem;
+            padding: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav-item.active {
+            color: #38BDF8;
+            transform: translateY(-3px);
+        }
+
+        .nav-icon {
+            font-size: 1.2rem;
+            margin-bottom: 2px;
+        }
+
+        /* === More Dropdown === */
+        .more-dropdown {
+            position: fixed;
+            bottom: 60px;
+            right: 10px;
+            background: #1E293B;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
+            display: none;
+            width: 180px;
+            z-index: 999;
+        }
+
+        .more-dropdown.active {
+            display: block;
+            animation: slideUp 0.3s ease;
+        }
+
+        .dropdown-item {
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            border-radius: 8px;
+            transition: background 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: #334155;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <!-- Mining Page -->
-        <div id="mine-page" class="page active">
-            <div class="mining-header">
-                <h2>⛏️ Active Mining</h2>
-                <div class="balances">
-                    <p>SOLL: <span id="soll-balance">0.00</span></p>
-                    <p>LARA: <span id="lara-balance">0.00</span></p>
-                </div>
-            </div>
-
-            <div class="mining-tiers">
-                <div class="tier-card">
-                    <h3>Basic Mining</h3>
-                    <p>Rate: 0.00319 SOLL/hr</p>
-                    <button class="btn" id="start-mining">Start Mining</button>
-                </div>
-                
-                <div class="boost-section">
-                    <h3>⚡ Mining Boost</h3>
-                    <p>Burn 15 LARA for +10% efficiency</p>
-                    <button class="btn" id="boost-button">Activate Boost</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Marketplace Page -->
-        <div id="marketplace-page" class="page">
-            <div class="marketplace-grid">
-                <div class="market-item">
-                    <i class="fas fa-tools fa-2x"></i>
-                    <h4>Basic Drill</h4>
-                    <p>170 LARA</p>
-                    <small>0.0425 SOLL/hr</small>
-                </div>
-                
-                <div class="market-item">
-                    <i class="fas fa-gem fa-2x"></i>
-                    <h4>Diamond Excavator</h4>
-                    <p>600 LARA</p>
-                    <small>0.2126 SOLL/hr</small>
-                </div>
-            </div>
-        </div>
-
-        <!-- Account Page -->
-        <div id="account-page" class="page">
-            <div class="account-section">
-                <h3>🔐 Wallet Connection</h3>
-                <button class="btn" id="connect-wallet">Connect Wallet</button>
-            </div>
-            
-            <div class="account-section">
-                <h3>📋 Account Details</h3>
-                <p>Referral Code: SOL123</p>
-                <p>KYC Status: Not Verified</p>
-            </div>
-        </div>
-
-        <!-- More Page -->
-        <div id="more-page" class="page">
-            <div class="account-section">
-                <h3>🎮 Oreva Ludo</h3>
-                <button class="btn">Play Game</button>
-            </div>
-            
-            <div class="account-section">
-                <h3>⚖️ Governance</h3>
-                <button class="btn" disabled>Coming Soon</button>
-            </div>
-        </div>
-    </div>
-
     <!-- Navigation Bar -->
     <div class="nav-bar">
-        <button class="nav-btn active" onclick="showPage('mine')">
-            <i class="fas fa-diamond"></i>
-            Mine
-        </button>
-        <button class="nav-btn" onclick="showPage('marketplace')">
-            <i class="fas fa-shopping-cart"></i>
+        <div class="nav-item active" onclick="showPage('tasks')">
+            <span class="nav-icon">📋</span>
+            Tasks
+        </div>
+        
+        <div class="nav-item" onclick="showPage('marketplace')">
+            <span class="nav-icon">🛒</span>
             Marketplace
-        </button>
-        <button class="nav-btn" onclick="showPage('account')">
-            <i class="fas fa-user"></i>
+        </div>
+        
+        <div class="nav-item" onclick="showPage('mine')">
+            <span class="nav-icon">⛏️</span>
+            Mine
+        </div>
+        
+        <div class="nav-item" onclick="showPage('account')">
+            <span class="nav-icon">👤</span>
             Account
-        </button>
-        <button class="nav-btn" onclick="showPage('more')">
-            <i class="fas fa-ellipsis-h"></i>
+        </div>
+        
+        <div class="nav-item" onclick="toggleDropdown()">
+            <span class="nav-icon">⋮</span>
             More
-        </button>
+            <div class="more-dropdown" id="moreDropdown">
+                <div class="dropdown-item" onclick="showPage('game')">
+                    <span>🎮</span>
+                    Game
+                </div>
+                <div class="dropdown-item" onclick="showPage('stake')">
+                    <span>💰</span>
+                    Stake
+                </div>
+                <div class="dropdown-item" onclick="showPage('social')">
+                    <span>🌐</span>
+                    Social Hub
+                </div>
+                <div class="dropdown-item" onclick="showPage('governance')">
+                    <span>🏛️</span>
+                    Governance
+                </div>
+                <div class="dropdown-item" onclick="showPage('synthetic')">
+                    <span>📈</span>
+                    Synthetic Assets
+                </div>
+                <div class="dropdown-item" onclick="showPage('help')">
+                    <span>❓</span>
+                    Help/Support
+                </div>
+            </div>
+        </div>
     </div>
 
-    <script>
-        // Mining System
-        let state = {
-            miningActive: false,
-            startTime: 0,
-            soll: 0,
-            lara: 1000,
-            boostActive: false
-        };
-
-        function updateMining() {
-            if(state.miningActive) {
-                const elapsed = Date.now() - state.startTime;
-                const rate = state.boostActive ? 0.00319 * 1.1 : 0.00319;
-                state.soll += (elapsed / 3600000) * rate;
-                state.startTime = Date.now();
-                updateDisplay();
-            }
-        }
-
-        function updateDisplay() {
-            document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
-            document.getElementById('lara-balance').textContent = state.lara.toFixed(2);
-        }
-
-        // Event Listeners
-        document.getElementById('start-mining').addEventListener('click', function() {
-            state.miningActive = !state.miningActive;
-            state.startTime = Date.now();
-            this.textContent = state.miningActive ? 'Stop Mining' : 'Start Mining';
-            localStorage.setItem('miningState', JSON.stringify(state));
-        });
-
-        document.getElementById('boost-button').addEventListener('click', function() {
-            if(state.lara >= 15) {
-                state.lara -= 15;
-                state.boostActive = true;
-                setTimeout(() => state.boostActive = false, 86400000); // 24h
-                updateDisplay();
+<script>
+    // Navigation Logic
+    let currentPage = 'tasks';
+    
+    function showPage(pageId) {
+        // Hide all pages
+        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+        
+        // Show selected page
+        document.getElementById(`${pageId}-page`).style.display = 'block';
+        
+        // Update nav items
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.classList.remove('active');
+            if(item.onclick && item.onclick.toString().includes(pageId)) {
+                item.classList.add('active');
             }
         });
+        
+        currentPage = pageId;
+    }
 
-        // Page Navigation
-        function showPage(pageId) {
-            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-            document.getElementById(`${pageId}-page`).classList.add('active');
-            event.currentTarget.classList.add('active');
+    // Dropdown Logic
+    function toggleDropdown() {
+        const dropdown = document.getElementById('moreDropdown');
+        dropdown.classList.toggle('active');
+        
+        // Close dropdown when clicking outside
+        if(dropdown.classList.contains('active')) {
+            setTimeout(() => {
+                window.addEventListener('click', closeDropdown);
+            }, 10);
         }
+    }
 
-        // Initialize
-        window.addEventListener('load', () => {
-            const saved = localStorage.getItem('miningState');
-            if(saved) state = JSON.parse(saved);
-            setInterval(updateMining, 1000);
-            updateDisplay();
-        });
-    </script>
+    function closeDropdown(e) {
+        if(!e.target.closest('.more-dropdown') && !e.target.closest('.nav-item:last-child')) {
+            document.getElementById('moreDropdown').classList.remove('active');
+            window.removeEventListener('click', closeDropdown);
+        }
+    }
+
+    // Initial page
+    showPage('tasks');
+</script>
 </body>
 </html>
