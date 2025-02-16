@@ -6,64 +6,70 @@
     <title>SOLL Mining Pro</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        /* === Core Styles === */
+        /* ==== Core Styles ==== */
+        :root {
+            --nav-bg: #1E293B;
+            --primary-bg: #0F172A;
+            --accent-blue: #38BDF8;
+            --text-primary: #F8FAFC;
+            --text-secondary: #94A3B8;
+        }
+
         body {
             margin: 0;
-            padding: 0;
-            background: #0F172A;
-            color: white;
+            padding: 0 0 70px;
+            background: var(--primary-bg);
+            color: var(--text-primary);
             font-family: 'Poppins', sans-serif;
         }
 
-        /* === Navigation Bar === */
+        /* ==== Professional Navigation ==== */
         .nav-bar {
             position: fixed;
             bottom: 0;
             width: 100%;
             display: flex;
-            justify-content: space-between;
-            background: #1E293B;
-            padding: 10px 20px;
+            justify-content: space-around;
+            align-items: center;
+            background: var(--nav-bg);
+            padding: 12px 0;
             border-top: 1px solid #334155;
             z-index: 1000;
-        }
-
-        .nav-group {
-            display: flex;
-            gap: 25px;
         }
 
         .nav-item {
             display: flex;
             flex-direction: column;
             align-items: center;
-            color: #94A3B8;
+            color: var(--text-secondary);
             font-size: 0.75rem;
+            width: 60px;
+            padding: 8px;
             cursor: pointer;
             transition: all 0.3s ease;
+            position: relative;
         }
 
         .nav-item.active {
-            color: #38BDF8;
+            color: var(--accent-blue);
             transform: translateY(-5px);
         }
 
-        .nav-item.mine {
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
+        .nav-icon {
+            font-size: 1.4rem;
+            margin-bottom: 4px;
         }
 
-        /* === More Dropdown === */
+        /* ==== More Dropdown ==== */
         .more-dropdown {
             position: fixed;
-            bottom: 60px;
-            right: 20px;
-            background: #1E293B;
+            bottom: 70px;
+            right: 10px;
+            background: var(--nav-bg);
             border-radius: 12px;
-            padding: 15px;
-            width: 180px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            padding: 10px;
+            width: 160px;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
             display: none;
             z-index: 999;
         }
@@ -82,11 +88,18 @@
             transition: background 0.3s ease;
         }
 
-        /* === Mining Page === */
+        .dropdown-item:hover {
+            background: #334155;
+        }
+
+        @keyframes slideUp {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        /* ==== Mining Interface ==== */
         .mining-container {
             padding: 20px;
-            background: #0F172A;
-            min-height: 100vh;
         }
 
         .balance-card {
@@ -97,27 +110,33 @@
         }
 
         .mining-controls {
+            text-align: center;
+            padding: 20px;
             background: #1E293B;
             border-radius: 12px;
-            padding: 20px;
-            text-align: center;
         }
 
-        @keyframes slideUp {
-            from { transform: translateY(20px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
+        .btn {
+            background: var(--accent-blue);
+            color: white;
+            border: none;
+            padding: 14px 24px;
+            border-radius: 8px;
+            width: 100%;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
         }
     </style>
 </head>
 <body>
     <!-- Main Content -->
     <div class="mining-container">
-        <!-- Mining Page Content -->
         <div class="balance-card">
             <h2>⛏️ Active Mining</h2>
             <div class="balances">
                 <p>SOLL Balance: <span id="soll-balance">0.00</span></p>
-                <p>LARA Balance: <span id="lara-balance">0.00</span></p>
+                <p>LARA Balance: <span id="lara-balance">1000.00</span></p>
             </div>
         </div>
 
@@ -126,73 +145,121 @@
             <div class="progress-bar">
                 <div class="progress" id="mining-progress"></div>
             </div>
-            <p>Current Rate: <span id="mining-rate">0.00319</span> SOLL/hr</p>
+            <p>Current Rate: 0.00319 SOLL/hr</p>
         </div>
     </div>
 
-    <!-- Navigation Bar -->
+    <!-- Navigation -->
     <div class="nav-bar">
-        <div class="nav-group">
-            <div class="nav-item active" onclick="showPage('tasks')">
-                <span>📋</span>
-                Tasks
-            </div>
-            <div class="nav-item" onclick="showPage('marketplace')">
-                <span>🛒</span>
-                Marketplace
-            </div>
+        <div class="nav-item active" onclick="showPage('tasks')">
+            <div class="nav-icon">📋</div>
+            Tasks
         </div>
-
-        <div class="nav-item mine active" onclick="showPage('mine')">
-            <span>⛏️</span>
+        
+        <div class="nav-item" onclick="showPage('marketplace')">
+            <div class="nav-icon">🛒</div>
+            Marketplace
+        </div>
+        
+        <div class="nav-item" onclick="showPage('mine')">
+            <div class="nav-icon">⛏️</div>
             Mine
         </div>
-
-        <div class="nav-group">
-            <div class="nav-item" onclick="showPage('account')">
-                <span>👤</span>
-                Account
-            </div>
-            <div class="nav-item" onclick="toggleDropdown()">
-                <span>⋮</span>
-                More
-                <div class="more-dropdown" id="moreDropdown">
-                    <div class="dropdown-item" onclick="showPage('game')">🎮 Game</div>
-                    <div class="dropdown-item" onclick="showPage('stake')">💰 Stake</div>
-                    <div class="dropdown-item" onclick="showPage('social')">🌐 Social Hub</div>
-                    <div class="dropdown-item" onclick="showPage('governance')">🏛️ Governance</div>
-                    <div class="dropdown-item" onclick="showPage('synthetic')">📈 Synthetic Assets</div>
-                    <div class="dropdown-item" onclick="showPage('help')">❓ Help/Support</div>
+        
+        <div class="nav-item" onclick="showPage('account')">
+            <div class="nav-icon">👤</div>
+            Account
+        </div>
+        
+        <div class="nav-item" onclick="toggleDropdown()">
+            <div class="nav-icon">⋮</div>
+            More
+            <div class="more-dropdown" id="moreDropdown">
+                <div class="dropdown-item" onclick="showPage('game')">
+                    <span>🎮</span>
+                    Game
+                </div>
+                <div class="dropdown-item" onclick="showPage('stake')">
+                    <span>💰</span>
+                    Stake
+                </div>
+                <div class="dropdown-item" onclick="showPage('social')">
+                    <span>🌐</span>
+                    Social Hub
+                </div>
+                <div class="dropdown-item" onclick="showPage('governance')">
+                    <span>🏛️</span>
+                    Governance
+                </div>
+                <div class="dropdown-item" onclick="showPage('synthetic')">
+                    <span>📈</span>
+                    Synthetic Assets
+                </div>
+                <div class="dropdown-item" onclick="showPage('help')">
+                    <span>❓</span>
+                    Help
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        // Navigation Logic
+        // Mining System
+        let state = {
+            miningActive: false,
+            startTime: 0,
+            soll: 0,
+            lara: 1000
+        };
+
+        // Page Navigation
         function showPage(pageId) {
-            console.log(`Showing page: ${pageId}`);
-            // Add actual page switching logic here
+            console.log(`Showing ${pageId} page`);
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
+            event.currentTarget.classList.add('active');
         }
 
+        // Dropdown Management
         function toggleDropdown() {
             const dropdown = document.getElementById('moreDropdown');
             dropdown.classList.toggle('active');
         }
 
-        // Close dropdown when clicking outside
         document.addEventListener('click', (e) => {
-            if (!e.target.closest('.nav-item') && !e.target.closest('.more-dropdown')) {
+            if (!e.target.closest('.nav-item:last-child')) {
                 document.getElementById('moreDropdown').classList.remove('active');
             }
         });
 
         // Mining Logic
-        let miningActive = false;
         document.getElementById('mining-toggle').addEventListener('click', function() {
-            miningActive = !miningActive;
-            this.textContent = miningActive ? 'Stop Mining' : 'Start Mining';
-            // Add actual mining logic here
+            state.miningActive = !state.miningActive;
+            this.textContent = state.miningActive ? 'Stop Mining' : 'Start Mining';
+            
+            if(state.miningActive) {
+                state.startTime = Date.now();
+            } else {
+                const elapsed = Date.now() - state.startTime;
+                state.soll += (elapsed / 3600000) * 0.00319;
+                document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
+            }
+            
+            localStorage.setItem('miningState', JSON.stringify(state));
+        });
+
+        // Initialize
+        window.addEventListener('load', () => {
+            const saved = localStorage.getItem('miningState');
+            if (saved) {
+                state = JSON.parse(saved);
+                document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
+                document.getElementById('lara-balance').textContent = state.lara.toFixed(2);
+                
+                if (state.miningActive) {
+                    document.getElementById('mining-toggle').textContent = 'Stop Mining';
+                    state.startTime = Date.now() - (state.soll / 0.00319 * 3600000);
+                }
+            }
         });
     </script>
 </body>
