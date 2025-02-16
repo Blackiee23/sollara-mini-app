@@ -1,20 +1,13 @@
-/* ===== Core Styles ===== */
+/* ==== CORE STYLES ==== */
 body {
+    margin: 0;
+    padding: 0 0 80px;
     background: #0F172A;
     color: #fff;
     font-family: 'Poppins', sans-serif;
-    margin: 0;
-    padding: 0 0 80px;
-    min-height: 100vh;
 }
 
-.container {
-    max-width: 480px;
-    margin: 0 auto;
-    padding: 20px;
-}
-
-/* ===== Navigation ===== */
+/* ==== NAVIGATION BAR ==== */
 .nav-bar {
     position: fixed;
     bottom: 0;
@@ -24,75 +17,57 @@ body {
     background: #1E293B;
     padding: 12px 0;
     border-top: 1px solid #334155;
-    box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
+    z-index: 1000;
 }
 
-.nav-btn {
+.nav-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     color: #94A3B8;
-    font-size: 0.9rem;
-    padding: 8px;
-    border: none;
-    background: none;
+    font-size: 0.75rem;
+    width: 20%;
     cursor: pointer;
     transition: all 0.3s ease;
 }
 
-.nav-btn.active {
+.nav-item.active {
     color: #38BDF8;
     transform: translateY(-5px);
 }
 
-/* ===== Mining Page Components ===== */
-.mining-header {
+/* ==== MINING INTERFACE ==== */
+.mining-card {
+    background: #1E293B;
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px;
     text-align: center;
-    padding: 20px 0;
-    background: #1E293B;
-    border-radius: 12px;
-    margin-bottom: 20px;
 }
 
-.mining-tiers {
-    display: grid;
-    gap: 15px;
+.progress-circle {
+    width: 150px;
+    height: 150px;
+    margin: 20px auto;
 }
 
-.tier-card {
-    background: #1E293B;
-    padding: 20px;
-    border-radius: 12px;
-    border: 1px solid #334155;
+.countdown {
+    font-size: 1.8rem;
+    margin: 20px 0;
+    color: #38BDF8;
 }
 
-.boost-section {
-    background: #1E293B;
-    padding: 20px;
-    border-radius: 12px;
-    margin-top: 20px;
-}
-
-/* ===== Marketplace Styles ===== */
-.marketplace-grid {
+/* ==== MARKETPLACE ==== */
+.market-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 15px;
-    margin-top: 20px;
+    padding: 20px;
 }
 
 .market-item {
     background: #1E293B;
+    border-radius: 12px;
     padding: 15px;
-    border-radius: 12px;
     text-align: center;
-    border: 1px solid #334155;
-}
-
-/* ===== Account Page ===== */
-.account-section {
-    background: #1E293B;
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
 }
