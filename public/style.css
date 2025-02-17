@@ -1,24 +1,31 @@
-/* Custom Styles for non-mine pages and Navigation */
-
-/* Reset & Core Styles */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+/* Define a blended dark palette using CSS variables */
+:root {
+  --primary-bg: #2C3E50;      /* Dark blue-gray */
+  --secondary-bg: #34495E;    /* Slightly lighter blue-gray */
+  --container-bg: #3B4A59;    /* Container background for consistency */
+  --accent-color: #2980B9;    /* Accent (blue) for borders and highlights */
+  --button-bg: #27AE60;       /* Green for primary buttons */
+  --text-color: #ECF0F1;      /* Light text */
+  --custom-bg: #2C3E50;       /* General background for non-Tailwind pages */
+  --custom-text: #ECF0F1;
 }
+
+/* General styles for non-Tailwind pages */
 body {
+  background-color: var(--custom-bg);
+  color: var(--custom-text);
   font-family: 'Poppins', sans-serif;
-  padding-bottom: 120px; /* extra space for nav bar */
+  padding-bottom: 120px; /* Extra space for nav bar */
 }
 
-/* App Container for non-Tailwind pages */
+/* App Container (for Task, Market, Account pages) */
 .app-container {
   max-width: 400px;
   margin: 20px auto;
-  background: #1e1e1e;
+  background: var(--container-bg);
   border-radius: 15px;
   padding: 20px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
 /* Header */
@@ -31,7 +38,7 @@ body {
 .header button {
   background: transparent;
   border: none;
-  color: #fff;
+  color: var(--text-color);
   font-size: 16px;
   cursor: pointer;
 }
@@ -40,7 +47,7 @@ body {
   font-size: 20px;
 }
 
-/* Tasks & Marketplace Lists */
+/* Lists (Tasks & Marketplace) */
 .tasks-list ul,
 .marketplace-list ul {
   list-style: none;
@@ -49,15 +56,16 @@ body {
 .tasks-list li,
 .marketplace-list li {
   padding: 10px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--secondary-bg);
   font-size: 14px;
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-.task-action, .buy-action {
-  background-color: #007bff;
-  color: #fff;
+.task-action,
+.buy-action {
+  background-color: var(--accent-color);
+  color: var(--text-color);
   border: none;
   padding: 6px 10px;
   border-radius: 5px;
@@ -70,8 +78,8 @@ body {
   text-align: left;
 }
 .account-content button {
-  background-color: #007bff;
-  color: #fff;
+  background-color: var(--accent-color);
+  color: var(--text-color);
   border: none;
   padding: 10px;
   border-radius: 5px;
@@ -89,7 +97,7 @@ body {
 }
 .account-content li {
   padding: 8px;
-  border-bottom: 1px solid #333;
+  border-bottom: 1px solid var(--secondary-bg);
   font-size: 14px;
 }
 
@@ -98,16 +106,16 @@ body {
   position: fixed;
   bottom: 0;
   width: 100%;
-  background: #1e1e1e;
+  background: var(--primary-bg);
   display: flex;
   justify-content: space-around;
   padding: 20px 0;
-  border-top: 1px solid #333;
+  border-top: 1px solid var(--secondary-bg);
   z-index: 1000;
 }
 .nav-item {
   text-align: center;
-  color: #aaa;
+  color: var(--text-color);
   font-size: 14px;
   cursor: pointer;
   flex: 1;
@@ -115,7 +123,7 @@ body {
 }
 .nav-item:hover,
 .nav-item.active {
-  color: #00aaff;
+  color: var(--accent-color);
 }
 
 /* More Dropdown Menu */
@@ -124,7 +132,7 @@ body {
   bottom: 110px;
   left: 50%;
   transform: translateX(-50%);
-  background: #1e1e1e;
+  background: var(--primary-bg);
   border-radius: 10px;
   padding: 10px;
   width: 90%;
@@ -142,13 +150,13 @@ body {
   align-items: center;
   gap: 10px;
   padding: 10px;
-  background: #2c2c2c;
+  background: var(--secondary-bg);
   border-radius: 5px;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 .dropdown-item:hover {
-  background: #333;
+  background: var(--accent-color);
 }
 .dropdown-item span {
   font-size: 16px;
@@ -156,29 +164,29 @@ body {
 
 /* Modals */
 .modal {
-  display: none; 
-  position: fixed; 
-  z-index: 2000; 
+  display: none;
+  position: fixed;
+  z-index: 2000;
   left: 0;
   top: 0;
   width: 100%;
   height: 100%;
-  overflow: auto; 
-  background-color: rgba(0,0,0,0.5);
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 .modal-content {
-  background-color: #1e1e1e;
+  background-color: var(--primary-bg);
   margin: 15% auto;
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid var(--secondary-bg);
   border-radius: 10px;
   width: 80%;
   max-width: 300px;
   text-align: center;
-  color: #fff;
+  color: var(--text-color);
 }
 .close {
-  color: #aaa;
+  color: var(--text-color);
   float: right;
   font-size: 28px;
   font-weight: bold;
@@ -186,7 +194,7 @@ body {
 }
 .close:hover,
 .close:focus {
-  color: #fff;
+  color: var(--accent-color);
   text-decoration: none;
   cursor: pointer;
 }
