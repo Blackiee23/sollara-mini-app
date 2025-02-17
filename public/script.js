@@ -1,10 +1,11 @@
-// Core state for mining (using SOLL and LARA)
+// Core state for mining and wallet connection
 let state = {
   miningActive: false,
   startTime: 0,
   soll: 0,
   lara: 1000,
-  remainingTime: 10
+  remainingTime: 10,
+  walletConnected: false
 };
 
 const claimButton = document.getElementById('claim-button');
@@ -12,6 +13,8 @@ const sollBalanceEl = document.getElementById('soll-balance');
 const laraBalanceEl = document.getElementById('lara-balance');
 const miningProgressEl = document.getElementById('mining-progress');
 const miningTimerEl = document.getElementById('mining-timer');
+const walletButton = document.getElementById('wallet-button');
+const walletStatus = document.getElementById('wallet-status');
 
 // Update mining progress and timer
 function updateMining() {
@@ -48,16 +51,34 @@ claimButton.addEventListener('click', function() {
   saveState();
 });
 
-// Start mining update loop after DOM loads
-document.addEventListener('DOMContentLoaded', function() {
-  loadState();
-  setInterval(() => {
-    if (state.miningActive) {
-      updateMining();
-      saveState();
-    }
-  }, 1000);
-});
+// Wallet connection toggle
+function toggleWallet() {
+  state.walletConnected = !state.walletConnected;
+  updateWalletUI();
+  saveState();
+}
+
+function updateWalletUI() {
+  if (state.walletConnected) {
+    walletButton.textContent = "Disconnect Wallet";
+    walletStatus.textContent = "Connected: TON_XXXXXX";
+  } else {
+    walletButton.textContent = "Connect Wallet";
+    walletStatus.textContent = "Not Connected";
+  }
+}
+
+// Coming Soon modal functions for Season 2 features
+function comingSoon() {
+  const modal = document.getElementById('comingSoonModal');
+  modal.style.display = "block";
+  document.getElementById('moreDropdown').classList.remove('active');
+}
+
+function closeModal() {
+  const modal = document.getElementById('comingSoonModal');
+  modal.style.display = "none";
+}
 
 // Navigation functions
 function navigateTo(pageId) {
@@ -84,7 +105,6 @@ function updateNavActive(pageId) {
 }
 
 function goBack() {
-  // Simple back function to return to the mining dashboard
   navigateTo('mining-page');
 }
 
@@ -100,7 +120,8 @@ function saveState() {
     startTime: state.startTime,
     soll: state.soll,
     lara: state.lara,
-    remainingTime: state.remainingTime
+    remainingTime: state.remainingTime,
+    walletConnected: state.walletConnected
   }));
 }
 
@@ -120,6 +141,26 @@ function loadState() {
     }
     sollBalanceEl.textContent = state.soll.toFixed(4);
     laraBalanceEl.textContent = state.lara.toFixed(2);
-    miningTimerEl.textContent = formatTime(state.remainingTime);
+    if (miningTimerEl) miningTimerEl.textContent = formatTime(state.remainingTime);
+    updateWalletUI();
   }
+}
+
+// Start mining update loop after DOM loads
+document.addEventListener('DOMContentLoaded', function() {
+  loadState();
+  setInterval(() => {
+    if (state.miningActive) {
+      updateMining();
+      saveState();
+    }
+  }, 1000);
+});
+
+// Optional: Copy Referral Code function (for Account page)
+function copyReferral() {
+  const referralCode = document.getElementById('referral-code').textContent;
+  navigator.clipboard.writeText(referralCode).then(() => {
+    alert("Referral code copied: " + referralCode);
+  });
 }
