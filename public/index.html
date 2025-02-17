@@ -4,33 +4,50 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SOLL Mining Pro</title>
+  <!-- Include Tailwind for the mine page design -->
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
-<body>
-  <!-- Mining Dashboard (Home Page) -->
-  <div class="app-container page active" id="mining-page">
-    <div class="header">
-      <button onclick="goBack()">Cancel</button>
-      <h3>SOLL Mining Pro</h3>
-      <i class="fas fa-ellipsis-h" onclick="toggleMoreDropdown()"></i>
+<body class="bg-black text-white">
+  <!-- Mining Dashboard (Mine Page) -->
+  <div class="page active" id="mining-page">
+    <!-- Header with Cancel, Title & More Dropdown Toggle -->
+    <div class="flex justify-between items-center p-4">
+      <button onclick="goBack()" class="text-white">Cancel</button>
+      <h3 class="text-white text-xl">SOLL Mining Pro</h3>
+      <button onclick="toggleMoreDropdown()" class="text-white">
+        <i class="fas fa-ellipsis-h"></i>
+      </button>
     </div>
-    <div class="profile-section">
-      <div class="profile-picture"></div>
-      <div class="profile-info">
-        <strong>USERNAME</strong>
-        <span>SOLL: <span id="soll-balance">0.0000</span></span>
+    <!-- Mine Card (Tailwind Design) -->
+    <div class="w-96 mx-auto bg-[#1a1a1a] p-6 rounded-xl text-center">
+      <!-- Balance Display -->
+      <div class="flex items-center justify-between p-3 bg-gray-900 rounded-lg mb-4">
+        <span class="text-sm">⭐ Balance</span>
+        <span class="font-bold text-lg" id="soll-balance">0.0000</span>
+        <button class="text-gray-400">⚙️</button>
       </div>
-    </div>
-    <div class="circle-progress">
-      <h1 id="mining-progress">0.0000</h1>
-      <p>Balance: <span id="lara-balance">1000.00</span> LARA</p>
-      <p>Fill: <span id="mining-timer">00:00:00</span></p>
-      <p>Mining Rate: 0.01 SOLL/hour</p>
-    </div>
-    <div class="mining-controls">
-      <button class="mining-btn" id="start-mining">Start Mining</button>
-      <button class="claim-button" id="claim-button" disabled>Claim SOLL</button>
+      <!-- Mining Animation -->
+      <div class="flex justify-center mb-4">
+        <div class="w-28 h-28 rounded-full overflow-hidden border-4 border-gray-700">
+          <img src="https://via.placeholder.com/100" alt="Mining Fan" class="w-full h-full">
+        </div>
+      </div>
+      <!-- Mined Tokens Display -->
+      <div class="bg-gray-800 p-4 rounded-lg mb-4">
+        <p class="text-gray-400 text-sm">Mined Tokens</p>
+        <p class="text-2xl font-bold" id="mining-progress">0.0000</p>
+        <p class="text-xs text-gray-400">⭐ 0 tokens profit per hour</p>
+        <p class="text-xs text-gray-400" id="mining-timer">00:00:00</p>
+      </div>
+      <!-- Mining Controls -->
+      <div class="flex gap-2">
+        <button class="flex-1 bg-gray-700 text-gray-400 p-3 rounded-lg text-lg" id="start-mining">Start Mining</button>
+        <button class="flex-1 bg-yellow-500 text-black p-3 rounded-lg font-bold text-lg" id="claim-button" disabled>Claim SOLL</button>
+      </div>
+      <!-- Boost Mining -->
+      <button class="w-full bg-white text-black p-3 rounded-lg mt-4">Boost Mining →</button>
     </div>
   </div>
 
@@ -130,39 +147,15 @@
   <!-- More Dropdown Menu (Season 2 features and Help) -->
   <div class="more-dropdown" id="moreDropdown">
     <div class="dropdown-item" onclick="comingSoon('Community & Social')">
-      <span>🌐</span> Community &amp; Social
+      <span>🌐</span> Community &amp; Social <span>🔒</span>
     </div>
     <div class="dropdown-item" onclick="comingSoon('Governance')">
-      <span>🏛️</span> Governance
+      <span>🏛️</span> Governance <span>🔒</span>
     </div>
     <div class="dropdown-item" onclick="comingSoon('SOLL Ludo Game')">
-      <span>🎲</span> SOLL Ludo Game
+      <span>🎲</span> SOLL Ludo Game <span>🔒</span>
     </div>
     <div class="dropdown-item" onclick="comingSoon('Synthetic Asset Staking')">
-      <span>💰</span> Synthetic Asset Staking
+      <span>💰</span> Synthetic Asset Staking <span>🔒</span>
     </div>
-    <div class="dropdown-item" onclick="showHelp()">
-      <span>❓</span> Help
-    </div>
-  </div>
-
-  <!-- Coming Soon Modal -->
-  <div id="comingSoonModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeModal()">&times;</span>
-      <p id="comingSoonText">This feature is part of our Season 2 release and will be available soon. Stay tuned!</p>
-    </div>
-  </div>
-
-  <!-- Help Modal -->
-  <div id="helpModal" class="modal">
-    <div class="modal-content">
-      <span class="close" onclick="closeHelpModal()">&times;</span>
-      <h3>Help &amp; Support</h3>
-      <p>For assistance, please visit our FAQ page or contact support at support@example.com.</p>
-    </div>
-  </div>
-
-  <script src="script.js"></script>
-</body>
-</html>
+    <div class="dropdown-item"
