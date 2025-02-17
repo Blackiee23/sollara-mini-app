@@ -27,7 +27,7 @@
             <h2>📋 Daily Tasks</h2>
             <div class="task-item">
                 <p>Daily Check-in - 2 LARA</p>
-                <button class="btn">Claim</button>
+                <button class="btn task-claim">Claim</button>
             </div>
         </div>
     </div>
@@ -51,24 +51,20 @@
 
     <!-- ==== NAVIGATION BAR ==== -->
     <div class="nav-bar">
-        <div class="nav-item active" onclick="showPage('mine')">
+        <div class="nav-item active" data-page="mine">
             <span>⛏️</span> Mine
         </div>
-        <div class="nav-item" onclick="showPage('tasks')">
+        <div class="nav-item" data-page="tasks">
             <span>📋</span> Tasks
         </div>
-        <div class="nav-item" onclick="showPage('marketplace')">
+        <div class="nav-item" data-page="marketplace">
             <span>🛒</span> Market
         </div>
-        <div class="nav-item" onclick="showPage('account')">
+        <div class="nav-item" data-page="account">
             <span>👤</span> Account
-        </div>
-        <div class="nav-item" onclick="toggleDropdown()">
-            <span>⋮</span> More
         </div>
     </div>
 
-    <!-- Link to external JavaScript -->
     <script src="script.js"></script>
 </body>
 </html>
