@@ -1,53 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>SOLL Mining Pro</title>
-  <!-- Include Tailwind for the mine page design -->
+  <!-- Tailwind CSS for the mine page design -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <!-- Our custom style sheet -->
+  <link rel="stylesheet" href="style.css" />
+  <!-- Font Awesome icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
 </head>
-<body class="bg-black text-white">
+<body class="bg-custom text-custom">
   <!-- Mining Dashboard (Mine Page) -->
   <div class="page active" id="mining-page">
     <!-- Header with Cancel, Title & More Dropdown Toggle -->
     <div class="flex justify-between items-center p-4">
-      <button onclick="goBack()" class="text-white">Cancel</button>
-      <h3 class="text-white text-xl">SOLL Mining Pro</h3>
-      <button onclick="toggleMoreDropdown()" class="text-white">
+      <button onclick="goBack()" class="text-custom">Cancel</button>
+      <h3 class="text-custom text-xl">SOLL Mining Pro</h3>
+      <button onclick="toggleMoreDropdown()" class="text-custom">
         <i class="fas fa-ellipsis-h"></i>
       </button>
     </div>
-    <!-- Mine Card (Tailwind Design) -->
-    <div class="w-96 mx-auto bg-[#1a1a1a] p-6 rounded-xl text-center">
+    <!-- Mine Card (Tailwind Design with Blended Colors) -->
+    <div class="w-96 mx-auto bg-[var(--container-bg)] p-6 rounded-xl text-center">
       <!-- Balance Display -->
-      <div class="flex items-center justify-between p-3 bg-gray-900 rounded-lg mb-4">
+      <div class="flex items-center justify-between p-3 bg-[var(--primary-bg)] rounded-lg mb-4">
         <span class="text-sm">⭐ Balance</span>
         <span class="font-bold text-lg" id="soll-balance">0.0000</span>
-        <button class="text-gray-400">⚙️</button>
+        <button class="text-[var(--text-color)]">⚙️</button>
       </div>
       <!-- Mining Animation -->
       <div class="flex justify-center mb-4">
-        <div class="w-28 h-28 rounded-full overflow-hidden border-4 border-gray-700">
-          <img src="https://via.placeholder.com/100" alt="Mining Fan" class="w-full h-full">
+        <div class="w-28 h-28 rounded-full overflow-hidden border-4 border-[var(--accent-color)]">
+          <img src="https://via.placeholder.com/100" alt="Mining Fan" class="w-full h-full" />
         </div>
       </div>
       <!-- Mined Tokens Display -->
-      <div class="bg-gray-800 p-4 rounded-lg mb-4">
-        <p class="text-gray-400 text-sm">Mined Tokens</p>
+      <div class="bg-[var(--primary-bg)] p-4 rounded-lg mb-4">
+        <p class="text-[#BDC3C7] text-sm">Mined Tokens</p>
         <p class="text-2xl font-bold" id="mining-progress">0.0000</p>
-        <p class="text-xs text-gray-400">⭐ 0 tokens profit per hour</p>
-        <p class="text-xs text-gray-400" id="mining-timer">00:00:00</p>
+        <p class="text-xs text-[#BDC3C7]">⭐ 0 tokens profit per hour</p>
+        <p class="text-xs text-[#BDC3C7]" id="mining-timer">00:00:00</p>
       </div>
       <!-- Mining Controls -->
       <div class="flex gap-2">
-        <button class="flex-1 bg-gray-700 text-gray-400 p-3 rounded-lg text-lg" id="start-mining">Start Mining</button>
-        <button class="flex-1 bg-yellow-500 text-black p-3 rounded-lg font-bold text-lg" id="claim-button" disabled>Claim SOLL</button>
+        <button class="flex-1 bg-[var(--button-bg)] text-white p-3 rounded-lg text-lg" id="start-mining">Start Mining</button>
+        <button class="flex-1 bg-[var(--accent-color)] text-white p-3 rounded-lg font-bold text-lg" id="claim-button" disabled>Claim SOLL</button>
       </div>
       <!-- Boost Mining -->
-      <button class="w-full bg-white text-black p-3 rounded-lg mt-4">Boost Mining →</button>
+      <button class="w-full bg-[var(--text-color)] text-[var(--primary-bg)] p-3 rounded-lg mt-4">Boost Mining →</button>
     </div>
   </div>
 
@@ -158,4 +160,28 @@
     <div class="dropdown-item" onclick="comingSoon('Synthetic Asset Staking')">
       <span>💰</span> Synthetic Asset Staking <span>🔒</span>
     </div>
-    <div class="dropdown-item"
+    <div class="dropdown-item" onclick="showHelp()">
+      <span>❓</span> Help
+    </div>
+  </div>
+
+  <!-- Coming Soon Modal -->
+  <div id="comingSoonModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <p id="comingSoonText">This feature is part of our Season 2 release and will be available soon. Stay tuned!</p>
+    </div>
+  </div>
+
+  <!-- Help Modal -->
+  <div id="helpModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeHelpModal()">&times;</span>
+      <h3>Help &amp; Support</h3>
+      <p>For assistance, please visit our FAQ page or contact support at support@example.com.</p>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
