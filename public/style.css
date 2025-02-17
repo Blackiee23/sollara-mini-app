@@ -15,7 +15,7 @@ body {
   background-color: var(--custom-bg);
   color: var(--custom-text);
   font-family: 'Poppins', sans-serif;
-  padding-bottom: 120px; /* Extra space for nav bar */
+  padding-bottom: 120px; /* extra space for nav bar */
 }
 
 /* App Container (for Task, Market, Account pages) */
