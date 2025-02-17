@@ -8,28 +8,20 @@ let state = {
     walletConnected: false
 };
 
-// ==== PAGE NAVIGATION ====
-document.querySelectorAll('.nav-item').forEach(item => {
-    item.addEventListener('click', () => {
-        // Remove active class from all items
-        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
-        // Add active class to clicked item
-        item.classList.add('active');
-        // Show corresponding page
-        const pageId = item.dataset.page;
-        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
-        document.getElementById(`${pageId}-page`).classList.add('active');
-    });
-});
-
 // ==== MINING SYSTEM ====
 function updateMining() {
     if(state.miningActive) {
         const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
         state.remainingTime = Math.max(10 - elapsed, 0);
         
+        // Update progress circle
+        const progress = (10 - state.remainingTime) * 10;
+        document.querySelector('.progress-circle').style.strokeDasharray = 
+            `${progress} ${100 - progress}`;
+
+        // Update countdown
         document.getElementById('countdown').textContent = `${state.remainingTime}s`;
-        
+
         if(state.remainingTime <= 0) {
             document.getElementById('claim-button').disabled = false;
             state.miningActive = false;
@@ -42,7 +34,7 @@ document.getElementById('start-mining').addEventListener('click', function() {
     state.miningActive = !state.miningActive;
     state.startTime = Date.now();
     this.textContent = state.miningActive ? 'Stop Mining' : 'Start Mining';
-    localStorage.setItem('miningState', JSON.stringify(state));
+    saveState();
 });
 
 document.getElementById('claim-button').addEventListener('click', function() {
@@ -50,44 +42,47 @@ document.getElementById('claim-button').addEventListener('click', function() {
     document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
     this.disabled = true;
     state.remainingTime = 10;
-    localStorage.setItem('miningState', JSON.stringify(state));
+    state.miningActive = true;
+    state.startTime = Date.now();
+    saveState();
 });
 
-// ==== WALLET INTEGRATION ====
-document.getElementById('connect-wallet').addEventListener('click', () => {
-    state.walletConnected = true;
-    document.getElementById('wallet-status').textContent = "Connected: TON_XXXXXX";
-    localStorage.setItem('walletState', 'connected');
-});
+// ==== MORE DROPDOWN ====
+function toggleDropdown() {
+    const dropdown = document.getElementById('moreDropdown');
+    dropdown.classList.toggle('active');
+}
 
-// ==== TASK SYSTEM ====
-document.querySelector('.task-claim').addEventListener('click', function() {
-    if(!this.disabled) {
-        state.lara += 2;
-        document.getElementById('lara-balance').textContent = state.lara.toFixed(2);
-        this.disabled = true;
-        localStorage.setItem('miningState', JSON.stringify(state));
+document.addEventListener('click', (e) => {
+    if (!e.target.closest('.nav-item:last-child')) {
+        document.getElementById('moreDropdown').classList.remove('active');
     }
 });
+
+// ==== PERSISTENT STORAGE ====
+function saveState() {
+    localStorage.setItem('miningState', JSON.stringify({
+        ...state,
+        startTime: Date.now() - (10 - state.remainingTime) * 1000
+    }));
+}
 
 // ==== INITIALIZATION ====
 window.addEventListener('load', () => {
-    // Load mining state
-    const savedState = localStorage.getItem('miningState');
-    if(savedState) {
-        state = JSON.parse(savedState);
-        document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
-        document.getElementById('lara-balance').textContent = state.lara.toFixed(2);
+    const saved = localStorage.getItem('miningState');
+    if(saved) {
+        state = JSON.parse(saved);
+        const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+        state.remainingTime = Math.max(10 - elapsed, 0);
         
-        if(state.miningActive) {
-            const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
-            state.remainingTime = Math.max(10 - elapsed, 0);
+        if(state.remainingTime > 0) {
             document.getElementById('start-mining').textContent = 'Stop Mining';
-            updateMining();
+            state.miningActive = true;
         }
+        
+        updateMining();
     }
-
-    // Load wallet state
+    
     if(localStorage.getItem('walletState')) {
         document.getElementById('wallet-status').textContent = "Connected: TON_XXXXXX";
     }
@@ -97,5 +92,6 @@ window.addEventListener('load', () => {
 setInterval(() => {
     if(state.miningActive) {
         updateMining();
+        saveState();
     }
 }, 1000);
