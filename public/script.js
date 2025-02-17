@@ -4,8 +4,7 @@ let state = {
     startTime: 0,
     soll: 0,
     lara: 1000,
-    remainingTime: 10,
-    walletConnected: false
+    remainingTime: 10
 };
 
 // ==== MINING SYSTEM ====
@@ -15,13 +14,11 @@ function updateMining() {
         state.remainingTime = Math.max(10 - elapsed, 0);
         
         // Update progress circle
-        const progress = (10 - state.remainingTime) * 10;
-        document.querySelector('.progress-circle').style.strokeDasharray = 
-            `${progress} ${100 - progress}`;
+        const progress = (10 - state.remainingTime) * 31.4; // 31.4 = 2πr (r=45)
+        document.querySelector('.progress-bar').style.strokeDasharray = `${progress} 282.6`;
 
-        // Update countdown
         document.getElementById('countdown').textContent = `${state.remainingTime}s`;
-
+        
         if(state.remainingTime <= 0) {
             document.getElementById('claim-button').disabled = false;
             state.miningActive = false;
@@ -29,42 +26,50 @@ function updateMining() {
     }
 }
 
-// ==== EVENT LISTENERS ====
-document.getElementById('start-mining').addEventListener('click', function() {
-    state.miningActive = !state.miningActive;
-    state.startTime = Date.now();
-    this.textContent = state.miningActive ? 'Stop Mining' : 'Start Mining';
-    saveState();
-});
-
+// ==== CLAIM FUNCTION ====
 document.getElementById('claim-button').addEventListener('click', function() {
     state.soll += 0.00319 * 10;
-    document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
-    this.disabled = true;
     state.remainingTime = 10;
+    this.disabled = true;
     state.miningActive = true;
     state.startTime = Date.now();
+    updateDisplay();
     saveState();
 });
 
-// ==== MORE DROPDOWN ====
+// ==== MINING TOGGLE ====
+document.getElementById('start-mining').addEventListener('click', function() {
+    state.miningActive = !state.miningActive;
+    if(state.miningActive) {
+        state.startTime = Date.now();
+        this.textContent = 'Stop Mining';
+    } else {
+        this.textContent = 'Start Mining';
+    }
+    saveState();
+});
+
+// ==== DROPDOWN ====
 function toggleDropdown() {
-    const dropdown = document.getElementById('moreDropdown');
-    dropdown.classList.toggle('active');
+    document.getElementById('moreDropdown').classList.toggle('active');
 }
 
-document.addEventListener('click', (e) => {
-    if (!e.target.closest('.nav-item:last-child')) {
-        document.getElementById('moreDropdown').classList.remove('active');
-    }
-});
+function showComingSoon() {
+    document.getElementById('comingSoonModal').style.display = 'block';
+}
+
+function closeModal() {
+    document.getElementById('comingSoonModal').style.display = 'none';
+}
 
 // ==== PERSISTENT STORAGE ====
 function saveState() {
-    localStorage.setItem('miningState', JSON.stringify({
-        ...state,
-        startTime: Date.now() - (10 - state.remainingTime) * 1000
-    }));
+    localStorage.setItem('miningState', JSON.stringify(state));
+}
+
+function updateDisplay() {
+    document.getElementById('soll-balance').textContent = state.soll.toFixed(4) + ' SOLL';
+    document.getElementById('lara-balance').textContent = state.lara.toFixed(2) + ' LARA';
 }
 
 // ==== INITIALIZATION ====
@@ -72,19 +77,22 @@ window.addEventListener('load', () => {
     const saved = localStorage.getItem('miningState');
     if(saved) {
         state = JSON.parse(saved);
-        const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
-        state.remainingTime = Math.max(10 - elapsed, 0);
-        
-        if(state.remainingTime > 0) {
-            document.getElementById('start-mining').textContent = 'Stop Mining';
-            state.miningActive = true;
+        if(state.miningActive) {
+            const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+            state.remainingTime = Math.max(10 - elapsed, 0);
+            if(state.remainingTime > 0) {
+                document.getElementById('start-mining').textContent = 'Stop Mining';
+            }
         }
-        
+        updateDisplay();
         updateMining();
     }
-    
-    if(localStorage.getItem('walletState')) {
-        document.getElementById('wallet-status').textContent = "Connected: TON_XXXXXX";
+});
+
+// Close dropdown when clicking outside
+document.addEventListener('click', (e) => {
+    if(!e.target.closest('.btn-icon') && !e.target.closest('.more-dropdown')) {
+        document.getElementById('moreDropdown').classList.remove('active');
     }
 });
 
