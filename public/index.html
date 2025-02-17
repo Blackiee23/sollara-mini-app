@@ -1,94 +1,131 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SOLL Mining Pro</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-    <!-- ==== PAGES ==== -->
-    <div id="mine-page" class="page active">
-        <div class="mining-card">
-            <h2>⛏️ Active Mining</h2>
-            <div class="balances">
-                <p>SOLL: <span id="soll-balance">0.00</span></p>
-                <p>LARA: <span id="lara-balance">1000.00</span></p>
-            </div>
-            <div class="countdown" id="countdown">10s</div>
-            <button class="btn" id="start-mining">Start Mining</button>
-            <button class="btn" id="claim-button" disabled>Claim Rewards</button>
-        </div>
-    </div>
+/* ==== CORE STYLES ==== */
+body {
+    margin: 0;
+    padding: 0 0 80px;
+    background: #0F172A;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+}
 
-    <div id="tasks-page" class="page">
-        <div class="mining-card">
-            <h2>📋 Daily Tasks</h2>
-            <div class="task-item">
-                <p>Daily Check-in - 2 LARA</p>
-                <button class="btn task-claim">Claim</button>
-            </div>
-        </div>
-    </div>
+.page {
+    display: none;
+    padding: 20px;
+}
 
-    <div id="marketplace-page" class="page">
-        <div class="market-grid">
-            <div class="market-item">
-                <p>Basic Drill - 170 LARA</p>
-                <button class="btn buy-button">Buy</button>
-            </div>
-        </div>
-    </div>
+.page.active {
+    display: block;
+}
 
-    <div id="account-page" class="page">
-        <div class="mining-card">
-            <h2>👤 Account</h2>
-            <p id="wallet-status">Wallet: Not connected</p>
-            <button class="btn" id="connect-wallet">Connect TON Wallet</button>
-        </div>
-    </div>
+/* ==== MINING PAGE ==== */
+.mining-card {
+    background: #1E293B;
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px;
+    text-align: center;
+}
 
-    <!-- More Page Content -->
-    <div id="more-page" class="page">
-        <div class="mining-card">
-            <h2>⚙️ More Features</h2>
-            <div class="more-grid">
-                <div class="more-item" onclick="showPage('game')">
-                    <span>🎮</span> Game
-                </div>
-                <div class="more-item coming-soon" onclick="showPage('stake')">
-                    <span>💰</span> Stake <small>🔒 Season 2</small>
-                </div>
-                <div class="more-item coming-soon" onclick="showPage('social')">
-                    <span>🌐</span> Social Hub <small>🔒 Season 2</small>
-                </div>
-                <div class="more-item coming-soon" onclick="showPage('governance')">
-                    <span>🏛️</span> Governance <small>🔒 Season 2</small>
-                </div>
-            </div>
-        </div>
-    </div>
+.mining-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
 
-    <!-- ==== NAVIGATION BAR ==== -->
-    <div class="nav-bar">
-        <div class="nav-item active" data-page="mine">
-            <span>⛏️</span> Mine
-        </div>
-        <div class="nav-item" data-page="tasks">
-            <span>📋</span> Tasks
-        </div>
-        <div class="nav-item" data-page="marketplace">
-            <span>🛒</span> Market
-        </div>
-        <div class="nav-item" data-page="account">
-            <span>👤</span> Account
-        </div>
-        <div class="nav-item" data-page="more">
-            <span>⋮</span> More
-        </div>
-    </div>
+.mining-progress {
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+    position: relative;
+}
 
-    <script src="script.js"></script>
-</body>
-</html>
+.progress-circle {
+    fill: none;
+    stroke: #38BDF8;
+    stroke-width: 8;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+.countdown {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
+/* ==== NAVIGATION BAR ==== */
+.nav-bar {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    background: #1E293B;
+    padding: 12px 0;
+    border-top: 1px solid #334155;
+    z-index: 1000;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #94A3B8;
+    font-size: 0.75rem;
+    width: 20%;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 8px;
+}
+
+.nav-item.active {
+    color: #38BDF8;
+    transform: translateY(-5px);
+}
+
+/* ==== MORE DROPDOWN ==== */
+.more-dropdown {
+    position: fixed;
+    bottom: 70px;
+    right: 10px;
+    background: #1E293B;
+    border-radius: 12px;
+    padding: 10px;
+    width: 160px;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 999;
+}
+
+.more-dropdown.active {
+    display: block;
+    animation: slideUp 0.3s ease;
+}
+
+.dropdown-item {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background: #334155;
+}
+
+.coming-soon {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
