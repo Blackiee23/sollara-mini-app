@@ -28,7 +28,10 @@
       <p>Fill: <span id="mining-timer">00:00:00</span></p>
       <p>Mining Rate: 0.01 SOLL/hour</p>
     </div>
-    <button class="claim-button" id="claim-button">Claim SOLL</button>
+    <div class="mining-controls">
+      <button class="mining-btn" id="start-mining">Start Mining</button>
+      <button class="claim-button" id="claim-button" disabled>Claim SOLL</button>
+    </div>
   </div>
 
   <!-- Task Center Page -->
@@ -39,10 +42,22 @@
     </div>
     <div class="tasks-list">
       <ul>
-        <li>Daily Check-In - Earn 10 LARA</li>
-        <li>Watch Tutorial Video - Earn 5 LARA</li>
-        <li>Follow Telegram Channel - Earn 5 LARA</li>
-        <li>Complete Profile - Earn 15 LARA</li>
+        <li>
+          <span>Daily Check-In - Earn 10 LARA</span>
+          <button class="task-action">Complete</button>
+        </li>
+        <li>
+          <span>Watch Tutorial Video - Earn 5 LARA</span>
+          <button class="task-action">Complete</button>
+        </li>
+        <li>
+          <span>Follow Telegram Channel - Earn 5 LARA</span>
+          <button class="task-action">Complete</button>
+        </li>
+        <li>
+          <span>Complete Profile - Earn 15 LARA</span>
+          <button class="task-action">Complete</button>
+        </li>
       </ul>
     </div>
   </div>
@@ -55,9 +70,18 @@
     </div>
     <div class="marketplace-list">
       <ul>
-        <li>Mining Tool Upgrade - 100 LARA</li>
-        <li>Auto-Claim Bot (72h) - 150 LARA</li>
-        <li>Exclusive NFT Badge - 200 LARA</li>
+        <li>
+          <span>Mining Tool Upgrade - 100 LARA</span>
+          <button class="buy-action">Buy</button>
+        </li>
+        <li>
+          <span>Auto-Claim Bot (72h) - 150 LARA</span>
+          <button class="buy-action">Buy</button>
+        </li>
+        <li>
+          <span>Exclusive NFT Badge - 200 LARA</span>
+          <button class="buy-action">Buy</button>
+        </li>
       </ul>
     </div>
   </div>
@@ -103,19 +127,22 @@
     </div>
   </div>
 
-  <!-- More Dropdown Menu (Season 2 features) -->
+  <!-- More Dropdown Menu (Season 2 features and Help) -->
   <div class="more-dropdown" id="moreDropdown">
-    <div class="dropdown-item" onclick="comingSoon()">
+    <div class="dropdown-item" onclick="comingSoon('Community & Social')">
       <span>🌐</span> Community &amp; Social
     </div>
-    <div class="dropdown-item" onclick="comingSoon()">
+    <div class="dropdown-item" onclick="comingSoon('Governance')">
       <span>🏛️</span> Governance
     </div>
-    <div class="dropdown-item" onclick="comingSoon()">
+    <div class="dropdown-item" onclick="comingSoon('SOLL Ludo Game')">
       <span>🎲</span> SOLL Ludo Game
     </div>
-    <div class="dropdown-item" onclick="comingSoon()">
+    <div class="dropdown-item" onclick="comingSoon('Synthetic Asset Staking')">
       <span>💰</span> Synthetic Asset Staking
+    </div>
+    <div class="dropdown-item" onclick="showHelp()">
+      <span>❓</span> Help
     </div>
   </div>
 
@@ -123,7 +150,16 @@
   <div id="comingSoonModal" class="modal">
     <div class="modal-content">
       <span class="close" onclick="closeModal()">&times;</span>
-      <p>🔒 Coming Soon</p>
+      <p id="comingSoonText">This feature is part of our Season 2 release and will be available soon. Stay tuned!</p>
+    </div>
+  </div>
+
+  <!-- Help Modal -->
+  <div id="helpModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeHelpModal()">&times;</span>
+      <h3>Help &amp; Support</h3>
+      <p>For assistance, please visit our FAQ page or contact support at support@example.com.</p>
     </div>
   </div>
 
