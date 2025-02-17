@@ -8,63 +8,77 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
-    <!-- ==== PAGES ==== -->
-    <div id="mine-page" class="page active">
-        <div class="mining-card">
-            <div class="mining-header">
-                <h2>⛏️ Active Mining</h2>
-                <div class="balances">
-                    <p>SOLL: <span id="soll-balance">0.00</span></p>
-                    <p>LARA: <span id="lara-balance">1000.00</span></p>
+    <div class="app-container">
+        <!-- Mining Page -->
+        <div id="mine-page" class="page active">
+            <div class="header">
+                <button class="btn-icon" onclick="showPage('account')"><i class="fas fa-arrow-left"></i></button>
+                <h3>SOLL.PRO</h3>
+                <div class="btn-icon" onclick="toggleDropdown()"><i class="fas fa-ellipsis-h"></i></div>
+            </div>
+
+            <div class="profile-section">
+                <div class="profile-picture"></div>
+                <div class="profile-info">
+                    <strong>MINER.PRO</strong>
+                    <span id="soll-balance">0.00 SOLL</span>
                 </div>
             </div>
 
             <div class="mining-progress">
                 <svg viewBox="0 0 100 100">
-                    <circle class="progress-circle" cx="50" cy="50" r="45"/>
+                    <circle class="progress-background" cx="50" cy="50" r="45"/>
+                    <circle class="progress-bar" cx="50" cy="50" r="45"/>
                 </svg>
-                <div class="countdown" id="countdown">10s</div>
+                <div class="progress-text">
+                    <h1 id="countdown">10s</h1>
+                    <p>Balance: <span id="lara-balance">1000.00</span> LARA</p>
+                    <p>Rate: 0.00319 SOLL/hour</p>
+                </div>
             </div>
 
-            <div class="mining-controls">
-                <button class="btn" id="start-mining">Start Mining</button>
-                <button class="btn" id="claim-button" disabled>Claim Rewards</button>
+            <button class="claim-button" id="claim-button" disabled>Claim SOLL</button>
+            <button class="action-button" id="start-mining">Start Mining</button>
+
+            <div class="footer">
+                <div class="nav-item" data-page="mine">
+                    <i class="fas fa-diamond"></i>
+                </div>
+                <div class="nav-item" data-page="tasks">
+                    <i class="fas fa-tasks"></i>
+                </div>
+                <div class="nav-item" data-page="marketplace">
+                    <i class="fas fa-shopping-cart"></i>
+                </div>
+                <div class="nav-item" data-page="account">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- More Dropdown -->
+        <div class="more-dropdown" id="moreDropdown">
+            <div class="dropdown-item coming-soon" onclick="showComingSoon()">
+                🎮 Game <i class="fas fa-lock"></i>
+            </div>
+            <div class="dropdown-item coming-soon" onclick="showComingSoon()">
+                💰 Stake <i class="fas fa-lock"></i>
+            </div>
+            <div class="dropdown-item coming-soon" onclick="showComingSoon()">
+                🌐 Social Hub <i class="fas fa-lock"></i>
+            </div>
+            <div class="dropdown-item coming-soon" onclick="showComingSoon()">
+                🏛️ Governance <i class="fas fa-lock"></i>
             </div>
         </div>
     </div>
 
-    <!-- Other Pages (Tasks, Marketplace, Account) -->
-
-    <!-- ==== NAVIGATION BAR ==== -->
-    <div class="nav-bar">
-        <div class="nav-item active" data-page="mine">
-            <span>⛏️</span> Mine
-        </div>
-        <div class="nav-item" data-page="tasks">
-            <span>📋</span> Tasks
-        </div>
-        <div class="nav-item" data-page="marketplace">
-            <span>🛒</span> Market
-        </div>
-        <div class="nav-item" data-page="account">
-            <span>👤</span> Account
-        </div>
-        <div class="nav-item" onclick="toggleDropdown()">
-            <span>⋮</span> More
-            <div class="more-dropdown" id="moreDropdown">
-                <div class="dropdown-item coming-soon" onclick="showPage('game')">
-                    🎮 Game <small>🔒 Coming Soon</small>
-                </div>
-                <div class="dropdown-item coming-soon" onclick="showPage('stake')">
-                    💰 Stake <small>🔒 Season 2</small>
-                </div>
-                <div class="dropdown-item coming-soon" onclick="showPage('social')">
-                    🌐 Social Hub <small>🔒 Season 2</small>
-                </div>
-                <div class="dropdown-item coming-soon" onclick="showPage('governance')">
-                    🏛️ Governance <small>🔒 Season 2</small>
-                </div>
-            </div>
+    <!-- Coming Soon Modal -->
+    <div class="modal" id="comingSoonModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>🔒 Coming Soon!</h2>
+            <p>This feature will be available in Season 2</p>
         </div>
     </div>
 
