@@ -78,3 +78,29 @@ body {
     background: #475569;
     cursor: not-allowed;
 }
+
+/* ==== MORE PAGE ==== */
+.more-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.more-item {
+    background: #334155;
+    border-radius: 12px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.more-item:hover {
+    transform: translateY(-3px);
+}
+
+.coming-soon {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
