@@ -1,3 +1,5 @@
+console.log("script.js loaded");  // Debug log to ensure the script is loaded
+
 // Core state for mining and wallet connection
 let state = {
   miningActive: false,
