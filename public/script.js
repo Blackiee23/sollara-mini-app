@@ -9,6 +9,7 @@ let state = {
 };
 
 const claimButton = document.getElementById('claim-button');
+const startMiningButton = document.getElementById('start-mining');
 const sollBalanceEl = document.getElementById('soll-balance');
 const laraBalanceEl = document.getElementById('lara-balance');
 const miningProgressEl = document.getElementById('mining-progress');
@@ -21,13 +22,16 @@ function updateMining() {
   if (state.miningActive) {
     const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
     state.remainingTime = Math.max(10 - elapsed, 0);
-    miningTimerEl.textContent = formatTime(state.remainingTime);
+    if (miningTimerEl) {
+      miningTimerEl.textContent = formatTime(state.remainingTime);
+    }
     // Simulate accumulation (for demo purposes)
     miningProgressEl.textContent = (state.soll + (elapsed * 0.0001)).toFixed(4);
     
     if (state.remainingTime <= 0) {
       claimButton.disabled = false;
       state.miningActive = false;
+      startMiningButton.textContent = "Start Mining";
     }
   }
 }
@@ -39,19 +43,38 @@ function formatTime(seconds) {
   return `${hrs}:${mins}:${secs}`;
 }
 
-// Claim button event (simulate claiming SOLL rewards)
+// Start/Stop Mining Button Event
+startMiningButton.addEventListener('click', function() {
+  if (!state.miningActive) {
+    // Start mining
+    state.miningActive = true;
+    state.startTime = Date.now();
+    state.remainingTime = 10;
+    startMiningButton.textContent = "Stop Mining";
+    claimButton.disabled = true;
+  } else {
+    // Stop mining manually
+    state.miningActive = false;
+    startMiningButton.textContent = "Start Mining";
+    claimButton.disabled = true;
+  }
+  saveState();
+});
+
+// Claim Button Event (simulate claiming SOLL rewards)
 claimButton.addEventListener('click', function() {
   state.soll += 0.00319 * 10; // example reward calculation
   sollBalanceEl.textContent = state.soll.toFixed(4);
   claimButton.disabled = true;
-  // Restart mining process
+  // Restart mining process after claiming
   state.miningActive = true;
   state.startTime = Date.now();
   state.remainingTime = 10;
+  startMiningButton.textContent = "Stop Mining";
   saveState();
 });
 
-// Wallet connection toggle
+// Wallet Connection Toggle
 function toggleWallet() {
   state.walletConnected = !state.walletConnected;
   updateWalletUI();
@@ -68,9 +91,11 @@ function updateWalletUI() {
   }
 }
 
-// Coming Soon modal functions for Season 2 features
-function comingSoon() {
+// Coming Soon modal function with feature name parameter
+function comingSoon(feature) {
   const modal = document.getElementById('comingSoonModal');
+  const comingSoonText = document.getElementById('comingSoonText');
+  comingSoonText.textContent = feature + " is part of our Season 2 release and will be available soon. Stay tuned!";
   modal.style.display = "block";
   document.getElementById('moreDropdown').classList.remove('active');
 }
@@ -80,7 +105,19 @@ function closeModal() {
   modal.style.display = "none";
 }
 
-// Navigation functions
+// Help Modal Functions
+function showHelp() {
+  const helpModal = document.getElementById('helpModal');
+  helpModal.style.display = "block";
+  document.getElementById('moreDropdown').classList.remove('active');
+}
+
+function closeHelpModal() {
+  const helpModal = document.getElementById('helpModal');
+  helpModal.style.display = "none";
+}
+
+// Navigation Functions
 function navigateTo(pageId) {
   document.querySelectorAll('.page').forEach(page => {
     page.classList.remove('active');
@@ -88,7 +125,7 @@ function navigateTo(pageId) {
   });
   document.getElementById('moreDropdown').classList.remove('active');
   const targetPage = document.getElementById(pageId);
-  if(targetPage) {
+  if (targetPage) {
     targetPage.classList.add('active');
     targetPage.style.display = 'block';
   }
@@ -113,7 +150,7 @@ function toggleMoreDropdown() {
   dropdown.classList.toggle('active');
 }
 
-// Save and load state to/from localStorage
+// Save and Load State to/from localStorage
 function saveState() {
   localStorage.setItem('miningState', JSON.stringify({
     miningActive: state.miningActive,
@@ -132,12 +169,14 @@ function loadState() {
     state = { ...state, ...loadedState };
     const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
     state.remainingTime = Math.max(10 - elapsed, 0);
-    if(state.remainingTime > 0) {
+    if (state.remainingTime > 0) {
       state.miningActive = true;
       claimButton.disabled = true;
+      startMiningButton.textContent = "Stop Mining";
     } else {
       state.miningActive = false;
       claimButton.disabled = false;
+      startMiningButton.textContent = "Start Mining";
     }
     sollBalanceEl.textContent = state.soll.toFixed(4);
     laraBalanceEl.textContent = state.lara.toFixed(2);
@@ -157,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }, 1000);
 });
 
-// Optional: Copy Referral Code function (for Account page)
+// Copy Referral Code Function (for Account page)
 function copyReferral() {
   const referralCode = document.getElementById('referral-code').textContent;
   navigator.clipboard.writeText(referralCode).then(() => {
