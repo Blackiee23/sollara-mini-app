@@ -16,6 +16,47 @@ body {
     display: block;
 }
 
+/* ==== MINING PAGE ==== */
+.mining-card {
+    background: #1E293B;
+    border-radius: 16px;
+    padding: 24px;
+    margin: 20px;
+    text-align: center;
+}
+
+.mining-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.mining-progress {
+    width: 200px;
+    height: 200px;
+    margin: 20px auto;
+    position: relative;
+}
+
+.progress-circle {
+    fill: none;
+    stroke: #38BDF8;
+    stroke-width: 8;
+    stroke-linecap: round;
+    transform: rotate(-90deg);
+    transform-origin: 50% 50%;
+}
+
+.countdown {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 1.8rem;
+    font-weight: 600;
+}
+
 /* ==== NAVIGATION BAR ==== */
 .nav-bar {
     position: fixed;
@@ -46,61 +87,45 @@ body {
     transform: translateY(-5px);
 }
 
-/* ==== MINING INTERFACE ==== */
-.mining-card {
+/* ==== MORE DROPDOWN ==== */
+.more-dropdown {
+    position: fixed;
+    bottom: 70px;
+    right: 10px;
     background: #1E293B;
-    border-radius: 16px;
-    padding: 24px;
-    margin: 20px;
-    text-align: center;
-}
-
-.countdown {
-    font-size: 1.8rem;
-    margin: 20px 0;
-    color: #38BDF8;
-}
-
-.btn {
-    background: #38BDF8;
-    color: white;
-    border: none;
-    padding: 14px;
-    border-radius: 8px;
-    width: 100%;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-    margin: 8px 0;
-}
-
-.btn:disabled {
-    background: #475569;
-    cursor: not-allowed;
-}
-
-/* ==== MORE PAGE ==== */
-.more-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.more-item {
-    background: #334155;
     border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s ease;
+    padding: 10px;
+    width: 160px;
+    box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 999;
 }
 
-.more-item:hover {
-    transform: translateY(-3px);
+.more-dropdown.active {
+    display: block;
+    animation: slideUp 0.3s ease;
+}
+
+.dropdown-item {
+    padding: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background: #334155;
 }
 
 .coming-soon {
     opacity: 0.6;
     cursor: not-allowed;
+}
+
+@keyframes slideUp {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
 }
