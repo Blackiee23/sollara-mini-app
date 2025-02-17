@@ -25,7 +25,7 @@ function updateMining() {
     if (miningTimerEl) {
       miningTimerEl.textContent = formatTime(state.remainingTime);
     }
-    // Simulate accumulation (for demo purposes)
+    // Simulate token accumulation (demo purposes)
     miningProgressEl.textContent = (state.soll + (elapsed * 0.0001)).toFixed(4);
     
     if (state.remainingTime <= 0) {
