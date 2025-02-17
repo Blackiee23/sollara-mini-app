@@ -1,106 +1,101 @@
-/* ==== CORE STYLES ==== */
-body {
-    margin: 0;
-    padding: 0 0 80px;
-    background: #0F172A;
-    color: #fff;
-    font-family: 'Poppins', sans-serif;
+// ==== CORE STATE ====
+let state = {
+    miningActive: false,
+    startTime: 0,
+    soll: 0,
+    lara: 1000,
+    remainingTime: 10,
+    walletConnected: false
+};
+
+// ==== PAGE NAVIGATION ====
+document.querySelectorAll('.nav-item').forEach(item => {
+    item.addEventListener('click', () => {
+        // Remove active class from all items
+        document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+        // Add active class to clicked item
+        item.classList.add('active');
+        // Show corresponding page
+        const pageId = item.dataset.page;
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        document.getElementById(`${pageId}-page`).classList.add('active');
+    });
+});
+
+// ==== MINING SYSTEM ====
+function updateMining() {
+    if(state.miningActive) {
+        const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+        state.remainingTime = Math.max(10 - elapsed, 0);
+        
+        document.getElementById('countdown').textContent = `${state.remainingTime}s`;
+        
+        if(state.remainingTime <= 0) {
+            document.getElementById('claim-button').disabled = false;
+            state.miningActive = false;
+        }
+    }
 }
 
-.page {
-    display: none;
-    padding: 20px;
-}
+// ==== EVENT LISTENERS ====
+document.getElementById('start-mining').addEventListener('click', function() {
+    state.miningActive = !state.miningActive;
+    state.startTime = Date.now();
+    this.textContent = state.miningActive ? 'Stop Mining' : 'Start Mining';
+    localStorage.setItem('miningState', JSON.stringify(state));
+});
 
-.page.active {
-    display: block;
-}
+document.getElementById('claim-button').addEventListener('click', function() {
+    state.soll += 0.00319 * 10;
+    document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
+    this.disabled = true;
+    state.remainingTime = 10;
+    localStorage.setItem('miningState', JSON.stringify(state));
+});
 
-/* ==== NAVIGATION BAR ==== */
-.nav-bar {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    display: flex;
-    justify-content: space-around;
-    background: #1E293B;
-    padding: 12px 0;
-    border-top: 1px solid #334155;
-    z-index: 1000;
-}
+// ==== WALLET INTEGRATION ====
+document.getElementById('connect-wallet').addEventListener('click', () => {
+    state.walletConnected = true;
+    document.getElementById('wallet-status').textContent = "Connected: TON_XXXXXX";
+    localStorage.setItem('walletState', 'connected');
+});
 
-.nav-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    color: #94A3B8;
-    font-size: 0.75rem;
-    width: 20%;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    padding: 8px;
-}
+// ==== TASK SYSTEM ====
+document.querySelector('.task-claim').addEventListener('click', function() {
+    if(!this.disabled) {
+        state.lara += 2;
+        document.getElementById('lara-balance').textContent = state.lara.toFixed(2);
+        this.disabled = true;
+        localStorage.setItem('miningState', JSON.stringify(state));
+    }
+});
 
-.nav-item.active {
-    color: #38BDF8;
-    transform: translateY(-5px);
-}
+// ==== INITIALIZATION ====
+window.addEventListener('load', () => {
+    // Load mining state
+    const savedState = localStorage.getItem('miningState');
+    if(savedState) {
+        state = JSON.parse(savedState);
+        document.getElementById('soll-balance').textContent = state.soll.toFixed(4);
+        document.getElementById('lara-balance').textContent = state.lara.toFixed(2);
+        
+        if(state.miningActive) {
+            const elapsed = Math.floor((Date.now() - state.startTime) / 1000);
+            state.remainingTime = Math.max(10 - elapsed, 0);
+            document.getElementById('start-mining').textContent = 'Stop Mining';
+            updateMining();
+        }
+    }
 
-/* ==== MINING INTERFACE ==== */
-.mining-card {
-    background: #1E293B;
-    border-radius: 16px;
-    padding: 24px;
-    margin: 20px;
-    text-align: center;
-}
+    // Load wallet state
+    if(localStorage.getItem('walletState')) {
+        document.getElementById('wallet-status').textContent = "Connected: TON_XXXXXX";
+    }
+});
 
-.countdown {
-    font-size: 1.8rem;
-    margin: 20px 0;
-    color: #38BDF8;
-}
-
-.btn {
-    background: #38BDF8;
-    color: white;
-    border: none;
-    padding: 14px;
-    border-radius: 8px;
-    width: 100%;
-    font-weight: 600;
-    cursor: pointer;
-    transition: opacity 0.3s ease;
-    margin: 8px 0;
-}
-
-.btn:disabled {
-    background: #475569;
-    cursor: not-allowed;
-}
-
-/* ==== MORE PAGE ==== */
-.more-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    margin-top: 20px;
-}
-
-.more-item {
-    background: #334155;
-    border-radius: 12px;
-    padding: 20px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.3s ease;
-}
-
-.more-item:hover {
-    transform: translateY(-3px);
-}
-
-.coming-soon {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
+// Update every second
+setInterval(() => {
+    if(state.miningActive) {
+        updateMining();
+    }
+}, 1000);
