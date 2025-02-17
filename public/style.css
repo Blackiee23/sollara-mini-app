@@ -1,203 +1,160 @@
-/* ==== CORE STYLES ==== */
+/* Reset & Core Styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 body {
-    margin: 0;
-    font-family: 'Arial', sans-serif;
-    background-color: #000;
-    color: #fff;
+  background-color: #121212;
+  color: #fff;
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  padding-bottom: 80px; /* space for nav bar */
 }
 
+/* App Container */
 .app-container {
-    max-width: 400px;
-    margin: 0 auto;
-    background: #121212;
-    min-height: 100vh;
-    position: relative;
+  max-width: 400px;
+  margin: 20px auto;
+  background: #1e1e1e;
+  border-radius: 15px;
+  padding: 20px;
 }
 
-/* ==== HEADER ==== */
+/* Header */
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px;
-    background: #1e1e1e;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.header button {
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 16px;
+  cursor: pointer;
+}
+.header h3 {
+  margin: 0;
+  font-size: 20px;
 }
 
-.btn-icon {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    font-size: 1.2rem;
-}
-
-/* ==== PROFILE SECTION ==== */
+/* Profile Section */
 .profile-section {
-    display: flex;
-    align-items: center;
-    padding: 15px;
-    background: #1e1e1e;
-    margin: 20px;
-    border-radius: 10px;
+  display: flex;
+  align-items: center;
+  background-color: #2c2c2c;
+  padding: 10px;
+  border-radius: 10px;
+  margin-bottom: 15px;
 }
-
 .profile-picture {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    background: #38BDF8;
-    margin-right: 15px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #555;
+  margin-right: 10px;
 }
-
 .profile-info strong {
-    display: block;
-    margin-bottom: 5px;
+  font-size: 16px;
+}
+.profile-info span {
+  font-size: 14px;
+  color: #aaa;
 }
 
-/* ==== MINING PROGRESS ==== */
-.mining-progress {
-    position: relative;
-    width: 200px;
-    height: 200px;
-    margin: 30px auto;
+/* Circle Progress */
+.circle-progress {
+  text-align: center;
+  margin: 20px 0;
+}
+.circle-progress h1 {
+  font-size: 28px;
+  color: #00aaff;
+  margin-bottom: 5px;
+}
+.circle-progress p {
+  margin: 5px 0;
+  font-size: 14px;
 }
 
-.progress-background {
-    fill: none;
-    stroke: #2d2d2d;
-    stroke-width: 8;
-}
-
-.progress-bar {
-    fill: none;
-    stroke: #38BDF8;
-    stroke-width: 8;
-    stroke-linecap: round;
-    transform: rotate(-90deg);
-    transform-origin: 50% 50%;
-    transition: stroke-dashoffset 0.5s;
-}
-
-.progress-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.progress-text h1 {
-    font-size: 2.5rem;
-    color: #38BDF8;
-    margin: 0;
-}
-
-/* ==== BUTTONS ==== */
+/* Claim Button */
 .claim-button {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 8px;
-    width: calc(100% - 40px);
-    margin: 20px;
-    cursor: pointer;
-    font-size: 1.1rem;
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+  padding: 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  width: 100%;
+  font-size: 16px;
 }
 
-.action-button {
-    background: #38BDF8;
-    color: white;
-    border: none;
-    padding: 15px;
-    border-radius: 8px;
-    width: calc(100% - 40px);
-    margin: 0 20px 20px;
-    cursor: pointer;
+/* Navigation Bar */
+.nav-bar {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background: #1e1e1e;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  border-top: 1px solid #333;
+  z-index: 1000;
+}
+.nav-item {
+  text-align: center;
+  color: #aaa;
+  font-size: 12px;
+  cursor: pointer;
+  flex: 1;
+  transition: color 0.3s ease;
+}
+.nav-item:hover, .nav-item.active {
+  color: #00aaff;
 }
 
-/* ==== FOOTER NAV ==== */
-.footer {
-    display: flex;
-    justify-content: space-around;
-    padding: 20px;
-    background: #1e1e1e;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    max-width: 400px;
-}
-
-.footer i {
-    font-size: 1.5rem;
-    color: #fff;
-    cursor: pointer;
-}
-
-/* ==== DROPDOWN ==== */
+/* More Dropdown Menu */
 .more-dropdown {
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background: #1e1e1e;
-    border-radius: 10px;
-    padding: 15px;
-    width: 200px;
-    display: none;
-    z-index: 1000;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+  position: fixed;
+  bottom: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1e1e1e;
+  border-radius: 10px;
+  padding: 10px;
+  width: 90%;
+  max-width: 400px;
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 1001;
 }
-
 .more-dropdown.active {
-    display: block;
+  display: flex;
 }
-
 .dropdown-item {
-    padding: 12px;
-    font-weight: bold;
-    cursor: pointer;
-    border-radius: 6px;
-    margin: 5px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background: #2c2c2c;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
 }
-
 .dropdown-item:hover {
-    background: #2d2d2d;
+  background: #333;
+}
+.dropdown-item span {
+  font-size: 16px;
 }
 
-.coming-soon {
-    opacity: 0.7;
-    color: #888;
+/* Page Visibility */
+.page {
+  display: none;
 }
-
-/* ==== MODAL ==== */
-.modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.5);
-    z-index: 9999;
-}
-
-.modal-content {
-    background: #1e1e1e;
-    padding: 30px;
-    border-radius: 10px;
-    width: 80%;
-    max-width: 300px;
-    position: relative;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-}
-
-.close {
-    position: absolute;
-    right: 15px;
-    top: 10px;
-    font-size: 24px;
-    cursor: pointer;
+.page.active {
+  display: block;
 }
