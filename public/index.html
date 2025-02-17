@@ -32,86 +32,56 @@
   </div>
 
   <!-- Task Center Page -->
-  <div class="app-container page" id="tasks-page" style="display:none;">
+  <div class="app-container page" id="tasks-page">
     <div class="header">
       <button onclick="goBack()">Back</button>
       <h3>Task Center</h3>
     </div>
-    <p>Task functionality coming soon.</p>
+    <div class="tasks-list">
+      <ul>
+        <li>Daily Check-In - Earn 10 LARA</li>
+        <li>Watch Tutorial Video - Earn 5 LARA</li>
+        <li>Follow Telegram Channel - Earn 5 LARA</li>
+        <li>Complete Profile - Earn 15 LARA</li>
+      </ul>
+    </div>
   </div>
 
   <!-- Marketplace Page -->
-  <div class="app-container page" id="marketplace-page" style="display:none;">
+  <div class="app-container page" id="marketplace-page">
     <div class="header">
       <button onclick="goBack()">Back</button>
       <h3>Marketplace</h3>
     </div>
-    <p>Marketplace for tools and upgrades coming soon.</p>
+    <div class="marketplace-list">
+      <ul>
+        <li>Mining Tool Upgrade - 100 LARA</li>
+        <li>Auto-Claim Bot (72h) - 150 LARA</li>
+        <li>Exclusive NFT Badge - 200 LARA</li>
+      </ul>
+    </div>
   </div>
 
   <!-- Account/Wallet Page -->
-  <div class="app-container page" id="account-page" style="display:none;">
+  <div class="app-container page" id="account-page">
     <div class="header">
       <button onclick="goBack()">Back</button>
       <h3>Account/Wallet</h3>
     </div>
-    <p>Wallet connection and transaction history coming soon.</p>
-  </div>
-
-  <!-- More Dropdown Pages -->
-
-  <!-- Community & Social -->
-  <div class="app-container page" id="community-page" style="display:none;">
-    <div class="header">
-      <button onclick="goBack()">Back</button>
-      <h3>Community & Social</h3>
+    <div class="account-content">
+      <button id="wallet-button" onclick="toggleWallet()">Connect Wallet</button>
+      <div class="wallet-info">
+        <p id="wallet-status">Not Connected</p>
+      </div>
+      <h4>Referral Code</h4>
+      <p id="referral-code">ABC123XYZ</p>
+      <button onclick="copyReferral()">Copy Referral Code</button>
+      <h4>Upgrades &amp; Boosts</h4>
+      <ul id="upgrades-list">
+        <li>Auto-Claim Bot (24h) - 50 LARA</li>
+        <li>Pick Tool Upgrade - 75 LARA</li>
+      </ul>
     </div>
-    <p>Leaderboards, NFT badges, and creator rewards coming soon.</p>
-  </div>
-
-  <!-- Governance -->
-  <div class="app-container page" id="governance-page" style="display:none;">
-    <div class="header">
-      <button onclick="goBack()">Back</button>
-      <h3>Governance</h3>
-    </div>
-    <p>Submit proposals and vote coming soon.</p>
-  </div>
-
-  <!-- SOLL Ludo Game -->
-  <div class="app-container page" id="ludo-page" style="display:none;">
-    <div class="header">
-      <button onclick="goBack()">Back</button>
-      <h3>SOLL Ludo Game</h3>
-    </div>
-    <p>SOLL Ludo Game coming soon.</p>
-  </div>
-
-  <!-- Synthetic Asset Staking (Season 2) -->
-  <div class="app-container page" id="staking-page" style="display:none;">
-    <div class="header">
-      <button onclick="goBack()">Back</button>
-      <h3>Synthetic Asset Staking</h3>
-    </div>
-    <p>Staking functionality coming soon.</p>
-  </div>
-
-  <!-- Upgrades/Boosts (Season 2) -->
-  <div class="app-container page" id="upgrades-page" style="display:none;">
-    <div class="header">
-      <button onclick="goBack()">Back</button>
-      <h3>Upgrades/Boosts</h3>
-    </div>
-    <p>Upgrade tools and boost mining efficiency coming soon.</p>
-  </div>
-
-  <!-- Referral/Invite (Season 2) -->
-  <div class="app-container page" id="referral-page" style="display:none;">
-    <div class="header">
-      <button onclick="goBack()">Back</button>
-      <h3>Referral/Invite</h3>
-    </div>
-    <p>Manage your referrals and invite friends coming soon.</p>
   </div>
 
   <!-- Bottom Navigation Bar -->
@@ -133,25 +103,27 @@
     </div>
   </div>
 
-  <!-- More Dropdown Menu (for additional Season 2 features) -->
+  <!-- More Dropdown Menu (Season 2 features) -->
   <div class="more-dropdown" id="moreDropdown">
-    <div class="dropdown-item" onclick="navigateTo('community-page')">
-      <span>🌐</span> Community & Social
+    <div class="dropdown-item" onclick="comingSoon()">
+      <span>🌐</span> Community &amp; Social
     </div>
-    <div class="dropdown-item" onclick="navigateTo('governance-page')">
+    <div class="dropdown-item" onclick="comingSoon()">
       <span>🏛️</span> Governance
     </div>
-    <div class="dropdown-item" onclick="navigateTo('ludo-page')">
+    <div class="dropdown-item" onclick="comingSoon()">
       <span>🎲</span> SOLL Ludo Game
     </div>
-    <div class="dropdown-item" onclick="navigateTo('staking-page')">
+    <div class="dropdown-item" onclick="comingSoon()">
       <span>💰</span> Synthetic Asset Staking
     </div>
-    <div class="dropdown-item" onclick="navigateTo('upgrades-page')">
-      <span>⚡</span> Upgrades/Boosts
-    </div>
-    <div class="dropdown-item" onclick="navigateTo('referral-page')">
-      <span>🤝</span> Referral/Invite
+  </div>
+
+  <!-- Coming Soon Modal -->
+  <div id="comingSoonModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal()">&times;</span>
+      <p>🔒 Coming Soon</p>
     </div>
   </div>
 
